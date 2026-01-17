@@ -71,11 +71,9 @@ Use this skill when you need to:
 
 ## Usage
 
-> **Note**: This skill uses `--format llm` which is currently being implemented. Once available, use the following commands.
-
 ### Basic Audit
 
-Audit a website with default settings (up to 50 pages):
+Audit a website with default settings (up to 500 pages):
 
 ```bash
 squirrel audit https://example.com --format llm
