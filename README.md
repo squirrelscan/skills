@@ -1,4 +1,4 @@
-![squirrelscan](https://docs.squirrelscan.com/logo/dark.svg)
+![squirrelscan](https://mintcdn.com/squirrelscan/CCMTmLbI4xfnpJbQ/logo/light.svg?fit=max&auto=format&n=CCMTmLbI4xfnpJbQ&q=85&s=1303484a4ea3c154c29dd5f6245e55cd)
 
 # squirrelscan Skills
 
