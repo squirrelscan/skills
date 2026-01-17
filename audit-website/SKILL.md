@@ -22,11 +22,12 @@ This skill requires the squirrel CLI to be installed and available in your PATH.
 If squirrel is not already installed, you can install it using:
 
 ```bash
-squirrel self install
+curl -fsSL https://squirrelscan.com/install | bash
 ```
 
 This will:
-- Copy the binary to `~/.local/share/squirrel/releases/{version}/`
+- Download the latest release binary
+- Install to `~/.local/share/squirrel/releases/{version}/`
 - Create a symlink at `~/.local/bin/squirrel`
 - Initialize settings at `~/.squirrel/settings.json`
 
@@ -157,7 +158,7 @@ squirrel audit https://example.com --format llm --refresh
 If you see this error, squirrel is not installed or not in your PATH.
 
 **Solution:**
-1. Install squirrel: `squirrel self install`
+1. Install squirrel: `curl -fsSL https://squirrelscan.com/install | bash`
 2. Add to PATH: `export PATH="$HOME/.local/bin:$PATH"`
 3. Verify: `squirrel --version`
 
