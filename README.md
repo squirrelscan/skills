@@ -6,7 +6,7 @@
 
 ## What is squirrelscan?
 
-squirrelscan is a comprehensive website audit tool designed for developers, SEO professionals, and AI coding assistants. Built specifically to integrate seamlessly into modern development workflows and AI-assisted coding environments.
+[squirrelscan](https://squirrelscan.com) is a comprehensive website audit tool designed for developers, SEO professionals, and AI coding assistants. Built specifically to integrate seamlessly into modern development workflows and AI-assisted coding environments.
 
 **Features:**
 - 140+ audit rules across SEO, performance, accessibility, content, and security
