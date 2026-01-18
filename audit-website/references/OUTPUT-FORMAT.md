@@ -1,75 +1,211 @@
 # LLM Format Output Reference
 
-> **Status**: This document will be completed after `--format llm` is implemented in the squirrel CLI.
-
 ## Overview
 
-The `--format llm` output is optimized for LLM consumption, providing a structured, concise report that agents can easily parse and present to users.
+The `--format llm` output is a compact, token-optimized hybrid XML/text format designed specifically for AI agent consumption. It provides structured audit data in a format that balances machine readability with token efficiency.
+
+## Key Characteristics
+
+- **40-70% smaller** than verbose XML format
+- **1-space indentation** for minimal token usage
+- **Hybrid structure**: XML tags + text prefixes for metadata
+- **Inline attributes**: Metadata stored as XML attributes, not nested elements
+- **Comma-separated lists**: Pages and arrays formatted inline
+- **Flattened hierarchy**: Reduced nesting depth compared to verbose XML
 
 ## Format Structure
 
-_To be documented after implementation._
+### 1. Document Header
 
-The LLM format will include:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<audit version="0.0.13">
+```
 
-### 1. Summary Section
-- Overall health score (0-100)
-- Total pages audited
-- Issue counts by severity (errors, warnings, passes)
-- Key metrics at a glance
+### 2. Site Information
 
-### 2. Issues by Category
-Grouped audit results by category:
-- Core SEO
-- Technical SEO
-- Content Quality
-- Security
-- Performance
+```xml
+<site url="https://example.com" crawled="51" date="2025-01-18T10:30:00Z"/>
+```
 
-Each issue includes:
-- Rule name and description
-- Severity level (error, warning, info)
-- Affected URLs
-- Recommended action
+Attributes:
+- `url` - Base URL audited
+- `crawled` - Number of pages crawled
+- `date` - ISO 8601 timestamp
 
-### 3. Broken Links
-List of broken links with:
-- Source page URL
-- Target URL
-- Error type (404, timeout, etc.)
+### 3. Health Score
 
-### 4. Recommendations
-Prioritized action items based on issue severity and impact.
+```xml
+<score overall="85" grade="B">
+ <cat name="Core SEO" score="92"/>
+ <cat name="Technical SEO" score="88"/>
+ <cat name="Content Quality" score="76"/>
+</score>
+```
+
+Attributes:
+- `overall` - 0-100 health score
+- `grade` - Letter grade (A-F)
+- Categories with individual scores
+
+### 4. Summary
+
+```xml
+<summary passed="120" warnings="15" failed="8"/>
+```
+
+Attributes:
+- `passed` - Number of passed checks
+- `warnings` - Number of warnings
+- `failed` - Number of failed checks
+
+### 5. Issues Section
+
+Issues are grouped by category with compact inline metadata:
+
+```xml
+<issues>
+ <category name="Core SEO" errors="2" warnings="3">
+  <rule id="core/meta-title" severity="error" status="fail">
+   Missing or empty meta title tags
+   Desc: Every page should have a unique meta title
+   Fix: Add descriptive <title> tags to each page
+   Pages (2): https://example.com/about, https://example.com/contact
+   Items (2):
+    - https://example.com/about
+    - https://example.com/contact
+  </rule>
+  <rule id="core/meta-description" severity="warning" status="warn">
+   Desc: Pages should have meta descriptions
+   Fix: Add <meta name="description"> tags
+   Pages (5): https://example.com/page1, https://example.com/page2, ...
+  </rule>
+ </category>
+ <category name="Performance" errors="0" warnings="1">
+  ...
+ </category>
+</issues>
+```
+
+#### Rule Structure
+
+Each `<rule>` element contains:
+
+**Attributes:**
+- `id` - Rule identifier (e.g., `core/meta-title`)
+- `severity` - `error`, `warning`, or `info`
+- `status` - `pass`, `warn`, or `fail`
+
+**Text Content (in order):**
+1. **Message** (optional) - Human-readable issue summary
+2. **Desc:** - Rule description (what's being checked)
+3. **Fix:** - Recommended solution (how to fix)
+4. **Pages (n):** - Comma-separated list of affected URLs
+5. **Items (n):** - Dash-prefixed list of specific items with metadata
+
+### 6. Items Format
+
+Items provide detailed context about affected elements:
+
+```xml
+Items (3):
+ - https://example.com/missing-title (title: "")
+ - https://example.com/duplicate-title (title: "Home Page") (from: https://example.com/other)
+ - /broken-link [status: 404, type: internal] (from: https://example.com/contact)
+```
+
+Item format:
+- `- <id>` - Primary identifier (URL, selector, etc.)
+- `(<label>)` - Optional human-readable label if different from id
+- `[key: value, ...]` - Metadata in square brackets
+- `(from: <sources>)` - Source pages where item appears
 
 ## Example Output
 
-_Example output will be added after `--format llm` is implemented._
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<audit version="0.0.13">
+<site url="https://example.com" crawled="51" date="2025-01-18T10:30:00Z"/>
+<score overall="78" grade="C">
+ <cat name="Core SEO" score="85"/>
+ <cat name="Technical SEO" score="92"/>
+ <cat name="Performance" score="65"/>
+</score>
+<summary passed="98" warnings="12" failed="5"/>
+<issues>
+ <category name="Core SEO" errors="2" warnings="1">
+  <rule id="core/meta-title" severity="error" status="fail">
+   Missing meta title on 2 pages
+   Desc: Every page should have a unique meta title
+   Fix: Add descriptive <title> tags to each page
+   Pages (2): https://example.com/about, https://example.com/contact
+   Items (2):
+    - https://example.com/about
+    - https://example.com/contact
+  </rule>
+ </category>
+</issues>
+</audit>
+```
 
-## Differences from Other Formats
+## Usage
 
-| Format | Purpose | Best For |
-|--------|---------|----------|
-| `console` | Human-readable terminal output | Interactive CLI use |
-| `text` | Plain text, no colors | Piping, scripting |
-| `json` | Full structured data | Programmatic access, storage |
-| `html` | Interactive web report | Sharing, presentations |
-| `llm` | LLM-optimized summary | AI agent consumption |
+The LLM format is only available via the `report` command:
 
-The LLM format balances detail with conciseness, optimized for:
-- Quick parsing by LLMs
-- Natural language presentation
-- Actionable insights
-- Token efficiency
+```bash
+# Run audit first
+squirrel audit https://example.com
+
+# Export as LLM format
+squirrel report <audit-id> --format llm
+
+# Or pipe directly to AI agent
+squirrel report <audit-id> --format llm | claude
+```
+
+**Note:** The `audit` command does not support `--format llm`. You must use the two-step process: audit then report.
+
+## Comparison with Other Formats
+
+| Format | Size | Structure | Best For |
+|--------|------|-----------|----------|
+| `xml` | 209KB | Verbose, 2-space indent, fully nested | Enterprise integration, archival |
+| `llm` | 125KB | Compact, 1-space indent, hybrid | AI agents, token-limited contexts |
+| `json` | 180KB | Structured data | Programmatic processing |
+| `text` | 45KB | Plain text, no structure | Simple piping, grep |
+
+## Token Efficiency
+
+The LLM format achieves 40-70% size reduction compared to verbose XML through:
+
+1. **1-space indentation** instead of 2-4 spaces
+2. **Inline attributes** instead of nested elements
+3. **Text prefixes** (Desc:, Fix:) instead of XML tags
+4. **Comma-separated lists** instead of multiple elements
+5. **Flattened hierarchy** - fewer nesting levels
+
+## XML Character Escaping
+
+Special characters are properly escaped:
+- `&` → `&amp;`
+- `<` → `&lt;`
+- `>` → `&gt;`
+- `"` → `&quot;`
+- `'` → `&apos;`
+
+## Design Philosophy
+
+The LLM format is optimized for:
+1. **Token efficiency** - Critical for API cost and context limits
+2. **Easy parsing** - XML structure for reliable extraction
+3. **Human readability** - AI agents can explain issues naturally
+4. **Progressive disclosure** - Summary → Categories → Rules → Items
+5. **Actionable insights** - Fix recommendations included inline
 
 ## Implementation Notes
 
-The LLM format is designed to:
-1. Reduce token usage compared to full JSON
-2. Highlight critical issues first
-3. Provide context for each issue
-4. Be easy to explain to non-technical users
-5. Support follow-up questions from agents
-
----
-
-**TODO**: Update this document with actual format specification and examples once `--format llm` is implemented.
+- Generated by `generateLlmReport()` in `app/src/reports/output/llm.ts`
+- Empty issues section renders as self-closing: `<issues/>`
+- All text content is XML-escaped for safety
+- Indentation uses spaces only (no tabs)
+- Line endings are Unix-style (`\n`)

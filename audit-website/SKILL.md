@@ -72,59 +72,89 @@ Use this skill when you need to:
 
 ## Usage
 
-### Basic Audit
+### Basic Workflow
 
-Audit a website with default settings (up to 500 pages):
+The audit process is two steps:
+
+1. **Run the audit** (saves to database, shows console output)
+2. **Export report** in desired format
 
 ```bash
-squirrel audit https://example.com --format llm
+# Step 1: Run audit (default: console output)
+squirrel audit https://example.com
+
+# Step 2: Export as LLM format
+squirrel report <audit-id> --format llm
 ```
+
+**Note:** The `audit` command does not support `--format llm` directly. You must use the `report` command to export in LLM format.
 
 ### Advanced Options
 
 Audit more pages:
 
 ```bash
-squirrel audit https://example.com --format llm --maxPages 200
+squirrel audit https://example.com --maxPages 200
 ```
 
 Force fresh crawl (ignore cache):
 
 ```bash
-squirrel audit https://example.com --format llm --refresh
+squirrel audit https://example.com --refresh
 ```
 
 Resume interrupted crawl:
 
 ```bash
-squirrel audit https://example.com --format llm --resume
+squirrel audit https://example.com --resume
 ```
 
 Verbose output for debugging:
 
 ```bash
-squirrel audit https://example.com --format llm --verbose
+squirrel audit https://example.com --verbose
 ```
 
 ## Common Options
 
+### Audit Command Options
+
 | Option | Alias | Description | Default |
 |--------|-------|-------------|---------|
-| `--format llm` | `-f llm` | Output format optimized for LLMs | Required for this skill |
 | `--maxPages <n>` | `-m <n>` | Maximum pages to crawl (max 500) | 50 |
 | `--refresh` | `-r` | Ignore cache, fetch all pages fresh | false |
 | `--resume` | - | Resume interrupted crawl | false |
 | `--verbose` | `-v` | Verbose output | false |
 | `--debug` | - | Debug logging | false |
 
-## Output Format
+### Report Command Options
 
-The `--format llm` option returns a report optimized for LLM consumption. The output includes:
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--format llm` | `-f llm` | Export in LLM-optimized format |
+| `--format xml` | `-f xml` | Export in verbose XML format |
+| `--format json` | `-f json` | Export in JSON format |
+
+## Output Formats
+
+### Console Output (default)
+
+The `audit` command shows human-readable console output by default with colored output and progress indicators.
+
+### LLM Format
+
+To get LLM-optimized output, use the `report` command with `--format llm`:
+
+```bash
+squirrel report <audit-id> --format llm
+```
+
+The LLM format is a compact XML/text hybrid optimized for token efficiency (40% smaller than verbose XML):
 
 - **Summary**: Overall health score and key metrics
 - **Issues by Category**: Grouped by audit rule category (core SEO, technical, content, security)
 - **Broken Links**: List of broken external and internal links
-- **Recommendations**: Prioritized action items
+- **Recommendations**: Prioritized action items with fix suggestions
 
 See [OUTPUT-FORMAT.md](references/OUTPUT-FORMAT.md) for detailed format specification.
 
@@ -134,21 +164,34 @@ See [OUTPUT-FORMAT.md](references/OUTPUT-FORMAT.md) for detailed format specific
 
 ```bash
 # User asks: "Check squirrelscan.com for SEO issues"
-squirrel audit https://squirrelscan.com --format llm
+squirrel audit https://squirrelscan.com
+# Returns audit ID, e.g., "sqrl_abc123"
+
+# Then export in LLM format
+squirrel report sqrl_abc123 --format llm
 ```
 
 ### Example 2: Deep Audit for Large Site
 
 ```bash
 # User asks: "Do a thorough audit of my blog with up to 500 pages"
-squirrel audit https://myblog.com --format llm --maxPages 500
+squirrel audit https://myblog.com --maxPages 500
+squirrel report sqrl_xyz789 --format llm
 ```
 
 ### Example 3: Fresh Audit After Changes
 
 ```bash
 # User asks: "Re-audit the site and ignore cached results"
-squirrel audit https://example.com --format llm --refresh
+squirrel audit https://example.com --refresh
+squirrel report sqrl_def456 --format llm
+```
+
+### Example 4: One-Line Workflow
+
+```bash
+# Audit and immediately export in LLM format
+AUDIT_ID=$(squirrel audit https://example.com --quiet | tail -1) && squirrel report $AUDIT_ID --format llm
 ```
 
 ## Troubleshooting
