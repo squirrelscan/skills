@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.5"
+  version: "1.6"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -101,6 +101,21 @@ If `~/.local/bin` is not in your PATH, add it to your shell configuration:
 ```bash
 export PATH="$HOME/.local/bin:$PATH"
 ```
+
+### Windows Installation
+
+Install using PowerShell:
+
+```powershell
+irm https://squirrelscan.com/install.ps1 | iex
+```
+
+This will:
+- Download the latest release binary
+- Install to `%LOCALAPPDATA%\squirrel\`
+- Add squirrel to your PATH
+
+If using Command Prompt, you may need to restart your terminal for PATH changes to take effect.
 
 ### Verify Installation
 
