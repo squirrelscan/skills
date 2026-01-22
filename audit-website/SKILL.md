@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.6"
+  version: "1.7"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -50,12 +50,12 @@ This skill enables AI agents to audit websites for over 140 rules in 20 categori
 - **Schema**: Schema.org markup, structured data, rich snippets
 - **Legal**: Compliance with legal requirements, privacy policies, terms of service
 - **Social**: Open graph, twitter cards and validating schemas, snippets etc.
-- **Url Structure**: Length, hypehns, keywords
+- **Url Structure**: Length, hyphens, keywords
 - **Keywords**: Keyword stuffing 
 - **Content**: Content structure, headings
 - **Images**: Alt text, color contrast, image size, image format
 - **Local SEO**: NAP consistency, geo metadata
-- **Mobile**: VideoObject schema, accessability
+- **Video**: VideoObject schema, accessibility
 
 and more!
 
@@ -76,7 +76,7 @@ Use this skill when you need to:
 - Validate meta tags and structured data
 - Generate site audit reports
 - Compare site health before/after changes
-- Improve website performance, accessability, SEO, security and more.
+- Improve website performance, accessibility, SEO, security and more.
 
 ## Prerequisites
 
@@ -135,7 +135,7 @@ website you audit - but you can set it yourself so that you can place all audits
 You do this either on init with:
 
 ```bash
-squirrel init --project-name my-project`
+squirrel init --project-name my-project
 ```
 
 or config:
@@ -229,7 +229,8 @@ squirrel audit https://example.com --verbose
 
 | Option | Alias | Description | Default |
 |--------|-------|-------------|---------|
-| `--max-pages <n>` | `-m <n>` | Maximum pages to crawl (max 500) | 50 |
+| `--format <fmt>` | `-f <fmt>` | Output format: console, text, json, html, markdown, llm | console |
+| `--max-pages <n>` | `-m <n>` | Maximum pages to crawl (max 500) | 500 |
 | `--refresh` | `-r` | Ignore cache, fetch all pages fresh | false |
 | `--resume` | - | Resume interrupted crawl | false |
 | `--verbose` | `-v` | Verbose output | false |
@@ -239,9 +240,7 @@ squirrel audit https://example.com --verbose
 
 | Option | Alias | Description |
 |--------|-------|-------------|
-| `--format llm` | `-f llm` | Export in LLM-optimized format |
-| `--format xml` | `-f xml` | Export in verbose XML format |
-| `--format json` | `-f json` | Export in JSON format |
+| `--format <fmt>` | `-f <fmt>` | Output format: console, text, json, html, markdown, xml, llm |
 
 ## Output Formats
 
@@ -268,38 +267,36 @@ See [OUTPUT-FORMAT.md](references/OUTPUT-FORMAT.md) for detailed format specific
 
 ## Examples
 
-### Example 1: Quick Site Audit
+### Example 1: Quick Site Audit with LLM Output
 
 ```bash
 # User asks: "Check squirrelscan.com for SEO issues"
-squirrel audit https://squirrelscan.com
-# Returns audit ID, e.g., "sqrl_abc123"
-
-# Then export in LLM format
-squirrel report sqrl_abc123 --format llm
+squirrel audit https://squirrelscan.com --format llm
 ```
 
 ### Example 2: Deep Audit for Large Site
 
 ```bash
 # User asks: "Do a thorough audit of my blog with up to 500 pages"
-squirrel audit https://myblog.com --max-pages 500
-squirrel report sqrl_xyz789 --format llm
+squirrel audit https://myblog.com --max-pages 500 --format llm
 ```
 
 ### Example 3: Fresh Audit After Changes
 
 ```bash
 # User asks: "Re-audit the site and ignore cached results"
-squirrel audit https://example.com --refresh
-squirrel report sqrl_def456 --format llm
+squirrel audit https://example.com --refresh --format llm
 ```
 
-### Example 4: One-Line Workflow
+### Example 4: Two-Step Workflow (Reuse Previous Audit)
 
 ```bash
-# Audit and immediately export in LLM format
-AUDIT_ID=$(squirrel audit https://example.com --quiet | tail -1) && squirrel report $AUDIT_ID --format llm
+# First run an audit
+squirrel audit https://example.com
+# Note the audit ID from output (e.g., "a1b2c3d4")
+
+# Later, export in different format
+squirrel report a1b2c3d4 --format llm
 ```
 
 ## Troubleshooting
