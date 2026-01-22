@@ -202,7 +202,7 @@ squirrel report <audit-id> --format llm
 Audit more pages:
 
 ```bash
-squirrel audit https://example.com --maxPages 200
+squirrel audit https://example.com --max-pages 200
 ```
 
 Force fresh crawl (ignore cache):
@@ -229,7 +229,7 @@ squirrel audit https://example.com --verbose
 
 | Option | Alias | Description | Default |
 |--------|-------|-------------|---------|
-| `--maxPages <n>` | `-m <n>` | Maximum pages to crawl (max 500) | 50 |
+| `--max-pages <n>` | `-m <n>` | Maximum pages to crawl (max 500) | 50 |
 | `--refresh` | `-r` | Ignore cache, fetch all pages fresh | false |
 | `--resume` | - | Resume interrupted crawl | false |
 | `--verbose` | `-v` | Verbose output | false |
@@ -283,7 +283,7 @@ squirrel report sqrl_abc123 --format llm
 
 ```bash
 # User asks: "Do a thorough audit of my blog with up to 500 pages"
-squirrel audit https://myblog.com --maxPages 500
+squirrel audit https://myblog.com --max-pages 500
 squirrel report sqrl_xyz789 --format llm
 ```
 
