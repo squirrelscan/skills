@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.2"
+  version: "1.3"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -30,6 +30,51 @@ https://docs.squirrelscan.com/rules/{rule_category}/{rule_id}
 example:
 
 https://docs.squirrelscan.com/rules/links/external-links
+
+## What This Skill Does
+
+This skill enables AI agents to audit websites for over 140 rules in 20 categories, including:
+
+- **SEO issues**: Meta tags, titles, descriptions, canonical URLs, Open Graph tags
+- **Technical problems**: Broken links, redirect chains, page speed, mobile-friendliness
+- **Performance**: Page load time, resource usage, caching
+- **Content quality**: Heading structure, image alt text, content analysis
+- **Security**: HTTPS usage, security headers, mixed content
+- **Accessibility**: Alt text, color contrast, keyboard navigation
+- **Usability**: Form validation, error handling, user flow
+- **Links**: Checks for broken internal and external links
+- **E-E-A-T**: Expertise, Experience, Authority, Trustworthiness
+- **User Experience**: User flow, error handling, form validation
+- **Mobile**: Checks for mobile-friendliness, responsive design, touch-friendly elements
+- **Crawlability**: Checks for crawlability, robots.txt, sitemap.xml and more
+- **Schema**: Schema.org markup, structured data, rich snippets
+- **Legal**: Compliance with legal requirements, privacy policies, terms of service
+- **Social**: Open graph, twitter cards and validating schemas, snippets etc.
+- **Url Structure**: Length, hypehns, keywords
+- **Keywords**: Keyword stuffing 
+- **Content**: Content structure, headings
+- **Images**: Alt text, color contrast, image size, image format
+
+and more!
+
+The audit crawls the website, analyzes each page against audit rules, and returns a comprehensive report with:
+- Overall health score (0-100)
+- Category breakdowns (core SEO, technical SEO, content, security)
+- Specific issues with affected URLs
+- Broken link detection
+- Actionable recommendations
+
+## When to Use
+
+Use this skill when you need to:
+- Analyze a website's health
+- Debug technical SEO issues
+- Fix all of the issues mentioned above
+- Check for broken links
+- Validate meta tags and structured data
+- Generate site audit reports
+- Compare site health before/after changes
+- Improve website performance, accessability, SEO, security and more.
 
 ## Prerequisites
 
@@ -63,32 +108,28 @@ Check that squirrel is installed and accessible:
 squirrel --version
 ```
 
-## What This Skill Does
+## Setup
 
-This skill enables AI agents to audit websites for over 140 rules in 20 categories, including:
+Running `squirrel init` will setup a squirrel.toml file for configuration in the current directory.
 
-- **SEO issues**: Meta tags, titles, descriptions, canonical URLs, Open Graph tags
-- **Technical problems**: Broken links, redirect chains, page speed, mobile-friendliness
-- **Performance**: Page load time, resource usage, caching
-- **Content quality**: Heading structure, image alt text, content analysis
-- **Security**: HTTPS usage, security headers, mixed content
+Each project should have a squirrel project name for the database - by default this is the name of the 
+website you audit - but you can set it yourself so that you can place all audits for a project in one database
 
-The audit crawls the website, analyzes each page against audit rules, and returns a comprehensive report with:
-- Overall health score (0-100)
-- Category breakdowns (core SEO, technical SEO, content, security)
-- Specific issues with affected URLs
-- Broken link detection
-- Actionable recommendations
+You do this either on init with:
 
-## When to Use
+```bash
+squirrel init --project-name my-project`
+```
 
-Use this skill when you need to:
-- Analyze a website's SEO health
-- Debug technical SEO issues
-- Check for broken links
-- Validate meta tags and structured data
-- Generate site audit reports
-- Compare site health before/after changes
+or config:
+
+```bash
+squirrel config set project.name my-project
+```
+
+The project name is used to identify the project in the database and is used to generate the database name. 
+
+It is stored in ~/.squirrel/projects/<project-name>
 
 ## Usage
 
