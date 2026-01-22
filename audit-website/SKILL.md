@@ -5,13 +5,31 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.1"
+  version: "1.2"
 allowed-tools: Bash(squirrel:*)
 ---
 
 # Website Audit Skill
 
-Audit websites for SEO, technical, content, and security issues using the squirrelscan CLI.
+Audit websites for SEO, technical, content, performance and security issues using the squirrelscan cli.
+
+squirrelscan provides a cli tool squirrel - available for macos, windows and linux. It carries out extensive website auditing
+by emulating a browser, search crawler, and analyzing the website's structure and content against over 140+ rules.
+
+It will provide you a list of issues as well as suggestions on how to fix them.
+
+## Links 
+
+* squirrelscan website is at [https://squirrelscan.com](https://squirrelscan.com)
+* documentation (including rule references) are at [docs.squirrelscan.com](https://docs.squirrelscan.com)
+
+You can look up the docs for any rule with this template:
+
+https://docs.squirrelscan.com/rules/{rule_category}/{rule_id}
+
+example:
+
+https://docs.squirrelscan.com/rules/links/external-links
 
 ## Prerequisites
 
@@ -47,9 +65,11 @@ squirrel --version
 
 ## What This Skill Does
 
-This skill enables AI agents to audit websites for:
+This skill enables AI agents to audit websites for over 140 rules in 20 categories, including:
+
 - **SEO issues**: Meta tags, titles, descriptions, canonical URLs, Open Graph tags
 - **Technical problems**: Broken links, redirect chains, page speed, mobile-friendliness
+- **Performance**: Page load time, resource usage, caching
 - **Content quality**: Heading structure, image alt text, content analysis
 - **Security**: HTTPS usage, security headers, mixed content
 
@@ -72,6 +92,30 @@ Use this skill when you need to:
 
 ## Usage
 
+### Intro
+
+There are three processes that you can run and they're all cached in the local project database:
+
+- crawl - subcommand to run a crawl or refresh, continue a crawl
+- analyze - subcommand to analyze the crawl results
+- report - subcommand to generate a report in desired format (llm, text, console, html etc.)
+
+the 'audit' command is a wrapper around these three processes and runs them sequentially:
+
+```bash
+squirrel audit https://example.com
+```
+
+### Setup
+
+If the user doesn't provide a website to audit - extrapolate the possibilities in the local directory and checking environment variables (ie. linked vercel projects, references in memory or the code). 
+
+If the directory you're running for provides for a method to run or restart a local dev server - run the audit against that.
+
+If you have more than one option on a website to audit that you discover - prompt the user to choose which one to audit.
+
+If there is no website - either local, or on the web to discover to audit, then ask the user which URL they would like to audit.
+
 ### Basic Workflow
 
 The audit process is two steps:
@@ -86,8 +130,6 @@ squirrel audit https://example.com
 # Step 2: Export as LLM format
 squirrel report <audit-id> --format llm
 ```
-
-**Note:** The `audit` command does not support `--format llm` directly. You must use the `report` command to export in LLM format.
 
 ### Advanced Options
 
