@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.3"
+  version: "1.4"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -54,6 +54,8 @@ This skill enables AI agents to audit websites for over 140 rules in 20 categori
 - **Keywords**: Keyword stuffing 
 - **Content**: Content structure, headings
 - **Images**: Alt text, color contrast, image size, image format
+- **Local SEO**: NAP consistency, geo metadata
+- **Mobile**: VideoObject schema, accessability
 
 and more!
 
