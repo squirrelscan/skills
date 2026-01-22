@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.4"
+  version: "1.5"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -146,8 +146,10 @@ There are three processes that you can run and they're all cached in the local p
 the 'audit' command is a wrapper around these three processes and runs them sequentially:
 
 ```bash
-squirrel audit https://example.com
+squirrel audit https://example.com --format llm
 ```
+
+YOU SHOULD always prefer format option llm - it was made for you and provides an exhaustive and compact output format.
 
 ### Setup
 
@@ -158,6 +160,12 @@ If the directory you're running for provides for a method to run or restart a lo
 If you have more than one option on a website to audit that you discover - prompt the user to choose which one to audit.
 
 If there is no website - either local, or on the web to discover to audit, then ask the user which URL they would like to audit.
+
+You should PREFER to audit live websites - only there do we get a TRUE representation of the website and performance or rendering issuers. 
+
+If you have both local and live websites to audit, prompt the user to choose which one to audit and SUGGEST they choose live.
+
+You can apply fixes from an audit on the live site against the local code.
 
 ### Basic Workflow
 
