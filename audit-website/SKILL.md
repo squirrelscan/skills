@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.0"
+  version: "1.1"
 allowed-tools: Bash(squirrel:*)
 ---
 
