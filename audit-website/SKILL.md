@@ -39,7 +39,7 @@ This skill enables AI agents to audit websites for over 140 rules in 20 categori
 - **Technical problems**: Broken links, redirect chains, page speed, mobile-friendliness
 - **Performance**: Page load time, resource usage, caching
 - **Content quality**: Heading structure, image alt text, content analysis
-- **Security**: HTTPS usage, security headers, mixed content
+- **Security**: Leaked secrets, HTTPS usage, security headers, mixed content
 - **Accessibility**: Alt text, color contrast, keyboard navigation
 - **Usability**: Form validation, error handling, user flow
 - **Links**: Checks for broken internal and external links
