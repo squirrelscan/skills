@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.7"
+  version: "1.8"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -144,6 +144,9 @@ or config:
 squirrel config set project.name my-project
 ```
 
+If there is no squirrel.toml in the directory you're running from CREATE ONE with `squirrel init` and specify the '-n' 
+parameter for a project name (infer this)
+
 The project name is used to identify the project in the database and is used to generate the database name. 
 
 It is stored in ~/.squirrel/projects/<project-name>
@@ -166,7 +169,8 @@ squirrel audit https://example.com --format llm
 
 YOU SHOULD always prefer format option llm - it was made for you and provides an exhaustive and compact output format.
 
-### Setup
+YOU SHOULD run any initial audit in plan mode - if you are not in plan mode prompt the user to switch. If you do not support plan
+mode skip this step.
 
 If the user doesn't provide a website to audit - extrapolate the possibilities in the local directory and checking environment variables (ie. linked vercel projects, references in memory or the code). 
 
@@ -181,6 +185,13 @@ You should PREFER to audit live websites - only there do we get a TRUE represent
 If you have both local and live websites to audit, prompt the user to choose which one to audit and SUGGEST they choose live.
 
 You can apply fixes from an audit on the live site against the local code.
+
+When planning scope tasks so they can run concurrently as sub-agents to speed up fixes. 
+
+When implementing fixes take advantage of subagents to speed up implementation of fixes.
+
+Run typechecking and formatting against generated code when you finish if available in the environment (ruff for python, 
+biome and tsc for typescript etc.)
 
 ### Basic Workflow
 
@@ -298,6 +309,10 @@ squirrel audit https://example.com
 # Later, export in different format
 squirrel report a1b2c3d4 --format llm
 ```
+
+## Output
+
+On completion give the user a summary of all of the changes you made.
 
 ## Troubleshooting
 
