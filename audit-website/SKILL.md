@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.8"
+  version: "1.9"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -168,9 +168,6 @@ squirrel audit https://example.com --format llm
 ```
 
 YOU SHOULD always prefer format option llm - it was made for you and provides an exhaustive and compact output format.
-
-YOU SHOULD run any initial audit in plan mode - if you are not in plan mode prompt the user to switch. If you do not support plan
-mode skip this step.
 
 If the user doesn't provide a website to audit - extrapolate the possibilities in the local directory and checking environment variables (ie. linked vercel projects, references in memory or the code). 
 
