@@ -9,6 +9,7 @@
 [squirrelscan](https://squirrelscan.com) is a comprehensive website audit tool designed for developers, SEO professionals, and AI coding assistants. Built specifically to integrate seamlessly into modern development workflows and AI-assisted coding environments.
 
 **Features:**
+
 - 150+ audit rules across SEO, performance, accessibility, content, and security
 - Leaked secrets detection (96 patterns: OpenAI, Anthropic, AWS, Stripe, and more)
 - Multiple output formats: console, text, json, markdown, llm, html
@@ -18,23 +19,12 @@
 
 Whether you're debugging SEO issues, validating site health, or enabling your AI assistant to autonomously fix website problems, squirrelscan fits into your workflow.
 
-## About These Skills
-
-These skills follow the [Agent Skills Standard](https://agentskills.io/home), making them compatible with:
-
-- **Claude Code** — Anthropic's AI coding assistant
-- **Cursor** — AI-powered code editor
-- **Gemini Code Assist** — Google's coding assistant
-- **GitHub Copilot** — Microsoft's AI pair programmer
-- **Other AI coding tools** supporting the Agent Skills Standard
-
-By installing these skills, you enable your AI assistant to audit websites and fix issues autonomously without manual intervention.
-
 ## Prerequisites
 
 These skills require the **squirrel CLI** to be installed and accessible in your PATH.
 
 **Install squirrel:**
+
 ```bash
 curl -fsSL https://squirrelscan.com/install | bash
 ```
