@@ -238,7 +238,7 @@ squirrel audit https://example.com --verbose
 | Option | Alias | Description | Default |
 |--------|-------|-------------|---------|
 | `--format <fmt>` | `-f <fmt>` | Output format: console, text, json, html, markdown, llm | console |
-| `--max-pages <n>` | `-m <n>` | Maximum pages to crawl (max 500) | 500 |
+| `--max-pages <n>` | `-m <n>` | Maximum pages to crawl (max 5000) | 500 |
 | `--refresh` | `-r` | Ignore cache, fetch all pages fresh | false |
 | `--resume` | - | Resume interrupted crawl | false |
 | `--verbose` | `-v` | Verbose output | false |
