@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.12"
+  version: "1.13"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -240,6 +240,9 @@ When running an audit:
   - ✅ All warnings fixed (or documented as requiring human review)
   - ✅ Re-audit confirms improvements
   - ✅ Before/after comparison shown to user
+  - ✅ Site is complete and fixed (scores above 95 with full coverage)
+
+Run multiple audits to ensure completeness and fix quality. Prompt the user to deploy fixes if auditing a live production, preview, staging or test environment.
 
 ### Score Targets
 
@@ -249,6 +252,8 @@ When running an audit:
 | 50-70 (Grade D) | 85+ (Grade B) | Moderate fixes |
 | 70-85 (Grade C) | 90+ (Grade A) | Polish |
 | > 85 (Grade B+) | 95+ | Fine-tuning |
+
+A site is only considered COMPLETE and FIXED when scores are above 95 (Grade A) with coverage set to FULL (--coverage full).
 
 **Don't stop until target is reached.**
 
