@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.11"
+  version: "1.12"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -316,11 +316,43 @@ squirrel audit https://example.com --verbose
 | Option | Alias | Description | Default |
 |--------|-------|-------------|---------|
 | `--format <fmt>` | `-f <fmt>` | Output format: console, text, json, html, markdown, llm | console |
-| `--max-pages <n>` | `-m <n>` | Maximum pages to crawl (max 5000) | 500 |
+| `--coverage <mode>` | `-C <mode>` | Coverage mode: quick, surface, full | surface |
+| `--max-pages <n>` | `-m <n>` | Maximum pages to crawl (max 5000) | varies by coverage |
 | `--refresh` | `-r` | Ignore cache, fetch all pages fresh | false |
 | `--resume` | - | Resume interrupted crawl | false |
 | `--verbose` | `-v` | Verbose output | false |
 | `--debug` | - | Debug logging | false |
+
+### Coverage Modes
+
+Choose a coverage mode based on your audit needs:
+
+| Mode | Default Pages | Behavior | Use Case |
+|------|---------------|----------|----------|
+| `quick` | 25 | Seed + sitemaps only, no link discovery | CI checks, fast health check |
+| `surface` | 100 | One sample per URL pattern | General audits (default) |
+| `full` | 500 | Crawl everything up to limit | Deep analysis |
+
+**Surface mode is smart** - it detects URL patterns like `/blog/{slug}` or `/products/{id}` and only crawls one sample per pattern. This makes it efficient for sites with many similar pages (blogs, e-commerce).
+
+```bash
+# Quick health check (25 pages, no link discovery)
+squirrel audit https://example.com -C quick --format llm
+
+# Default surface audit (100 pages, pattern sampling)
+squirrel audit https://example.com --format llm
+
+# Full comprehensive audit (500 pages)
+squirrel audit https://example.com -C full --format llm
+
+# Override page limit for any mode
+squirrel audit https://example.com -C surface -m 200 --format llm
+```
+
+**When to use each mode:**
+- `quick`: CI pipelines, daily health checks, monitoring
+- `surface`: Most audits - covers unique templates efficiently
+- `full`: Before launches, comprehensive analysis, deep dives
 
 ### Report Command Options
 
