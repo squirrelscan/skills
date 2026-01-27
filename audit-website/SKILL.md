@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.10"
+  version: "1.11"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -70,6 +70,7 @@ The audit crawls the website, analyzes each page against audit rules, and return
 ## When to Use
 
 Use this skill when you need to:
+
 - Analyze a website's health
 - Debug technical SEO issues
 - Fix all of the issues mentioned above
@@ -78,6 +79,8 @@ Use this skill when you need to:
 - Generate site audit reports
 - Compare site health before/after changes
 - Improve website performance, accessibility, SEO, security and more.
+
+You should re-audit as often as possible to ensure your website remains healthy and performs well. 
 
 ## Prerequisites
 
@@ -204,6 +207,80 @@ squirrel audit https://example.com
 
 # Step 2: Export as LLM format
 squirrel report <audit-id> --format llm
+```
+
+### Running Audits
+
+When running an audit:
+
+1. **Fix ALL issues** - critical, high, medium, and low priority
+2. **Don't stop early** - continue until score target is reached (see Score Targets below)
+3. **Parallelize fixes** - use subagents for bulk content edits (alt text, headings, descriptions)
+4. **Iterate** - fix batch → re-audit → fix remaining → re-audit → until done
+5. **Only pause for human judgment** - broken links may need manual review; everything else should be fixed automatically
+6. **Show before/after** - present score comparison only AFTER all fixes are complete
+
+**IMPORTANT: Fix ALL issues, don't stop early.**
+
+- **Iteration Loop**: After fixing a batch of issues, re-audit and continue fixing until:
+  - Score reaches target (typically 85+), OR
+  - Only issues requiring human judgment remain (e.g., "should this link be removed?")
+
+- **Treat all fixes equally**: Code changes (`*.tsx`, `*.ts`) and content changes (`*.md`, `*.mdx`, `*.html`) are equally important. Don't stop after code fixes.
+
+- **Parallelize content fixes**: For issues affecting multiple files:
+  - Spawn subagents to fix in parallel
+  - Example: 7 files need alt text → spawn 1-2 agents to fix all
+  - Example: 30 files have heading issues → spawn agents to batch edit
+
+- **Don't ask, act**: Don't pause to ask "should I continue?" - proceed autonomously until complete.
+
+- **Completion criteria**:
+  - ✅ All errors fixed
+  - ✅ All warnings fixed (or documented as requiring human review)
+  - ✅ Re-audit confirms improvements
+  - ✅ Before/after comparison shown to user
+
+### Score Targets
+
+| Starting Score | Target Score | Expected Work |
+|----------------|--------------|---------------|
+| < 50 (Grade F) | 75+ (Grade C) | Major fixes |
+| 50-70 (Grade D) | 85+ (Grade B) | Moderate fixes |
+| 70-85 (Grade C) | 90+ (Grade A) | Polish |
+| > 85 (Grade B+) | 95+ | Fine-tuning |
+
+**Don't stop until target is reached.**
+
+### Issue Categories
+
+| Category | Fix Approach | Parallelizable |
+|----------|--------------|----------------|
+| Meta tags/titles | Edit page components or metadata.ts | No |
+| Structured data | Add JSON-LD to page templates | No |
+| Missing H1/headings | Edit page components + content files | Yes (content) |
+| Image alt text | Edit content files | Yes |
+| Heading hierarchy | Edit content files | Yes |
+| Short descriptions | Edit content frontmatter | Yes |
+| HTTP→HTTPS links | Bulk sed/replace in content | Yes |
+| Broken links | Manual review (flag for user) | No |
+
+**For parallelizable fixes**: Spawn subagents with specific file assignments.
+
+### Content File Fixes
+
+Many issues require editing content files (`*.md`, `*.mdx`). These are equally important as code fixes:
+
+- **Image alt text**: Edit markdown image tags to add descriptions
+- **Heading hierarchy**: Change `###` to `##` where H2 is skipped
+- **Meta descriptions**: Extend `excerpt` in frontmatter to 120+ chars
+- **HTTP links**: Replace `http://` with `https://` in all links
+
+For 5+ files needing the same fix type, spawn a subagent:
+```
+Task: Fix missing alt text in 6 posts
+Files: [list of files]
+Pattern: Find `![](` or `<img src=` without alt, add descriptive text
 ```
 
 ### Advanced Options
