@@ -19,7 +19,7 @@ The `--format llm` output is a compact, token-optimized hybrid XML/text format d
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<audit version="0.0.13">
+<audit version="0.0.24">
 ```
 
 ### 2. Site Information
@@ -124,7 +124,7 @@ Item format:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<audit version="0.0.13">
+<audit version="0.0.24">
 <site url="https://example.com" crawled="51" date="2025-01-18T10:30:00Z"/>
 <score overall="78" grade="C">
  <cat name="Core SEO" score="85"/>
@@ -150,20 +150,21 @@ Item format:
 
 ## Usage
 
-The LLM format is only available via the `report` command:
+The LLM format is available via both `audit` and `report` commands:
 
 ```bash
-# Run audit first
-squirrel audit https://example.com
+# Direct LLM output (single step)
+squirrel audit https://example.com --format llm
 
-# Export as LLM format
+# Or two-step workflow
+squirrel audit https://example.com
 squirrel report <audit-id> --format llm
 
-# Or pipe directly to AI agent
-squirrel report <audit-id> --format llm | claude
+# Pipe directly to AI agent
+squirrel audit https://example.com --format llm | claude
 ```
 
-**Note:** The `audit` command does not support `--format llm`. You must use the two-step process: audit then report.
+The `audit` command supports `--format llm` directly for convenience. Use the two-step workflow when you need to generate reports in multiple formats from a single audit.
 
 ## Comparison with Other Formats
 

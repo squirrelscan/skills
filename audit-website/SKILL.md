@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.13"
+  version: "1.14"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -140,6 +140,10 @@ You do this either on init with:
 
 ```bash
 squirrel init --project-name my-project
+# or with aliases
+squirrel init -n my-project
+# overwrite existing config
+squirrel init -n my-project --force
 ```
 
 or config:
@@ -323,10 +327,13 @@ squirrel audit https://example.com --verbose
 | `--format <fmt>` | `-f <fmt>` | Output format: console, text, json, html, markdown, llm | console |
 | `--coverage <mode>` | `-C <mode>` | Coverage mode: quick, surface, full | surface |
 | `--max-pages <n>` | `-m <n>` | Maximum pages to crawl (max 5000) | varies by coverage |
+| `--output <path>` | `-o <path>` | Output file path | - |
 | `--refresh` | `-r` | Ignore cache, fetch all pages fresh | false |
 | `--resume` | - | Resume interrupted crawl | false |
 | `--verbose` | `-v` | Verbose output | false |
 | `--debug` | - | Debug logging | false |
+| `--trace` | - | Enable performance tracing | false |
+| `--project-name <name>` | `-n <name>` | Override project name | from config |
 
 ### Coverage Modes
 
@@ -363,7 +370,43 @@ squirrel audit https://example.com -C surface -m 200 --format llm
 
 | Option | Alias | Description |
 |--------|-------|-------------|
+| `--list` | `-l` | List recent audits |
+| `--severity <level>` | - | Filter by severity: error, warning, all |
+| `--category <cats>` | - | Filter by categories (comma-separated) |
 | `--format <fmt>` | `-f <fmt>` | Output format: console, text, json, html, markdown, xml, llm |
+| `--output <path>` | `-o <path>` | Output file path |
+| `--input <path>` | `-i <path>` | Load from JSON file (fallback mode) |
+
+### Config Subcommands
+
+| Command | Description |
+|---------|-------------|
+| `config show` | Show current config |
+| `config set <key> <value>` | Set config value |
+| `config path` | Show config file path |
+| `config validate` | Validate config file |
+
+### Other Commands
+
+| Command | Description |
+|---------|-------------|
+| `squirrel feedback` | Send feedback to squirrelscan team |
+| `squirrel skills install` | Install Claude Code skill |
+| `squirrel skills update` | Update Claude Code skill |
+
+### Self Commands
+
+Self-management commands under `squirrel self`:
+
+| Command | Description |
+|---------|-------------|
+| `self install` | Bootstrap local installation |
+| `self update` | Check and apply updates |
+| `self completion` | Generate shell completions |
+| `self doctor` | Run health checks |
+| `self version` | Show version information |
+| `self settings` | Manage CLI settings |
+| `self uninstall` | Remove squirrel from the system |
 
 ## Output Formats
 
