@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.14"
+  version: "1.15"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -176,6 +176,10 @@ squirrel audit https://example.com --format llm
 ```
 
 YOU SHOULD always prefer format option llm - it was made for you and provides an exhaustive and compact output format.
+
+FIRST SCAN should be a surface scan, which is a quick and shallow scan of the website to gather basic information about the website, such as its structure, content, and technology stack. This scan can be done quickly and without impacting the website's performance.
+
+SECOND SCAN should be a deep scan, which is a thorough and detailed scan of the website to gather more information about the website, such as its security, performance, and accessibility. This scan can take longer and may impact the website's performance.
 
 If the user doesn't provide a website to audit - extrapolate the possibilities in the local directory and checking environment variables (ie. linked vercel projects, references in memory or the code). 
 
