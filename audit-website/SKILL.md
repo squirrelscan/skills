@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.15"
+  version: "1.16"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -295,6 +295,95 @@ Task: Fix missing alt text in 6 posts
 Files: [list of files]
 Pattern: Find `![](` or `<img src=` without alt, add descriptive text
 ```
+
+### Parallelizing Fixes with Subagents
+
+Use the **Task tool** to spawn subagents for parallel fixes. Critical rules:
+
+1. **Multiple Task calls in ONE message** = parallel execution
+2. **Sequential Task calls** = slower, only when fixes have dependencies
+3. **Each subagent gets a focused scope** - don't overload with too many files
+
+**When to parallelize:**
+- 5+ files need same fix type (alt text, headings, meta descriptions)
+- Fixes have no dependencies on each other
+- Files are independent (not importing from each other)
+
+**Subagent prompt structure:**
+```
+Fix [issue type] in the following files:
+- path/to/file1.md
+- path/to/file2.md
+- path/to/file3.md
+
+Pattern: [what to find]
+Fix: [what to change]
+
+Do not ask for confirmation. Make all changes and report what was fixed.
+```
+
+**Example - parallel alt text fixes:**
+
+When audit shows 12 files missing alt text, spawn 2-3 subagents in a SINGLE message:
+
+```
+[Task tool call 1]
+subagent_type: "general-purpose"
+prompt: |
+  Fix missing image alt text in these files:
+  - content/blog/post-1.md
+  - content/blog/post-2.md
+  - content/blog/post-3.md
+  - content/blog/post-4.md
+
+  Find images without alt text (![](path) or <img without alt=).
+  Add descriptive alt text based on image filename and context.
+  Do not ask for confirmation.
+
+[Task tool call 2]
+subagent_type: "general-purpose"
+prompt: |
+  Fix missing image alt text in these files:
+  - content/blog/post-5.md
+  - content/blog/post-6.md
+  - content/blog/post-7.md
+  - content/blog/post-8.md
+
+  [same instructions...]
+
+[Task tool call 3]
+subagent_type: "general-purpose"
+prompt: |
+  Fix missing image alt text in these files:
+  - content/blog/post-9.md
+  - content/blog/post-10.md
+  - content/blog/post-11.md
+  - content/blog/post-12.md
+
+  [same instructions...]
+```
+
+**Example - parallel heading fixes:**
+
+```
+[Task tool call 1]
+Fix H1/H2 heading hierarchy in: docs/guide-1.md, docs/guide-2.md, docs/guide-3.md
+Change ### to ## where H2 is skipped. Ensure single H1 per page.
+
+[Task tool call 2]
+Fix H1/H2 heading hierarchy in: docs/guide-4.md, docs/guide-5.md, docs/guide-6.md
+[same instructions...]
+```
+
+**Batch sizing:**
+- 3-5 files per subagent (optimal)
+- Max 10 files per subagent
+- Spawn 2-4 subagents for parallel work
+
+**DO NOT parallelize:**
+- Shared component edits (layout.tsx, metadata.ts)
+- JSON-LD schema changes (single source of truth)
+- Config file edits (may conflict)
 
 ### Advanced Options
 
