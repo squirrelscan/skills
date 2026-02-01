@@ -9,7 +9,7 @@
 [squirrelscan](https://squirrelscan.com) is a comprehensive website audit tool designed for developers, SEO professionals, and AI coding assistants. Built specifically to integrate seamlessly into modern development workflows and AI-assisted coding environments.
 
 **Features:**
-- 150+ audit rules across SEO, performance, accessibility, content, and security
+- 200+ audit rules across SEO, performance, accessibility, content, and security
 - Leaked secrets detection (96 patterns: OpenAI, Anthropic, AWS, Stripe, and more)
 - Multiple output formats: console, text, json, markdown, llm, html
 - Designed for both human developers and AI agents
