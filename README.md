@@ -116,3 +116,11 @@ MIT License — See [LICENSE](../LICENSE) file for details.
 ---
 
 **Learn more:** [docs.squirrelscan.com](https://docs.squirrelscan.com) | [squirrelscan.com](https://squirrelscan.com)
+
+## Compatible Agents
+
+These skills work with:
+
+- [Claude Code](https://claude.ai/code) - Anthropic's official CLI
+- [AdaL](https://sylph.ai/adal) - Self-evolving AI coding agent with MCP support
+
