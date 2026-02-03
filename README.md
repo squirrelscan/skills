@@ -44,7 +44,17 @@ squirrel --version
 
 ## Installing Skills
 
-### Using npx (recommended)
+### Using Claude Code / Cowork
+
+```bash
+/plugin install squirrelscan/skills
+```
+
+### Using OpenAI Codex
+
+Reference the `agents/openai.yaml` config from your skills setup.
+
+### Using npx
 
 ```bash
 npx skills add squirrelscan/skills

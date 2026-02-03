@@ -1,0 +1,9 @@
+{
+  "name": "squirrelscan",
+  "version": "1.0.0",
+  "description": "Website audit tool for SEO, performance, security & 200+ rules",
+  "author": "squirrelscan",
+  "homepage": "https://squirrelscan.com",
+  "repository": "https://github.com/squirrelscan/skills",
+  "skills": ["audit-website"]
+}
