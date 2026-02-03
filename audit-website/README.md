@@ -12,6 +12,7 @@
 - 200+ audit rules across SEO, performance, accessibility, content, and security
 - Leaked secrets detection (96 patterns: OpenAI, Anthropic, AWS, Stripe, and more)
 - Multiple output formats: console, text, json, markdown, llm, html
+- Diff reports for regressions between audits
 - Designed for both human developers and AI agents
 - Optimized for CI/CD pipelines and automation
 - LLM-native output for AI-assisted debugging and optimization

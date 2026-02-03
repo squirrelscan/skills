@@ -120,6 +120,44 @@ Item format:
 - `[key: value, ...]` - Metadata in square brackets
 - `(from: <sources>)` - Source pages where item appears
 
+## Diff Output (LLM Format)
+
+When using `squirrel report --diff` or `--regression-since` with `--format llm`,
+the output is a compact XML diff format:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<diff version="0.0.24">
+ <baseline id="a7b3c2d1" url="https://example.com" date="2026-01-17T10:30:00Z" pages="42" score="87" grade="B"/>
+ <current id="b9c4e1f2" url="https://example.com" date="2026-01-18T10:30:00Z" pages="44" score="84" grade="B"/>
+ <summary added="3" removed="1" changed="2" regressions="1" improvements="1"/>
+ <added>
+  <issue fp="abc123" rule="core/meta-title" severity="error" status="fail" check="meta-title" category="core" weight="8">
+   Missing page title
+   Target: page /about
+  </issue>
+ </added>
+ <removed>
+  ...
+ </removed>
+ <changed>
+  <change type="regression" fp="def456" rule="links/broken-links" severity="warning" status="fail" check="broken-links">
+   warn→fail: Broken link count increased
+   Before:
+    <issue ...> ... </issue>
+   After:
+    <issue ...> ... </issue>
+  </change>
+ </changed>
+</diff>
+```
+
+Key fields:
+- `fp`: deterministic fingerprint for the issue instance
+- `rule`, `check`, `severity`, `status`: rule and check metadata
+- `Target:`: item/page/check target
+- `change type`: `regression`, `improvement`, or `change`
+
 ## Example Output
 
 ```xml

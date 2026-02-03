@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.17"
+  version: "1.18"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -216,6 +216,20 @@ squirrel audit https://example.com
 # Step 2: Export as LLM format
 squirrel report <audit-id> --format llm
 ```
+
+### Regression Diffs
+
+When you need to detect regressions between audits, use diff mode:
+
+```bash
+# Compare current report against a baseline audit ID
+squirrel report --diff <audit-id> --format llm
+
+# Compare latest domain report against a baseline domain
+squirrel report --regression-since example.com --format llm
+```
+
+Diff mode supports `console`, `text`, `json`, `llm`, and `markdown`. `html` and `xml` are not supported.
 
 ### Running Audits
 
