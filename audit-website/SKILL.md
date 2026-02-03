@@ -1,6 +1,6 @@
 ---
 name: audit-website
-description: Audit websites for SEO, performance, security, technical, content, and 15 other issue cateories with 200+ rules using the squirrelscan CLI. Returns LLM-optimized reports with health scores, broken links, meta tag analysis, and actionable recommendations. Use to discover and asses website or webapp issues and health.
+description: Audit websites for SEO, performance, security, technical, content, and 15 other issue cateories with 230+ rules using the squirrelscan CLI. Returns LLM-optimized reports with health scores, broken links, meta tag analysis, and actionable recommendations. Use to discover and asses website or webapp issues and health.
 license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
@@ -14,7 +14,7 @@ allowed-tools: Bash(squirrel:*)
 Audit websites for SEO, technical, content, performance and security issues using the squirrelscan cli.
 
 squirrelscan provides a cli tool squirrel - available for macos, windows and linux. It carries out extensive website auditing
-by emulating a browser, search crawler, and analyzing the website's structure and content against over 200+ rules.
+by emulating a browser, search crawler, and analyzing the website's structure and content against over 230+ rules.
 
 It will provide you a list of issues as well as suggestions on how to fix them.
 
@@ -33,7 +33,7 @@ https://docs.squirrelscan.com/rules/links/external-links
 
 ## What This Skill Does
 
-This skill enables AI agents to audit websites for over 200 rules in 20 categories, including:
+This skill enables AI agents to audit websites for over 230 rules in 21 categories, including:
 
 - **SEO issues**: Meta tags, titles, descriptions, canonical URLs, Open Graph tags
 - **Technical problems**: Broken links, redirect chains, page speed, mobile-friendliness
