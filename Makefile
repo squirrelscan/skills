@@ -38,7 +38,7 @@ build:
 		out=$(DIST)/$$name; \
 		mkdir -p $$out; \
 		cp $$skill/SKILL.md $$out/; \
-		for sub in references scripts agents assets; do \
+		for sub in references scripts; do \
 			if [ -d "$$skill/$$sub" ]; then \
 				cp -r $$skill/$$sub $$out/; \
 			fi; \
