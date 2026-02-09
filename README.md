@@ -23,21 +23,9 @@ Whether you're debugging SEO issues, validating site health, or enabling your AI
 
 These skills require the **squirrel CLI** to be installed and accessible in your PATH.
 
-**Install squirrel:**
+**Install:** [squirrelscan.com/download](https://squirrelscan.com/download)
 
-```bash
-curl -fsSL https://squirrelscan.com/install | bash
-```
-
-This will:
-- Download the latest release binary
-- Install to `~/.local/share/squirrel/releases/{version}/`
-- Create a symlink at `~/.local/bin/squirrel`
-- Initialize settings at `~/.squirrel/settings.json`
-
-**Alternative:** Download pre-built binaries at [squirrelscan.com/download](https://squirrelscan.com/download)
-
-**Verify installation:**
+**Verify:**
 ```bash
 squirrel --version
 ```

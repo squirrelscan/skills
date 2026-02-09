@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.18"
+  version: "1.19"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -84,80 +84,24 @@ You should re-audit as often as possible to ensure your website remains healthy 
 
 ## Prerequisites
 
-This skill requires the squirrel CLI to be installed and available in your PATH.
+This skill requires the squirrel CLI installed and in PATH.
 
-### Installation
+**Install:** [squirrelscan.com/download](https://squirrelscan.com/download)
 
-If squirrel is not already installed, you can install it using:
-
-```bash
-curl -fsSL https://squirrelscan.com/install | bash
-```
-
-This will:
-- Download the latest release binary
-- Install to `~/.local/share/squirrel/releases/{version}/`
-- Create a symlink at `~/.local/bin/squirrel`
-- Initialize settings at `~/.squirrel/settings.json`
-
-If `~/.local/bin` is not in your PATH, add it to your shell configuration:
-
-```bash
-export PATH="$HOME/.local/bin:$PATH"
-```
-
-### Windows Installation
-
-Install using PowerShell:
-
-```powershell
-irm https://squirrelscan.com/install.ps1 | iex
-```
-
-This will:
-- Download the latest release binary
-- Install to `%LOCALAPPDATA%\squirrel\`
-- Add squirrel to your PATH
-
-If using Command Prompt, you may need to restart your terminal for PATH changes to take effect.
-
-### Verify Installation
-
-Check that squirrel is installed and accessible:
-
+**Verify:**
 ```bash
 squirrel --version
 ```
 
 ## Setup
 
-Running `squirrel init` will setup a squirrel.toml file for configuration in the current directory.
-
-Each project should have a squirrel project name for the database - by default this is the name of the 
-website you audit - but you can set it yourself so that you can place all audits for a project in one database
-
-You do this either on init with:
+Run `squirrel init` to create a `squirrel.toml` config in the current directory. If none exists, create one and specify a project name:
 
 ```bash
-squirrel init --project-name my-project
-# or with aliases
 squirrel init -n my-project
 # overwrite existing config
 squirrel init -n my-project --force
 ```
-
-or config:
-
-```bash
-squirrel config set project.name my-project
-```
-
-If there is no squirrel.toml in the directory you're running from CREATE ONE with `squirrel init` and specify the '-n' 
-parameter for a project name (infer this)
-
-The project name is used to identify the project in the database and is used to generate the database name. 
-
-It is stored in ~/.squirrel/projects/<project-name>
 
 ## Usage
 
@@ -583,8 +527,8 @@ On completion give the user a summary of all of the changes you made.
 If you see this error, squirrel is not installed or not in your PATH.
 
 **Solution:**
-1. Install squirrel: `curl -fsSL https://squirrelscan.com/install | bash`
-2. Add to PATH: `export PATH="$HOME/.local/bin:$PATH"`
+1. Install squirrel: [squirrelscan.com/download](https://squirrelscan.com/download)
+2. Ensure `~/.local/bin` is in PATH
 3. Verify: `squirrel --version`
 
 ### Permission denied
