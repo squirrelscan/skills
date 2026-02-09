@@ -5,8 +5,8 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.21"
-allowed-tools: Bash(squirrel:*)
+  version: "1.22"
+allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
 # Website Audit Skill
@@ -125,7 +125,7 @@ FIRST SCAN should be a surface scan, which is a quick and shallow scan of the we
 
 SECOND SCAN should be a deep scan, which is a thorough and detailed scan of the website to gather more information about the website, such as its security, performance, and accessibility. This scan can take longer and may impact the website's performance.
 
-If the user doesn't provide a website to audit, ask which URL they'd like audited. You may suggest candidates found in project config files (e.g. `package.json` homepage, `vercel.json`, `squirrel.toml`) but always confirm with the user before proceeding.
+If the user doesn't provide a website to audit, ask which URL they'd like audited.
 
 You should PREFER to audit live websites - only there do we get a TRUE representation of the website and performance or rendering issuers. 
 
@@ -137,7 +137,7 @@ When planning scope tasks so they can run concurrently as sub-agents to speed up
 
 When implementing fixes take advantage of subagents to speed up implementation of fixes.
 
-Run linting, formatting and type-checking against generated code when you finish, if available in the environment.
+After applying fixes, verify the code still builds and passes any existing checks in the project.
 
 ### Basic Workflow
 
@@ -183,7 +183,7 @@ When running an audit:
   - Score reaches target (typically 85+), OR
   - Only issues requiring human judgment remain (e.g., "should this link be removed?")
 
-- **Treat all fixes equally**: Code changes and content changes are equally important. Don't stop after code fixes.
+- **Treat all fixes equally**: Code changes and content changes are equally important.
 
 - **Parallelize content fixes**: For issues affecting multiple files:
   - Spawn subagents to fix in parallel
@@ -196,7 +196,7 @@ When running an audit:
   - ✅ Re-audit confirms improvements
   - ✅ Before/after comparison shown to user
 
-Prompt the user to deploy fixes if auditing a live production, preview, staging or test environment.
+After fixes are applied, ask the user if they'd like to review the changes.
 
 ### Score Targets
 
