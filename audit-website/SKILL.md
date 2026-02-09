@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.20"
+  version: "1.21"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -137,8 +137,7 @@ When planning scope tasks so they can run concurrently as sub-agents to speed up
 
 When implementing fixes take advantage of subagents to speed up implementation of fixes.
 
-Run typechecking and formatting against generated code when you finish if available in the environment (ruff for python, 
-biome and tsc for typescript etc.)
+Run linting, formatting and type-checking against generated code when you finish, if available in the environment.
 
 ### Basic Workflow
 
@@ -184,7 +183,7 @@ When running an audit:
   - Score reaches target (typically 85+), OR
   - Only issues requiring human judgment remain (e.g., "should this link be removed?")
 
-- **Treat all fixes equally**: Code changes (`*.tsx`, `*.ts`) and content changes (`*.md`, `*.mdx`, `*.html`) are equally important. Don't stop after code fixes.
+- **Treat all fixes equally**: Code changes and content changes are equally important. Don't stop after code fixes.
 
 - **Parallelize content fixes**: For issues affecting multiple files:
   - Spawn subagents to fix in parallel
@@ -214,121 +213,34 @@ A site is only considered COMPLETE and FIXED when scores are above 95 (Grade A) 
 
 | Category | Fix Approach | Parallelizable |
 |----------|--------------|----------------|
-| Meta tags/titles | Edit page components or metadata.ts | No |
+| Meta tags/titles | Edit page components or metadata | No |
 | Structured data | Add JSON-LD to page templates | No |
 | Missing H1/headings | Edit page components + content files | Yes (content) |
 | Image alt text | Edit content files | Yes |
 | Heading hierarchy | Edit content files | Yes |
 | Short descriptions | Edit content frontmatter | Yes |
-| HTTP→HTTPS links | Bulk sed/replace in content | Yes |
+| HTTP→HTTPS links | Find and replace in content | Yes |
 | Broken links | Manual review (flag for user) | No |
 
 **For parallelizable fixes**: Spawn subagents with specific file assignments.
 
 ### Content File Fixes
 
-Many issues require editing content files (`*.md`, `*.mdx`). These are equally important as code fixes:
+Many issues require editing content files. These are equally important as code fixes:
 
-- **Image alt text**: Edit markdown image tags to add descriptions
-- **Heading hierarchy**: Change `###` to `##` where H2 is skipped
-- **Meta descriptions**: Extend `excerpt` in frontmatter to 120+ chars
-- **HTTP links**: Replace `http://` with `https://` in all links
-
-For 5+ files needing the same fix type, spawn a subagent:
-```
-Task: Fix missing alt text in 6 posts
-Files: [list of files]
-Pattern: Find `![](` or `<img src=` without alt, add descriptive text
-```
+- **Image alt text**: Add descriptive alt text to images
+- **Heading hierarchy**: Fix skipped heading levels
+- **Meta descriptions**: Extend short descriptions in frontmatter
+- **HTTP links**: Update insecure links to HTTPS
 
 ### Parallelizing Fixes with Subagents
 
-Use the **Task tool** to spawn subagents for parallel fixes. Critical rules:
+When the user approves a batch of fixes, you can use subagents to apply them in parallel:
 
-1. **Multiple Task calls in ONE message** = parallel execution
-2. **Sequential Task calls** = slower, only when fixes have dependencies
-3. **Each subagent gets a focused scope** - don't overload with too many files
-
-**When to parallelize:**
-- 5+ files need same fix type (alt text, headings, meta descriptions)
-- Fixes have no dependencies on each other
-- Files are independent (not importing from each other)
-
-**Subagent prompt structure:**
-```
-Fix [issue type] in the following files:
-- path/to/file1.md
-- path/to/file2.md
-- path/to/file3.md
-
-Pattern: [what to find]
-Fix: [what to change]
-
-Do not ask for confirmation. Make all changes and report what was fixed.
-```
-
-**Example - parallel alt text fixes:**
-
-When audit shows 12 files missing alt text, spawn 2-3 subagents in a SINGLE message:
-
-```
-[Task tool call 1]
-subagent_type: "general-purpose"
-prompt: |
-  Fix missing image alt text in these files:
-  - content/blog/post-1.md
-  - content/blog/post-2.md
-  - content/blog/post-3.md
-  - content/blog/post-4.md
-
-  Find images without alt text (![](path) or <img without alt=).
-  Add descriptive alt text based on image filename and context.
-  Do not ask for confirmation.
-
-[Task tool call 2]
-subagent_type: "general-purpose"
-prompt: |
-  Fix missing image alt text in these files:
-  - content/blog/post-5.md
-  - content/blog/post-6.md
-  - content/blog/post-7.md
-  - content/blog/post-8.md
-
-  [same instructions...]
-
-[Task tool call 3]
-subagent_type: "general-purpose"
-prompt: |
-  Fix missing image alt text in these files:
-  - content/blog/post-9.md
-  - content/blog/post-10.md
-  - content/blog/post-11.md
-  - content/blog/post-12.md
-
-  [same instructions...]
-```
-
-**Example - parallel heading fixes:**
-
-```
-[Task tool call 1]
-Fix H1/H2 heading hierarchy in: docs/guide-1.md, docs/guide-2.md, docs/guide-3.md
-Change ### to ## where H2 is skipped. Ensure single H1 per page.
-
-[Task tool call 2]
-Fix H1/H2 heading hierarchy in: docs/guide-4.md, docs/guide-5.md, docs/guide-6.md
-[same instructions...]
-```
-
-**Batch sizing:**
-- 3-5 files per subagent (optimal)
-- Max 10 files per subagent
-- Spawn 2-4 subagents for parallel work
-
-**DO NOT parallelize:**
-- Shared component edits (layout.tsx, metadata.ts)
-- JSON-LD schema changes (single source of truth)
-- Config file edits (may conflict)
+- **Ask the user first** — always confirm which fixes to apply before spawning subagents
+- Group 3-5 files per subagent for the same fix type
+- Only parallelize independent files (no shared components or config)
+- Spawn multiple subagents in a single message for concurrent execution
 
 ### Advanced Options
 
@@ -520,11 +432,7 @@ If you see this error, squirrel is not installed or not in your PATH.
 
 ### Permission denied
 
-If squirrel is not executable:
-
-```bash
-chmod +x ~/.local/bin/squirrel
-```
+If squirrel is not executable, ensure the binary has execute permissions. Reinstalling from [squirrelscan.com/download](https://squirrelscan.com/download) will fix this.
 
 ### Crawl timeout or slow performance
 
