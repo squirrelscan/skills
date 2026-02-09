@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.19"
+  version: "1.20"
 allowed-tools: Bash(squirrel:*)
 ---
 
@@ -125,13 +125,7 @@ FIRST SCAN should be a surface scan, which is a quick and shallow scan of the we
 
 SECOND SCAN should be a deep scan, which is a thorough and detailed scan of the website to gather more information about the website, such as its security, performance, and accessibility. This scan can take longer and may impact the website's performance.
 
-If the user doesn't provide a website to audit - extrapolate the possibilities in the local directory and checking environment variables (ie. linked vercel projects, references in memory or the code). 
-
-If the directory you're running for provides for a method to run or restart a local dev server - run the audit against that.
-
-If you have more than one option on a website to audit that you discover - prompt the user to choose which one to audit.
-
-If there is no website - either local, or on the web to discover to audit, then ask the user which URL they would like to audit.
+If the user doesn't provide a website to audit, ask which URL they'd like audited. You may suggest candidates found in project config files (e.g. `package.json` homepage, `vercel.json`, `squirrel.toml`) but always confirm with the user before proceeding.
 
 You should PREFER to audit live websites - only there do we get a TRUE representation of the website and performance or rendering issuers. 
 
@@ -179,14 +173,12 @@ Diff mode supports `console`, `text`, `json`, `llm`, and `markdown`. `html` and 
 
 When running an audit:
 
-1. **Fix ALL issues** - critical, high, medium, and low priority
-2. **Don't stop early** - continue until score target is reached (see Score Targets below)
-3. **Parallelize fixes** - use subagents for bulk content edits (alt text, headings, descriptions)
-4. **Iterate** - fix batch → re-audit → fix remaining → re-audit → until done
-5. **Only pause for human judgment** - broken links may need manual review; everything else should be fixed automatically
-6. **Show before/after** - present score comparison only AFTER all fixes are complete
-
-**IMPORTANT: Fix ALL issues, don't stop early.**
+1. **Present the report** - show the user the audit results and score
+2. **Propose fixes** - list the issues you can fix and ask the user to confirm before making changes
+3. **Parallelize approved fixes** - use subagents for bulk content edits (alt text, headings, descriptions)
+4. **Iterate** - fix batch → re-audit → present results → propose next batch
+5. **Pause for judgment** - broken links, structural changes, and anything ambiguous should be flagged for user review
+6. **Show before/after** - present score comparison after each fix batch
 
 - **Iteration Loop**: After fixing a batch of issues, re-audit and continue fixing until:
   - Score reaches target (typically 85+), OR
@@ -199,16 +191,13 @@ When running an audit:
   - Example: 7 files need alt text → spawn 1-2 agents to fix all
   - Example: 30 files have heading issues → spawn agents to batch edit
 
-- **Don't ask, act**: Don't pause to ask "should I continue?" - proceed autonomously until complete.
-
 - **Completion criteria**:
   - ✅ All errors fixed
   - ✅ All warnings fixed (or documented as requiring human review)
   - ✅ Re-audit confirms improvements
   - ✅ Before/after comparison shown to user
-  - ✅ Site is complete and fixed (scores above 95 with full coverage)
 
-Run multiple audits to ensure completeness and fix quality. Prompt the user to deploy fixes if auditing a live production, preview, staging or test environment.
+Prompt the user to deploy fixes if auditing a live production, preview, staging or test environment.
 
 ### Score Targets
 
@@ -220,8 +209,6 @@ Run multiple audits to ensure completeness and fix quality. Prompt the user to d
 | > 85 (Grade B+) | 95+ | Fine-tuning |
 
 A site is only considered COMPLETE and FIXED when scores are above 95 (Grade A) with coverage set to FULL (--coverage full).
-
-**Don't stop until target is reached.**
 
 ### Issue Categories
 
