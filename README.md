@@ -114,3 +114,9 @@ MIT License — See [LICENSE](../LICENSE) file for details.
 ---
 
 **Learn more:** [docs.squirrelscan.com](https://docs.squirrelscan.com) | [squirrelscan.com](https://squirrelscan.com)
+
+## Compatible Agents
+
+These skills work with:
+- [Claude Code](https://claude.com/product/claude-code)
+- [AdaL](https://sylph.ai/) - Self-evolving AI coding agent ([Docs](https://docs.sylph.ai/) | [GitHub](https://github.com/SylphAI-Inc/adal-cli))
