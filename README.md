@@ -10,7 +10,7 @@
 
 **Features:**
 
-- 200+ audit rules across SEO, performance, accessibility, content, and security
+- 240+ audit rules across SEO, performance, accessibility, content, security, and more
 - Leaked secrets detection (96 patterns: OpenAI, Anthropic, AWS, Stripe, and more)
 - Multiple output formats: console, text, json, markdown, llm, html
 - Designed for both human developers and AI agents
