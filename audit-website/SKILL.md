@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "1.23"
+  version: "1.24"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
@@ -268,6 +268,26 @@ Verbose output for debugging:
 squirrel audit https://example.com --verbose
 ```
 
+### Custom Request Headers
+
+Attach custom HTTP headers to every crawl request (pages, assets, `robots.txt`, sitemaps) with the repeatable `-H` / `--header` flag, formatted `"Name: Value"`. CLI flags merge over any `headers` map in the `[crawler]` section of `squirrel.toml`.
+
+The main use case is **Web Bot Auth** (Shopify / Cloudflare) — platforms that block unknown crawlers can authorize squirrelscan via three signed headers on every request (`Signature-Input`, `Signature`, and `Signature-Agent`, a quoted URI whose inner quotes are preserved verbatim):
+
+```bash
+squirrel audit https://your-store.myshopify.com \
+  -H 'Signature-Input: sig1=("@authority" "signature-agent");keyid="...";created=...' \
+  -H 'Signature: sig1=:BASE64SIG:' \
+  -H 'Signature-Agent: "https://shopify.com"' \
+  --format llm
+```
+
+See the [Web Bot Auth guide](https://docs.squirrelscan.com/guides/web-bot-auth) for the full recipe.
+
+**Header values are secrets.** squirrelscan redacts them in output — the audit preamble lists header names only, never the values. Source them from your secret store rather than committing real signatures to a shared `squirrel.toml`.
+
+Via the squirrelscan MCP server, pass the same headers to the `audit_website` tool as a `headers` map, e.g. `{"Signature-Agent": "\"https://shopify.com\""}`.
+
 ## Common Options
 
 ### Audit Command Options
@@ -284,6 +304,7 @@ squirrel audit https://example.com --verbose
 | `--debug` | - | Debug logging | false |
 | `--trace` | - | Enable performance tracing | false |
 | `--project-name <name>` | `-n <name>` | Override project name | from config |
+| `--header <spec>` | `-H <spec>` | Custom HTTP header on every request (repeatable), `"Name: Value"`; merges over `[crawler]` headers | - |
 
 ### Coverage Modes
 
