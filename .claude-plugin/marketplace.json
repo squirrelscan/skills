@@ -4,10 +4,7 @@
     "name": "squirrelscan",
     "email": "support@squirrelscan.com"
   },
-  "metadata": {
-    "description": "Official squirrelscan plugins: website audits for AI agents",
-    "version": "1.0.0"
-  },
+  "description": "Official squirrelscan plugins: website audits for AI agents",
   "plugins": [
     {
       "name": "squirrelscan",
