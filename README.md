@@ -39,34 +39,51 @@ squirrel --version
 
 ## Installing
 
-### Claude Code (plugin, recommended)
+Pick the path for your tool:
+
+| Tool | Install |
+|------|---------|
+| Any agent (Agent Skills standard) | `npx skills add squirrelscan/skills` |
+| Claude Code | `/plugin marketplace add squirrelscan/skills` then `/plugin install squirrelscan@squirrelscan` |
+| Cursor | `npx skills add squirrelscan/skills`, or the plugin / MCP deeplink below |
+| OpenAI Codex | `npx skills add squirrelscan/skills` (lands in `.agents/skills/`) |
+| squirrel CLI | `squirrel skills install` |
+| Manual | clone + symlink `skills/*` into your agent's skills dir |
+
+### Agent Skills via npx (works everywhere)
+
+```bash
+npx skills add squirrelscan/skills
+```
+
+Installs both skills (`squirrelscan` and `audit-website`) for whichever agents you select: Claude Code, Codex, Cursor, Gemini CLI, Amp, and more. Skills follow the [Agent Skills](https://agentskills.io) standard, so the same `SKILL.md` works across tools. To install just one skill:
+
+```bash
+npx skills add squirrelscan/skills --skill audit-website
+```
+
+### Claude Code plugin (recommended for Claude Code)
 
 ```
 /plugin marketplace add squirrelscan/skills
 /plugin install squirrelscan@squirrelscan
 ```
 
-Installs both skills and connects the hosted MCP server in one step.
+One step installs both skills and connects the hosted squirrelscan MCP server. Updates ship automatically with new commits to this repo.
 
-### Any agent via npx (Claude Code, Codex, Cursor, Gemini CLI, Amp, and more)
+### Cursor
 
-```bash
-npx skills add squirrelscan/skills
-```
+Three options, lightest to fullest:
 
-Installs the skills for whichever agents you select. Skills follow the [Agent Skills](https://agentskills.io) standard, so the same `SKILL.md` works across tools.
+1. **Skills**: `npx skills add squirrelscan/skills`. Cursor reads Agent Skills from `.cursor/skills/`, `.agents/skills/`, and their `~/` equivalents (it also picks up `~/.claude/skills/`).
+2. **MCP only, one click**: [Add squirrelscan MCP to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=squirrelscan&config=eyJ1cmwiOiJodHRwczovL21jcC5zcXVpcnJlbHNjYW4uY29tL21jcCJ9)
+3. **Plugin**: this repo is also a Cursor plugin (`.cursor-plugin/`) bundling both skills and the MCP server, for install via the Cursor Marketplace.
 
 ### OpenAI Codex
 
 Codex reads skills from `.agents/skills/` (project) or `~/.agents/skills/` (global). `npx skills add squirrelscan/skills` installs there, or clone and symlink the `skills/*` directories.
 
-### Cursor
-
-Cursor reads Agent Skills from `.cursor/skills/`, `.agents/skills/`, and their `~/` equivalents (it also picks up `~/.claude/skills/`). Use `npx skills add squirrelscan/skills`, or add the MCP server with one click:
-
-[Add squirrelscan MCP to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=squirrelscan&config=eyJ1cmwiOiJodHRwczovL21jcC5zcXVpcnJlbHNjYW4uY29tL21jcCJ9)
-
-### From the CLI
+### From the squirrel CLI
 
 ```bash
 squirrel skills install
@@ -79,7 +96,7 @@ squirrel skills update
 git clone https://github.com/squirrelscan/skills.git
 ```
 
-Then copy or symlink `skills/squirrelscan` and `skills/audit-website` into your agent's skills directory.
+Then copy or symlink `skills/squirrelscan` and `skills/audit-website` into your agent's skills directory (`make link` does this for Claude Code and `.agents/skills` consumers).
 
 ## MCP server
 
