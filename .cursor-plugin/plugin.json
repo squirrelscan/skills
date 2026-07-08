@@ -1,14 +1,16 @@
 {
-  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "squirrelscan",
   "displayName": "squirrelscan",
   "description": "Website audit tool built for AI agents. 249+ SEO, performance, security & agent readiness rules: run audits from the CLI, fix findings in code, publish reports, and connect over MCP.",
+  "version": "2.0.0",
   "author": {
-    "name": "squirrelscan",
-    "url": "https://squirrelscan.com"
+    "name": "squirrelscan"
   },
+  "publisher": "squirrelscan",
   "homepage": "https://squirrelscan.com",
   "repository": "https://github.com/squirrelscan/skills",
   "license": "MIT",
-  "keywords": ["seo", "audit", "website", "performance", "security", "accessibility", "crawler"]
+  "keywords": ["seo", "audit", "website", "performance", "security", "accessibility"],
+  "skills": "./skills",
+  "mcpServers": "./mcp.json"
 }

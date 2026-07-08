@@ -1,27 +1,34 @@
 ![squirrelscan](https://mintcdn.com/squirrelscan/CCMTmLbI4xfnpJbQ/logo/light.svg?fit=max&auto=format&n=CCMTmLbI4xfnpJbQ&q=85&s=1303484a4ea3c154c29dd5f6245e55cd)
 
-# squirrelscan Skills
+# squirrelscan Skills & Plugins
 
-**CLI Website Audits for Humans, Agents & LLMs**
+**Website audits for AI agents: skills, plugins, and MCP in one repo**
 
 ## What is squirrelscan?
 
-[squirrelscan](https://squirrelscan.com) is a comprehensive website audit tool designed for developers, SEO professionals, and AI coding assistants. Built specifically to integrate seamlessly into modern development workflows and AI-assisted coding environments.
+[squirrelscan](https://squirrelscan.com) is a website audit tool built for AI agents. It crawls a site, analyzes every page against 249+ rules across SEO, performance, security, accessibility, content, and more, and returns a health score plus concrete, fixable issues.
 
 **Features:**
 
-- 249+ audit rules across SEO, performance, accessibility, content, security, and more
+- 249+ audit rules across 21 categories
 - Leaked secrets detection (96 patterns: OpenAI, Anthropic, AWS, Stripe, and more)
 - Multiple output formats: console, text, json, markdown, llm, html
-- Designed for both human developers and AI agents
-- Optimized for CI/CD pipelines and automation
+- Diff reports for regressions between audits
 - LLM-native output for AI-assisted debugging and optimization
+- Optimized for CI/CD pipelines and automation
 
-Whether you're debugging SEO issues, validating site health, or enabling your AI assistant to autonomously fix website problems, squirrelscan fits into your workflow.
+## What's in this repo
+
+| Skill | What it does |
+|-------|--------------|
+| [`squirrelscan`](skills/squirrelscan/SKILL.md) | Operate the CLI: install, login, run audits, publish reports, credits, API keys, MCP setup, config, troubleshooting |
+| [`audit-website`](skills/audit-website/SKILL.md) | The fix loop: audit a site, map findings to code, fix in batches, re-audit until it scores well |
+
+The repo is also a **Claude Code plugin + marketplace** and a **Cursor plugin**, bundling both skills and the hosted squirrelscan MCP server.
 
 ## Prerequisites
 
-These skills require the **squirrel CLI** to be installed and accessible in your PATH.
+All skills drive the **squirrel CLI**, which must be installed and in PATH.
 
 **Install:** [squirrelscan.com/download](https://squirrelscan.com/download)
 
@@ -30,71 +37,71 @@ These skills require the **squirrel CLI** to be installed and accessible in your
 squirrel --version
 ```
 
-## Installing Skills
+## Installing
 
-### Using Claude Code / Cowork
+### Claude Code (plugin, recommended)
 
-```bash
-/plugin install squirrelscan/skills
+```
+/plugin marketplace add squirrelscan/skills
+/plugin install squirrelscan@squirrelscan
 ```
 
-### Using OpenAI Codex
+Installs both skills and connects the hosted MCP server in one step.
 
-Reference the `agents/openai.yaml` config from your skills setup.
-
-### Using npx
+### Any agent via npx (Claude Code, Codex, Cursor, Gemini CLI, Amp, and more)
 
 ```bash
 npx skills add squirrelscan/skills
 ```
 
-This will install all squirrelscan skills for your AI coding assistant.
+Installs the skills for whichever agents you select. Skills follow the [Agent Skills](https://agentskills.io) standard, so the same `SKILL.md` works across tools.
 
-### Manual Installation
+### OpenAI Codex
 
-Clone this repository to your skills directory:
+Codex reads skills from `.agents/skills/` (project) or `~/.agents/skills/` (global). `npx skills add squirrelscan/skills` installs there, or clone and symlink the `skills/*` directories.
+
+### Cursor
+
+Cursor reads Agent Skills from `.cursor/skills/`, `.agents/skills/`, and their `~/` equivalents (it also picks up `~/.claude/skills/`). Use `npx skills add squirrelscan/skills`, or add the MCP server with one click:
+
+[Add squirrelscan MCP to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=squirrelscan&config=eyJ1cmwiOiJodHRwczovL21jcC5zcXVpcnJlbHNjYW4uY29tL21jcCJ9)
+
+### From the CLI
 
 ```bash
-git clone https://github.com/squirrelscan/skills.git ~/.skills/squirrelscan
+squirrel skills install
+squirrel skills update
 ```
 
-Refer to your AI tool's documentation for skills directory configuration.
+### Manual
 
-## Available Skills
-
-### audit-website
-
-Audit websites for SEO, technical, content, and security issues using squirrelscan CLI. Returns LLM-optimized reports with health scores, broken links, meta tag analysis, and actionable recommendations.
-
-**Use when:** Analyzing websites, debugging SEO issues, checking site health, validating meta tags, finding broken links.
-
-[View skill documentation →](audit-website/SKILL.md)
-
-## Example Usage
-
-Once installed, you can prompt your AI assistant to use squirrelscan skills:
-
-### Basic Site Audit
-```
-Audit this website using the audit-website skill and make changes to fix all errors and warnings
+```bash
+git clone https://github.com/squirrelscan/skills.git
 ```
 
-### Targeted Analysis
+Then copy or symlink `skills/squirrelscan` and `skills/audit-website` into your agent's skills directory.
+
+## MCP server
+
+The hosted MCP server lives at `https://mcp.squirrelscan.com/mcp` (streamable-http; OAuth or `Authorization: Bearer sq_...` API key). A local stdio server is available via `squirrel mcp`. Docs: [docs.squirrelscan.com/developers/mcp](https://docs.squirrelscan.com/developers/mcp)
+
+## Example prompts
+
+```
+Audit this website and fix all errors and warnings
+```
+
 ```
 Run an audit on example.com and show me the top 5 critical issues
 ```
 
-### Automated Fixes
 ```
-Audit my site and fix all broken links
-```
-
-### Post-Deployment Validation
-```
-Check squirrelscan.com for SEO issues after deployment
+Check my site for broken links and leaked secrets
 ```
 
-Your AI assistant will automatically use the squirrel CLI through the installed skills to perform audits and suggest or implement fixes.
+```
+Re-audit after the deploy and diff against the last report
+```
 
 ## Contributing
 
@@ -105,11 +112,11 @@ Contributions are welcome! To suggest new skills or improvements:
 3. Create a feature branch
 4. Submit a pull request
 
-All skills must follow the [Agent Skills Standard](https://agentskills.io/specification).
+All skills follow the [Agent Skills Standard](https://agentskills.io/specification).
 
 ## License
 
-MIT License — See [LICENSE](../LICENSE) file for details.
+MIT License — See [LICENSE](LICENSE) file for details.
 
 ---
 

@@ -1,20 +1,20 @@
 CLAUDE_SKILLS_DIR := $(HOME)/.claude/skills
-CODEX_SKILLS_DIR := $(HOME)/.codex/skills
-SKILL_DIRS := $(shell find . -maxdepth 2 -name 'SKILL.md' -exec dirname {} \;)
+AGENTS_SKILLS_DIR := $(HOME)/.agents/skills
+SKILL_DIRS := $(shell find ./skills -maxdepth 2 -name 'SKILL.md' -exec dirname {} \;)
 DIST := dist/clawdhub
 
 .PHONY: link unlink build clean
 
 link:
-	@mkdir -p $(CLAUDE_SKILLS_DIR) $(CODEX_SKILLS_DIR)
+	@mkdir -p $(CLAUDE_SKILLS_DIR) $(AGENTS_SKILLS_DIR)
 	@for skill in $(SKILL_DIRS); do \
 		name=$$(basename $$skill); \
-		for dir in $(CLAUDE_SKILLS_DIR) $(CODEX_SKILLS_DIR); do \
+		for dir in $(CLAUDE_SKILLS_DIR) $(AGENTS_SKILLS_DIR); do \
 			target=$$dir/$$name; \
 			if [ -L "$$target" ]; then \
 				rm "$$target"; \
 			fi; \
-			ln -s "$$(pwd)/$$name" "$$target"; \
+			ln -s "$$(pwd)/skills/$$name" "$$target"; \
 			echo "Linked: $$name -> $$target"; \
 		done; \
 	done
@@ -22,7 +22,7 @@ link:
 unlink:
 	@for skill in $(SKILL_DIRS); do \
 		name=$$(basename $$skill); \
-		for dir in $(CLAUDE_SKILLS_DIR) $(CODEX_SKILLS_DIR); do \
+		for dir in $(CLAUDE_SKILLS_DIR) $(AGENTS_SKILLS_DIR); do \
 			target=$$dir/$$name; \
 			if [ -L "$$target" ]; then \
 				rm "$$target"; \
