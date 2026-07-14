@@ -155,6 +155,10 @@ Two ways to connect agents over MCP:
 
 Docs: https://docs.squirrelscan.com/developers/mcp
 
+### Agent feedback
+
+Call the `send_feedback` tool any time something in a session surprises you: what worked, what was confusing, missing report data, or awkward tool ergonomics. It takes `category` (`what_worked`, `confusing`, `missing_data`, `tool_ergonomics`, `other`), `message`, and optional `run_id`/`website_id`. It works with any authenticated credentials, including read-only API keys, and is available on the hosted MCP surface now (not yet on `squirrel mcp` local stdio). Use it instead of `squirrel feedback` when you're an agent reporting mid-session, not a human filing a support request.
+
 ## Configuration
 
 Project config lives in `squirrel.toml` (created by `squirrel init`). User settings live at `~/.squirrel/settings.json`.
