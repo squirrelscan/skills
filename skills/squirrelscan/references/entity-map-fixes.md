@@ -62,7 +62,7 @@ The `WebPage` node's `@id` changes per page. The `WebSite` and `Organization` on
 | `entity-identity` | The same organization, person or website on many pages with no `@id` | Add one absolute `@id`, identical on every page |
 | `entity-split-identity` | One entity under two different `@id`s, usually two plugins | Pick one; make the other a `sameAs` or remove it |
 | `entity-conflicts` | The same entity with two logos, names or phone numbers | Converge on one value, then reference instead of repeating |
-| `entity-dangling` | A reference to an `@id` nothing declares | Declare the target in the `@graph` of every page that references it |
+| `entity-dangling` | A reference to an `@id` nothing declares | Correct the reference, or declare the genuine target consistently where evidence supports it |
 | `entity-id-format` | An `@id` that is not an absolute URL | Write the scheme and host out in full |
 | `entity-type-drift` | One `@id` with different `@type` sets on different pages | Emit the same type array everywhere |
 | `entity-authors` | A byline with no `Person`, or a `Person` with no identifiers | Declare the author with `@id`, `url` and `sameAs` |
