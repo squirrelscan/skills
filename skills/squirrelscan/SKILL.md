@@ -1,11 +1,11 @@
 ---
 name: squirrelscan
-description: squirrelscan audits websites for SEO, performance, security, accessibility, content, and structured data issues (260+ rules) and scores site health, via the squirrel CLI. Use when the user wants to check, audit, or improve a website's SEO, ranking, speed, or health, and for anything squirrelscan itself, installing or updating the CLI, login and API keys, running audits, publishing and sharing reports, cloud credits, MCP server setup, configuration, or troubleshooting. Also covers the entity map: the site-wide graph of the entities a site declares in its JSON-LD, and fixing structured data identity problems such as an organization declared separately on every page.
+description: "squirrelscan audits websites for SEO, performance, security, accessibility, content, and structured data issues (260+ rules) and scores site health, via the squirrel CLI. Use when the user wants to check, audit, or improve a website's SEO, ranking, speed, or health, and for anything squirrelscan itself, installing or updating the CLI, login and API keys, running audits, publishing and sharing reports, cloud credits, MCP server setup, configuration, or troubleshooting. Also covers the entity map: the site-wide graph of the entities a site declares in its JSON-LD, and fixing structured data identity problems such as an organization declared separately on every page."
 license: See LICENSE file in repository root
-compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
+compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it), or a connected SquirrelScan MCP server for stored entity-map inspection
 metadata:
   author: squirrelscan
-  version: "1.4"
+  version: "1.5"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -144,7 +144,7 @@ This catches what a per-page validator cannot. Sixty valid `Organization` blocks
 squirrel entities                              # summary of the latest audit
 squirrel entities --list                       # stored audits and their entity counts
 squirrel entities "https://example.com/#org"   # one entity, by @id, key or name
-squirrel entities --problem no-id              # the entities worth fixing
+squirrel entities --problem no-id              # identity candidates to inspect
 squirrel entities --problem split-identity     # one thing declared twice
 squirrel entities -f jsonld -o graph.json      # export
 squirrel entities --diff                       # what changed since the previous audit
@@ -155,6 +155,8 @@ Filters: `--type`, `--page`, `--problem` (repeatable or comma-separated), `--cra
 Problems: `no-id`, `conflict`, `dangling`, `single-page`, `split-identity`.
 
 **When a `schema/entity-*` finding appears, read `references/entity-map-fixes.md`.** It has the shape that works and the exact change for Yoast, Rank Math, WordLift, Next.js, Astro and tangly.
+
+Record the audit ID before comparing or investigating it further: `squirrel entities --crawl <id>` pins the stored snapshot. A `no-id` filter can include anonymous entities, so use the specific `schema/entity-*` finding and entity type to identify repeated Organization or Person identity defects; do not treat every anonymous node as actionable. Fix confirmed conflicts, dangling references, and split identities at their shared source without inventing facts or deleting valid entities. Use a stable absolute `@id` only for a confirmed shared-identity defect; do not merge an Organization and SoftwareApplication merely because names match, and determine whether they are distinct identities or one legitimate multi-type entity. Add `sameAs` only when verified evidence shows it represents the same entity. Validate generated markup before deployment; do not promise a ranking gain.
 
 ### Proving a fix landed
 
@@ -203,10 +205,10 @@ Five tools expose the entity map over MCP, on both servers with the same names a
 
 The loop these are built for, and the reason to prefer them over re-deriving anything by hand:
 
-1. `list_entities` with `problem: "no-id"` finds entities declared on several pages with nothing tying them together.
-2. Fix them (see `references/entity-map-fixes.md`).
-3. Re-audit: `run_audit`, or `squirrel audit`.
-4. `compare_entities` and check `gainedId` for the keys you fixed, each with `coverage: "proven"`.
+1. `get_entity_findings` identifies the entity-rule verdicts. Pin its `run_id`, inspect each exact key with `get_entity`, then use `list_entities` for related nodes and `get_entity_graph` for context.
+2. Published-map page filtering searches only five saved page samples per entity, so a zero result cannot prove the entity was absent. `get_entity` caps references at 50 in each direction, and an isolated node in a filtered graph may connect in the full graph.
+3. Fix the confirmed source issue (see `references/entity-map-fixes.md`) and validate generated JSON-LD.
+4. After an authorized deployment, re-audit within the approved coverage and credit budget. Call `compare_entities` with explicit before and after run IDs; both need maps. A missing-map error does not prove there was no markup: the run may predate map storage. Check `gainedId` and coverage for an identity repair; its absence can mean the name or type changed in the same edit.
 
 Read the fields that say what you are not being told, rather than inferring from an empty result:
 
