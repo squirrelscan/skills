@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or a connected SquirrelScan MCP server for stored-audit entity-map work
 metadata:
   author: squirrelscan
-  version: "2.1"
+  version: "2.2"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

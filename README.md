@@ -17,6 +17,10 @@
 - LLM-native output for AI-assisted debugging and optimization
 - Optimized for CI/CD pipelines and automation
 
+## Skill source and mirror
+
+The canonical skills live in [`squirrelscan/squirrelscan`](https://github.com/squirrelscan/squirrelscan/tree/main/skills). Make skill changes there, bump each changed skill's metadata version, and mirror the complete skill directories here after the source change is merged. This repository preserves the legacy skill and plugin distribution; its skill files should match the canonical source exactly.
+
 ## What's in this repo
 
 | Skill | What it does |
@@ -43,23 +47,23 @@ Pick the path for your tool:
 
 | Tool | Install |
 |------|---------|
-| Any agent (Agent Skills standard) | `npx skills add squirrelscan/skills` |
+| Any agent (Agent Skills standard) | `npx skills add squirrelscan/squirrelscan` |
 | Claude Code | `/plugin marketplace add squirrelscan/skills` then `/plugin install squirrelscan@squirrelscan` |
-| Cursor | `npx skills add squirrelscan/skills`, or the plugin / MCP deeplink below |
-| OpenAI Codex | `npx skills add squirrelscan/skills` (lands in `.agents/skills/`) |
+| Cursor | `npx skills add squirrelscan/squirrelscan`, or the plugin / MCP deeplink below |
+| OpenAI Codex | `npx skills add squirrelscan/squirrelscan` (lands in `.agents/skills/`) |
 | squirrel CLI | `squirrel skills install` |
 | Manual | clone + symlink `skills/*` into your agent's skills dir |
 
 ### Agent Skills via npx (works everywhere)
 
 ```bash
-npx skills add squirrelscan/skills
+npx skills add squirrelscan/squirrelscan
 ```
 
 Installs both skills (`squirrelscan` and `audit-website`) for whichever agents you select: Claude Code, Codex, Cursor, Gemini CLI, Amp, and more. Skills follow the [Agent Skills](https://agentskills.io) standard, so the same `SKILL.md` works across tools. To install just one skill:
 
 ```bash
-npx skills add squirrelscan/skills --skill audit-website
+npx skills add squirrelscan/squirrelscan --skill audit-website
 ```
 
 ### Claude Code plugin (recommended for Claude Code)
@@ -75,13 +79,13 @@ One step installs both skills and connects the hosted squirrelscan MCP server. U
 
 Three options, lightest to fullest:
 
-1. **Skills**: `npx skills add squirrelscan/skills`. Cursor reads Agent Skills from `.cursor/skills/`, `.agents/skills/`, and their `~/` equivalents (it also picks up `~/.claude/skills/`).
+1. **Skills**: `npx skills add squirrelscan/squirrelscan`. Cursor reads Agent Skills from `.cursor/skills/`, `.agents/skills/`, and their `~/` equivalents (it also picks up `~/.claude/skills/`).
 2. **MCP only, one click**: [Add squirrelscan MCP to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=squirrelscan&config=eyJ1cmwiOiJodHRwczovL21jcC5zcXVpcnJlbHNjYW4uY29tL21jcCJ9)
 3. **Plugin**: this repo is also a Cursor plugin (`.cursor-plugin/`) bundling both skills and the MCP server, for install via the Cursor Marketplace.
 
 ### OpenAI Codex
 
-Codex reads skills from `.agents/skills/` (project) or `~/.agents/skills/` (global). `npx skills add squirrelscan/skills` installs there, or clone and symlink the `skills/*` directories.
+Codex reads skills from `.agents/skills/` (project) or `~/.agents/skills/` (global). `npx skills add squirrelscan/squirrelscan` installs there, or clone and symlink the `skills/*` directories.
 
 ### From the squirrel CLI
 

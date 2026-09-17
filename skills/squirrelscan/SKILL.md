@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it), or a connected SquirrelScan MCP server for stored entity-map inspection
 metadata:
   author: squirrelscan
-  version: "1.4"
+  version: "1.5"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
