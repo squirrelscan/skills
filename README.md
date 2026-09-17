@@ -6,11 +6,11 @@
 
 ## What is squirrelscan?
 
-[squirrelscan](https://squirrelscan.com) is a website audit tool built for AI agents. It crawls a site, analyzes every page against 260+ rules across SEO, performance, security, accessibility, content, and more, and returns a health score plus concrete, fixable issues.
+[squirrelscan](https://squirrelscan.com) is a website audit tool built for AI agents. It crawls a site, analyzes every page against 295 rules across SEO, performance, security, accessibility, content, and more, and returns a health score plus concrete, fixable issues.
 
 **Features:**
 
-- 260+ audit rules across 21 categories
+- 295 audit rules across 21 categories
 - Leaked secrets detection (96 patterns: OpenAI, Anthropic, AWS, Stripe, and more)
 - Multiple output formats: console, text, json, markdown, llm, html
 - Diff reports for regressions between audits
