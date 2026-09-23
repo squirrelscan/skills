@@ -99,7 +99,7 @@ squirrel skills install
 squirrel skills update
 ```
 
-`squirrel skills update` refreshes both skills, global and project installs alike. From v0.0.99, the CLI's own auto-update also refreshes globally installed squirrelscan skills whenever it updates itself.
+`squirrel skills update` refreshes both skills, global and project installs alike. From v0.0.99, the CLI's own auto-update also refreshes globally installed squirrelscan skills, once for each new CLI version it installs. Project installs stay with `squirrel skills update`.
 
 ### Manual
 
@@ -115,7 +115,7 @@ Then copy or symlink `skills/squirrelscan` and `skills/audit-website` into your 
 - **Plugins** carry no `version` field, on purpose, and CI rejects one. Claude Code treats a plugin's version string as its update key, so a version nobody remembers to bump freezes every install. Without one it uses the commit, so each push to `main` is an update ([Claude Code docs](https://code.claude.com/docs/en/plugins-reference#version-management)). Third-party marketplaces don't auto-update by default: run `/plugin marketplace update squirrelscan` then `/plugin update squirrelscan@squirrelscan`, or turn on auto-update for the marketplace in `/plugin`.
 - **npx installs** update with `npx skills update`, `squirrel skills update`, or the squirrel CLI's auto-update.
 
-`bun run scripts/check-skills.ts` (CI runs it on every push and pull request) checks that every `SKILL.md` parses the way installers read it, and that the plugin manifests agree: same name, same description, no version, one MCP endpoint.
+`bun run scripts/check-skills.ts` (CI runs it on pull requests and on pushes to `main`) checks that every `SKILL.md` parses the way installers read it, and that the plugin manifests agree: same name, same description, no version, one MCP endpoint.
 
 ## Moving from squirrelscan/squirrelscan
 
@@ -128,7 +128,7 @@ The skills and plugins used to ship from the [squirrelscan/squirrelscan](https:/
   /plugin marketplace add squirrelscan/skills
   /plugin install squirrelscan@squirrelscan
   ```
-- **npx skills**: run `squirrel skills update` (or let the CLI auto-update) and installs recorded from `squirrelscan/squirrelscan` are re-added from here. Without the CLI: `npx skills add squirrelscan/skills -g`.
+- **npx skills**: run `squirrel skills update` and installs recorded from `squirrelscan/squirrelscan` are re-added from here, global and project alike. From v0.0.99 the CLI's auto-update does the same for global installs. Without the CLI: `npx skills add squirrelscan/skills -g`.
 - **Cursor plugin**: install it from this repo as above. Cursor's marketplace manifests can't point at another repository, so a copy of the old one does not follow the move.
 
 ## MCP server
