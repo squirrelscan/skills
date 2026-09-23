@@ -36,6 +36,8 @@ Each plugin bundles both skills and the hosted squirrelscan MCP server:
 
 Codex reads each skill's `agents/openai.yaml` for its display metadata.
 
+`manifest.json` lists every skill's version and every file in it with its sha256 and size. The squirrel CLI installs and updates the skills from it: it downloads only the files whose hash changed and verifies each one before writing anything.
+
 ## Prerequisites
 
 All skills drive the **squirrel CLI**, which must be installed and in PATH.
@@ -161,6 +163,14 @@ Skill and plugin changes land here, and only here. Contributions are welcome! To
 2. Fork this repository
 3. Create a feature branch
 4. Submit a pull request
+
+After changing anything under `skills/`, regenerate the manifest and commit it with the change (CI fails when it is stale):
+
+```bash
+bun run scripts/manifest.ts
+```
+
+Bump the skill's `metadata.version` in its `SKILL.md` too, so installs can tell the versions apart.
 
 All skills follow the [Agent Skills Standard](https://agentskills.io/specification).
 

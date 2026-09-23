@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "repository": "squirrelscan/skills",
+  "skills": [
+    {
+      "name": "audit-website",
+      "version": "2.1",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "f039613f4429e3ae8378b7dc7e9979ec238c8324af5bb21d2abc131ff110e341",
+          "size": 1152
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "c50704eb4d4c06b21e7d9ba3eb7debadc042ccd09a628487c3e5785d1ea3c4a7",
+          "size": 4991
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "6f6729b53c499a1b74f46c4a138d2f738f73ea5baed1111c67fec0258c352777",
+          "size": 229
+        },
+        {
+          "path": "assets/icon-large.png",
+          "sha256": "5a5ccd84f57b8a030caf51cc7e57b1b412996ad7db837303a2473f6e4313073c",
+          "size": 2763
+        },
+        {
+          "path": "assets/icon-small.svg",
+          "sha256": "ea7f6275693d96577383d550f97eda5e5fdd70da51b7f770dabf84bb72b7759d",
+          "size": 1721
+        },
+        {
+          "path": "references/OUTPUT-FORMAT.md",
+          "sha256": "4e508b7a055d04ab588207eb9c69567f88a5002f3e402a2e08c3c19b41a2dc5a",
+          "size": 7706
+        }
+      ]
+    },
+    {
+      "name": "squirrelscan",
+      "version": "1.4.1",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "8d5bfdfe1ca40ae4e9656d72469fc8e1f6ad8783d676b3a6f7464d74aac4934e",
+          "size": 15434
+        },
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "612093ecaadae16633b4c11aefbf6c5dfd373e98bc59a5ce0417ee784a8a18e2",
+          "size": 230
+        },
+        {
+          "path": "assets/icon-large.png",
+          "sha256": "5a5ccd84f57b8a030caf51cc7e57b1b412996ad7db837303a2473f6e4313073c",
+          "size": 2763
+        },
+        {
+          "path": "assets/icon-small.svg",
+          "sha256": "ea7f6275693d96577383d550f97eda5e5fdd70da51b7f770dabf84bb72b7759d",
+          "size": 1721
+        },
+        {
+          "path": "references/entity-map-fixes.md",
+          "sha256": "90f6b82fc00a45fcf336e78330375b2028dda1e86a00169e692c7e3dfa10578b",
+          "size": 8786
+        }
+      ]
+    }
+  ]
+}
