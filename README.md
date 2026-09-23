@@ -1,6 +1,6 @@
 ![squirrelscan](https://mintcdn.com/squirrelscan/CCMTmLbI4xfnpJbQ/logo/light.svg?fit=max&auto=format&n=CCMTmLbI4xfnpJbQ&q=85&s=1303484a4ea3c154c29dd5f6245e55cd)
 
-# squirrelscan Skills & Plugins
+# squirrelscan skills and plugins
 
 **Website audits for AI agents: skills, plugins, and MCP in one repo**
 
@@ -19,12 +19,22 @@
 
 ## What's in this repo
 
+This repo is the one home of the squirrelscan agent skills and agent plugins. Every install path below reads it; nothing else carries a copy.
+
 | Skill | What it does |
 |-------|--------------|
-| [`squirrelscan`](skills/squirrelscan/SKILL.md) | Operate the CLI: install, login, run audits, publish reports, credits, API keys, MCP setup, config, troubleshooting |
+| [`squirrelscan`](skills/squirrelscan/SKILL.md) | Operate the CLI: install, login, run audits, publish reports, credits, API keys, the entity map, MCP setup, config, troubleshooting |
 | [`audit-website`](skills/audit-website/SKILL.md) | The fix loop: audit a site, map findings to code, fix in batches, re-audit until it scores well |
 
-The repo is also a **Claude Code plugin + marketplace** and a **Cursor plugin**, bundling both skills and the hosted squirrelscan MCP server.
+Each plugin bundles both skills and the hosted squirrelscan MCP server:
+
+| Plugin | Files |
+|--------|-------|
+| Claude Code marketplace + plugin | `.claude-plugin/marketplace.json`, `.claude-plugin/plugin.json`, `.mcp.json` |
+| Cursor plugin | `.cursor-plugin/plugin.json`, `.cursor-plugin/mcp.json` |
+| [Agent Plugins](https://agent-plugins.org) 1.0.0 (open standard, loads in Cursor) | `plugin.json`, `mcp.json` |
+
+Codex reads each skill's `agents/openai.yaml` for its display metadata.
 
 ## Prerequisites
 
@@ -41,14 +51,15 @@ squirrel --version
 
 Pick the path for your tool:
 
-| Tool | Install |
-|------|---------|
-| Any agent (Agent Skills standard) | `npx skills add squirrelscan/skills` |
-| Claude Code | `/plugin marketplace add squirrelscan/skills` then `/plugin install squirrelscan@squirrelscan` |
-| Cursor | `npx skills add squirrelscan/skills`, or the plugin / MCP deeplink below |
-| OpenAI Codex | `npx skills add squirrelscan/skills` (lands in `.agents/skills/`) |
-| squirrel CLI | `squirrel skills install` |
-| Manual | clone + symlink `skills/*` into your agent's skills dir |
+| Tool | Skills only | Skills + MCP server |
+|------|-------------|---------------------|
+| Claude Code | `npx skills add squirrelscan/skills` | `/plugin marketplace add squirrelscan/skills` then `/plugin install squirrelscan@squirrelscan` |
+| Cursor | `npx skills add squirrelscan/skills` | the Cursor plugin in this repo, or the [one-click MCP link](cursor://anysphere.cursor-deeplink/mcp/install?name=squirrelscan&config=eyJ1cmwiOiJodHRwczovL21jcC5zcXVpcnJlbHNjYW4uY29tL21jcCJ9) plus skills |
+| OpenAI Codex | `npx skills add squirrelscan/skills` (lands in `.agents/skills/`) | skills plus the MCP server in `~/.codex/config.toml` ([docs](https://docs.squirrelscan.com/developers/agents/codex)) |
+| Gemini CLI, GitHub Copilot, Amp and other Agent Skills tools | `npx skills add squirrelscan/skills` | skills plus the MCP server ([docs](https://docs.squirrelscan.com/developers/agents)) |
+| Any Agent Plugins client | | this repo: `plugin.json`, `mcp.json` and `skills/` |
+| squirrel CLI | `squirrel skills install` | |
+| Manual | clone + symlink `skills/*` into your agent's skills dir | |
 
 ### Agent Skills via npx (works everywhere)
 
@@ -69,15 +80,13 @@ npx skills add squirrelscan/skills --skill audit-website
 /plugin install squirrelscan@squirrelscan
 ```
 
-One step installs both skills and connects the hosted squirrelscan MCP server. Updates ship automatically with new commits to this repo.
+One step installs both skills and connects the hosted squirrelscan MCP server.
 
 ### Cursor
 
-Three options, lightest to fullest:
-
 1. **Skills**: `npx skills add squirrelscan/skills`. Cursor reads Agent Skills from `.cursor/skills/`, `.agents/skills/`, and their `~/` equivalents (it also picks up `~/.claude/skills/`).
 2. **MCP only, one click**: [Add squirrelscan MCP to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=squirrelscan&config=eyJ1cmwiOiJodHRwczovL21jcC5zcXVpcnJlbHNjYW4uY29tL21jcCJ9)
-3. **Plugin**: this repo is also a Cursor plugin (`.cursor-plugin/`) bundling both skills and the MCP server, for install via the Cursor Marketplace.
+3. **Plugin** (skills + MCP): this repo is a Cursor plugin (`.cursor-plugin/`). Teams can import it as a team marketplace (Dashboard, **Plugins & MCPs**, **Add Marketplace**, **Import from Repo**), or clone it into `~/.cursor/plugins/local/squirrelscan` and reload the window ([Cursor docs](https://cursor.com/docs/plugins#test-plugins-locally)).
 
 ### OpenAI Codex
 
@@ -90,6 +99,8 @@ squirrel skills install
 squirrel skills update
 ```
 
+`squirrel skills update` refreshes both skills, global and project installs alike. From v0.0.99, the CLI's own auto-update also refreshes globally installed squirrelscan skills whenever it updates itself.
+
 ### Manual
 
 ```bash
@@ -97,6 +108,22 @@ git clone https://github.com/squirrelscan/skills.git
 ```
 
 Then copy or symlink `skills/squirrelscan` and `skills/audit-website` into your agent's skills directory (`make link` does this for Claude Code and `.agents/skills` consumers).
+
+## Updates and versions
+
+- **Skills** carry their own version in `SKILL.md` (`metadata.version`). Bump it with every content change.
+- **Plugins** carry no `version` field, on purpose, and CI rejects one. Claude Code treats a plugin's version string as its update key, so a version nobody remembers to bump freezes every install. Without one it uses the commit, so each push to `main` is an update ([Claude Code docs](https://code.claude.com/docs/en/plugins-reference#version-management)). Third-party marketplaces don't auto-update by default: run `/plugin marketplace update squirrelscan` then `/plugin update squirrelscan@squirrelscan`, or turn on auto-update for the marketplace in `/plugin`.
+- **npx installs** update with `npx skills update`, `squirrel skills update`, or the squirrel CLI's auto-update.
+
+`bun run scripts/check-skills.ts` (CI runs it on every push and pull request) checks that every `SKILL.md` parses the way installers read it, and that the plugin manifests agree: same name, same description, no version, one MCP endpoint.
+
+## Moving from squirrelscan/squirrelscan
+
+The skills and plugins used to ship from the [squirrelscan/squirrelscan](https://github.com/squirrelscan/squirrelscan) repo too. They now ship only from here.
+
+- **Claude Code**: the old `squirrelscan/squirrelscan` marketplace now points its plugin at this repo, so it keeps working. Pick up the move with `/plugin marketplace update squirrelscan` then `/plugin update squirrelscan@squirrelscan`. To switch marketplaces instead, run `/plugin marketplace add squirrelscan/skills`: both are named `squirrelscan`, so the new one replaces the old one. Then `/plugin install squirrelscan@squirrelscan`.
+- **npx skills**: run `squirrel skills update` (or let the CLI auto-update) and installs recorded from `squirrelscan/squirrelscan` are re-added from here. Without the CLI: `npx skills add squirrelscan/skills -g`.
+- **Cursor plugin**: install it from this repo as above. Cursor's marketplace manifests can't point at another repository, so a copy of the old one does not follow the move.
 
 ## MCP server
 
@@ -122,7 +149,7 @@ Re-audit after the deploy and diff against the last report
 
 ## Contributing
 
-Contributions are welcome! To suggest new skills or improvements:
+Skill and plugin changes land here, and only here. Contributions are welcome! To suggest new skills or improvements:
 
 1. Open an issue to discuss your idea
 2. Fork this repository
