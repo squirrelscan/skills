@@ -1,9 +1,13 @@
 // Fail when any skills/*/SKILL.md would be skipped by a skill installer:
 // frontmatter must parse as YAML and carry string `name` (matching its
 // directory) and `description` fields. Then check the agent plugin manifests
-// this repo ships (Claude Code, Cursor, Agent Plugins): see checkPlugins().
+// this repo ships (Claude Code, Cursor, Agent Plugins): see checkPlugins(). Then
+// check manifest.json, which the squirrel CLI installs the skills from, still
+// describes every file in skills/.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
+
+import { manifestProblems } from "./manifest";
 
 const repo = join(import.meta.dir, "..");
 const root = join(repo, "skills");
@@ -110,6 +114,14 @@ if (pluginProblems.length > 0) {
   for (const p of pluginProblems) console.error(p);
 } else {
   console.log("plugin manifests: ok");
+}
+
+const manifestIssues = await manifestProblems();
+if (manifestIssues.length > 0) {
+  failed++;
+  for (const p of manifestIssues) console.error(p);
+} else {
+  console.log("manifest.json: ok");
 }
 
 if (failed > 0) process.exit(1);

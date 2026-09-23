@@ -3,7 +3,7 @@ AGENTS_SKILLS_DIR := $(HOME)/.agents/skills
 SKILL_DIRS := $(shell find ./skills -maxdepth 2 -name 'SKILL.md' -exec dirname {} \;)
 DIST := dist/clawdhub
 
-.PHONY: link unlink build clean
+.PHONY: link unlink build clean manifest
 
 link:
 	@mkdir -p $(CLAUDE_SKILLS_DIR) $(AGENTS_SKILLS_DIR)
@@ -48,3 +48,7 @@ build:
 
 clean:
 	rm -rf dist
+
+# Regenerate manifest.json (skill versions + file hashes) after changing skills/.
+manifest:
+	@bun run scripts/manifest.ts
