@@ -133,7 +133,7 @@ All skills follow the [Agent Skills Standard](https://agentskills.io/specificati
 
 ## License
 
-MIT License — See [LICENSE](LICENSE) file for details.
+MIT License. See [LICENSE](LICENSE) file for details.
 
 ---
 
