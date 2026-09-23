@@ -1,17 +1,17 @@
 ---
 name: squirrelscan
-description: squirrelscan audits websites for SEO, performance, security, accessibility, content, and structured data issues (260+ rules) and scores site health, via the squirrel CLI. Use when the user wants to check, audit, or improve a website's SEO, ranking, speed, or health, and for anything squirrelscan itself, installing or updating the CLI, login and API keys, running audits, publishing and sharing reports, cloud credits, MCP server setup, configuration, or troubleshooting. Also covers the entity map: the site-wide graph of the entities a site declares in its JSON-LD, and fixing structured data identity problems such as an organization declared separately on every page.
+description: "squirrelscan audits websites for SEO, performance, security, accessibility, content, and structured data issues (260+ rules) and scores site health, via the squirrel CLI. Use when the user wants to check, audit, or improve a website's SEO, ranking, speed, or health, and for anything squirrelscan itself, installing or updating the CLI, login and API keys, running audits, publishing and sharing reports, cloud credits, MCP server setup, configuration, or troubleshooting. Also covers the entity map: the site-wide graph of the entities a site declares in its JSON-LD, and fixing structured data identity problems such as an organization declared separately on every page."
 license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.4"
+  version: "1.4.1"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
 # squirrelscan CLI
 
-squirrelscan is a website audit tool built for AI agents. It answers "what's wrong with this website and how do I fix it": it crawls a site like a search engine, analyzes every page against 260+ rules in 21 categories (SEO, performance, security, accessibility, content, structured data, agent readiness, and more), and returns a health score plus concrete, fixable issues. Use it whenever a user wants their site checked, ranked better, faster, or healthier, before/after a deploy, or in CI.
+squirrelscan is a website audit tool built for AI agents. It answers "what's wrong with this website and how do I fix it": it crawls a site like a search engine, analyzes every page against 260+ rules in 21 categories (SEO, performance, security, accessibility, content, structured data, agent experience, and more), and returns a health score plus concrete, fixable issues. Use it whenever a user wants their site checked, ranked better, faster, or healthier, before/after a deploy, or in CI.
 
 It ships as a single CLI binary, `squirrel`, for macOS, Windows, and Linux. This skill covers operating it: installing, authenticating, running audits, publishing reports, cloud features, and MCP integration. For the full fix-the-website workflow (audit, map issues to code, fix, re-audit), use the companion `audit-website` skill.
 
@@ -210,10 +210,10 @@ The loop these are built for, and the reason to prefer them over re-deriving any
 
 Read the fields that say what you are not being told, rather than inferring from an empty result:
 
-- **`truncation`** — whether a list was capped. A capped list and a complete one look identical otherwise.
-- **`warnings`** — whether a newer audit was passed over for storing no entities, or a project store could not be read. This is how you avoid describing yesterday's healthy graph as today's.
-- **`analyzed`** on `get_entity_findings` — false means the rules never ran, so empty findings are an absence of evidence, not a clean result.
-- **`generatedIds`** on a `jsonld` graph — the `@id`s the export invented for entities the site left anonymous. They are not on the site.
+- **`truncation`**: whether a list was capped. A capped list and a complete one look identical otherwise.
+- **`warnings`**: whether a newer audit was passed over for storing no entities, or a project store could not be read. This is how you avoid describing yesterday's healthy graph as today's.
+- **`analyzed`** on `get_entity_findings`: false means the rules never ran, so empty findings are an absence of evidence, not a clean result.
+- **`generatedIds`** on a `jsonld` graph: the `@id`s the export invented for entities the site left anonymous. They are not on the site.
 
 Docs: https://docs.squirrelscan.com/developers/mcp
 
@@ -221,13 +221,13 @@ Docs: https://docs.squirrelscan.com/developers/mcp
 
 Call the `send_feedback` tool any time something in a session surprises you. It takes `category`, `message`, and optional `run_id`/`website_id`. Pick the category that fits:
 
-- `bug_report` — a defect in squirrelscan itself: a wrong or missing rule result, a crash, a broken tool. Include the site, rule id, and what you expected.
-- `feature_request` — something squirrelscan should do but doesn't.
-- `what_worked` — something worked well and you want the team to know.
-- `confusing` — a response or behavior was unclear.
-- `missing_data` — a report or tool response lacked something you needed.
-- `tool_ergonomics` — awkward tool shape, arguments, or naming.
-- `other` — anything else.
+- `bug_report`: a defect in squirrelscan itself, such as a wrong or missing rule result, a crash, or a broken tool. Include the site, rule id, and what you expected.
+- `feature_request`: something squirrelscan should do but doesn't.
+- `what_worked`: something worked well and you want the team to know.
+- `confusing`: a response or behavior was unclear.
+- `missing_data`: a report or tool response lacked something you needed.
+- `tool_ergonomics`: awkward tool shape, arguments, or naming.
+- `other`: anything else.
 
 Feedback lands directly in the team's review queue with your org attached. It works with any authenticated credentials, including read-only API keys, and is available on the hosted MCP surface now (not yet on `squirrel mcp` local stdio). Use it instead of `squirrel feedback` when you're an agent reporting mid-session; humans can use `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
 
@@ -278,4 +278,4 @@ squirrel self disk --prune --keep 3 --project my-project --yes
 - **Session expired / 401**: run `squirrel auth login` again, or check `SQUIRRELSCAN_API_KEY`.
 - **Slow or stuck crawl**: add `--verbose` to see progress; large sites can take minutes.
 - **Invalid URL**: include the protocol: `https://example.com`, not `example.com`.
-- **Anything else**: run `squirrel self doctor`, then report it — agents via the `send_feedback` MCP tool (`bug_report` category), humans via `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
+- **Anything else**: run `squirrel self doctor`, then report it: agents via the `send_feedback` MCP tool (`bug_report` category), humans via `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
