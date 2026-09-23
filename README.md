@@ -121,7 +121,13 @@ Then copy or symlink `skills/squirrelscan` and `skills/audit-website` into your 
 
 The skills and plugins used to ship from the [squirrelscan/squirrelscan](https://github.com/squirrelscan/squirrelscan) repo too. They now ship only from here.
 
-- **Claude Code**: the old `squirrelscan/squirrelscan` marketplace now points its plugin at this repo, so it keeps working. Pick up the move with `/plugin marketplace update squirrelscan` then `/plugin update squirrelscan@squirrelscan`. To switch marketplaces instead, run `/plugin marketplace add squirrelscan/skills`: both are named `squirrelscan`, so the new one replaces the old one. Then `/plugin install squirrelscan@squirrelscan`.
+- **Claude Code**: the old `squirrelscan/squirrelscan` marketplace now points its plugin at this repo, so it keeps working. Pick up the move with `/plugin marketplace update squirrelscan` then `/plugin update squirrelscan@squirrelscan`. To switch marketplaces instead, remove the old one first: both are named `squirrelscan`, and Claude Code won't add a second marketplace under a name that is already taken. Removing it also uninstalls the plugin, so reinstall it from here:
+
+  ```
+  /plugin marketplace remove squirrelscan
+  /plugin marketplace add squirrelscan/skills
+  /plugin install squirrelscan@squirrelscan
+  ```
 - **npx skills**: run `squirrel skills update` (or let the CLI auto-update) and installs recorded from `squirrelscan/squirrelscan` are re-added from here. Without the CLI: `npx skills add squirrelscan/skills -g`.
 - **Cursor plugin**: install it from this repo as above. Cursor's marketplace manifests can't point at another repository, so a copy of the old one does not follow the move.
 
