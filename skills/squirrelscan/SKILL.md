@@ -1,11 +1,11 @@
 ---
 name: squirrelscan
-description: squirrelscan audits websites for SEO, performance, security, accessibility, content, and structured data issues (260+ rules) and scores site health, via the squirrel CLI. Use when the user wants to check, audit, or improve a website's SEO, ranking, speed, or health, and for anything squirrelscan itself, installing or updating the CLI, login and API keys, running audits, publishing and sharing reports, cloud credits, MCP server setup, configuration, or troubleshooting. Also covers the entity map: the site-wide graph of the entities a site declares in its JSON-LD, and fixing structured data identity problems such as an organization declared separately on every page.
+description: "squirrelscan audits websites for SEO, performance, security, accessibility, content, and structured data issues (260+ rules) and scores site health, via the squirrel CLI. Use when the user wants to check, audit, or improve a website's SEO, ranking, speed, or health, and for anything squirrelscan itself, installing or updating the CLI, login and API keys, running audits, publishing and sharing reports, cloud credits, MCP server setup, configuration, or troubleshooting. Also covers the entity map: the site-wide graph of the entities a site declares in its JSON-LD, and fixing structured data identity problems such as an organization declared separately on every page."
 license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.4"
+  version: "1.4.1"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
