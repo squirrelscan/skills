@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.4.1"
+  version: "1.5"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -55,7 +55,7 @@ If `squirrel` is not found, ensure `~/.local/bin` is in PATH, or reinstall from 
 | `squirrel keys` | Mint, list, revoke org API keys |
 | `squirrel credits` | Cloud credit balance + feature pricing |
 | `squirrel mcp` | Run the local MCP server (stdio) |
-| `squirrel skills` | Install or update agent skills |
+| `squirrel skills` | Check, install, update or remove these agent skills |
 | `squirrel self` | install / update / doctor / disk / completion / version / settings / uninstall |
 | `squirrel feedback` | Send feedback to the squirrelscan team |
 
@@ -257,6 +257,19 @@ squirrel self completion   # shell completions
 squirrel skills update     # update installed agent skills
 squirrel self disk         # per-project and total ~/.squirrel disk use
 ```
+
+### Keeping these skills current
+
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.5: the `metadata.version` at the top of this file.
+
+```bash
+squirrel skills status          # installed version, where, and the latest published
+squirrel skills status --json   # the same, as JSON
+squirrel skills update --check  # exit 1 when an update is available
+squirrel skills update          # update what is installed; edited files are kept
+```
+
+Suggest `squirrel skills update` when `squirrel skills status` shows a newer version than this skill's own (an `↑` in the latest column), or when the user asks about updating squirrelscan or its skills. Don't run it unprompted in the middle of other work, and only add `--force` when the user wants their own edits to a skill file replaced (their copy is backed up first). With auto-update on, the default, the skills update along with the CLI and there is usually nothing to do. Skills installed earlier with `npx skills` are taken over by `squirrel skills install`. These commands need squirrel 0.0.99 or later; on an older version run `squirrel self update` first.
 
 ### Reclaiming disk space
 

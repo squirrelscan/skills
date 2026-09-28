@@ -97,11 +97,12 @@ Codex reads skills from `.agents/skills/` (project) or `~/.agents/skills/` (glob
 ### From the squirrel CLI
 
 ```bash
+squirrel skills               # what is installed where, against the latest version
 squirrel skills install
 squirrel skills update
 ```
 
-`squirrel skills update` refreshes both skills, global and project installs alike. From v0.0.99, the CLI's own auto-update also refreshes globally installed squirrelscan skills, once for each new CLI version it installs. Project installs stay with `squirrel skills update`.
+From v0.0.99 the CLI installs the skills itself, from `manifest.json`, into `~/.claude/skills` and `~/.agents/skills` (or a repo's own with `--project`), takes over installs made with `npx skills`, and keeps them current with its own auto-update. See [docs.squirrelscan.com/cli/skills](https://docs.squirrelscan.com/cli/skills).
 
 ### Manual
 
@@ -130,7 +131,7 @@ The skills and plugins used to ship from the [squirrelscan/squirrelscan](https:/
   /plugin marketplace add squirrelscan/skills
   /plugin install squirrelscan@squirrelscan
   ```
-- **npx skills**: run `squirrel skills update` and installs recorded from `squirrelscan/squirrelscan` are re-added from here, global and project alike. From v0.0.99 the CLI's auto-update does the same for global installs. Without the CLI: `npx skills add squirrelscan/skills -g`.
+- **npx skills**: from squirrel v0.0.99, `squirrel skills install` (or `squirrel skills update`) takes over installs made with `npx skills`, whichever repo they came from, and removes them from its lock file. Without the CLI: `npx skills add squirrelscan/skills -g`.
 - **Cursor plugin**: install it from this repo as above. Cursor's marketplace manifests can't point at another repository, so a copy of the old one does not follow the move.
 
 ## MCP server
