@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.5"
+  version: "1.6"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -219,7 +219,7 @@ Docs: https://docs.squirrelscan.com/developers/mcp
 
 ### Agent feedback
 
-Call the `send_feedback` tool any time something in a session surprises you. It takes `category`, `message`, and optional `run_id`/`website_id`. Pick the category that fits:
+When squirrelscan surprises you mid-task (a false positive, a missing flag, a confusing report, or something that worked well), tell the team. Send one note per distinct finding, with the rule id, the URL and what you expected. Never paste secrets or credentials found during an audit into feedback. Pick the category that fits:
 
 - `bug_report`: a defect in squirrelscan itself, such as a wrong or missing rule result, a crash, or a broken tool. Include the site, rule id, and what you expected.
 - `feature_request`: something squirrelscan should do but doesn't.
@@ -229,7 +229,21 @@ Call the `send_feedback` tool any time something in a session surprises you. It 
 - `tool_ergonomics`: awkward tool shape, arguments, or naming.
 - `other`: anything else.
 
-Feedback lands directly in the team's review queue with your org attached. It works with any authenticated credentials, including read-only API keys, and is available on the hosted MCP surface now (not yet on `squirrel mcp` local stdio). Use it instead of `squirrel feedback` when you're an agent reporting mid-session; humans can use `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
+**Connected over MCP?** Call the `send_feedback` tool: `category`, `message`, and optional `run_id`/`website_id`. It is on the hosted MCP server, and on local `squirrel mcp` from squirrel 0.0.99. On the hosted server it works with any credentials, including read-only API keys, and attaches your org.
+
+**From the terminal** (squirrel 0.0.99+), `squirrel feedback` never prompts when the text is on the command line or piped:
+
+```bash
+squirrel feedback --category bug_report \
+  -m "<rule-id> flags <what> on <url>; expected <what>" \
+  --run-id <audit id, if you have one> --json
+```
+
+- `--json` prints one line: `{"ok":true,...}`, or `{"ok":false,"code":...,"error":...,"fallback_url":...}` with exit 1. On failure, give the user `fallback_url` instead of retrying in a loop.
+- It needs a reply address: the saved one, the signed-in account's, or `--email <address>`. `"code":"email_required"` means none is known: ask the user for their email, never make one up.
+- Longer notes can be piped: `cat notes.md | squirrel feedback --category tool_ergonomics --json` (cut at 5,000 characters). Text that starts with `-` needs `--message="..."`.
+
+Humans can run `squirrel feedback` with no text for the guided prompts, or use [squirrelscan.com/support](https://squirrelscan.com/support).
 
 ## Configuration
 
@@ -260,7 +274,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.5: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.6: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published
@@ -291,4 +305,4 @@ squirrel self disk --prune --keep 3 --project my-project --yes
 - **Session expired / 401**: run `squirrel auth login` again, or check `SQUIRRELSCAN_API_KEY`.
 - **Slow or stuck crawl**: add `--verbose` to see progress; large sites can take minutes.
 - **Invalid URL**: include the protocol: `https://example.com`, not `example.com`.
-- **Anything else**: run `squirrel self doctor`, then report it: agents via the `send_feedback` MCP tool (`bug_report` category), humans via `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
+- **Anything else**: run `squirrel self doctor`, then report it with the `bug_report` category: agents via the `send_feedback` MCP tool or `squirrel feedback --json` (see Agent feedback), humans via `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
