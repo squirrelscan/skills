@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.6"
+  version: "1.7"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -274,7 +274,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.6: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.7: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published
@@ -304,5 +304,6 @@ squirrel self disk --prune --keep 3 --project my-project --yes
 - **`squirrel: command not found`**: install from [squirrelscan.com/download](https://squirrelscan.com/download) and ensure `~/.local/bin` is in PATH.
 - **Session expired / 401**: run `squirrel auth login` again, or check `SQUIRRELSCAN_API_KEY`.
 - **Slow or stuck crawl**: add `--verbose` to see progress; large sites can take minutes.
+- **Audit dies after the first page** (connection refused, a sudden block, or a run of timeouts right after the crawl starts): the site's firewall may be banning the discovery probes, the requests for `llms.txt`, `/.well-known/*` and `/swagger.json` an audit sends before it crawls. A common fail2ban "sensitive files" jail bans an IP for asking for `/swagger.json`. Re-run with `--no-discovery-probes`, or set `discovery_probes = false` under `[crawler]` in `squirrel.toml` for that site. The agent experience checks that read the probes then say "not checked". An existing ban may last a while, so wait it out or ask the site owner to lift it. Needs squirrel 0.0.99 or later; on an older version run `squirrel self update` first.
 - **Invalid URL**: include the protocol: `https://example.com`, not `example.com`.
 - **Anything else**: run `squirrel self doctor`, then report it with the `bug_report` category: agents via the `send_feedback` MCP tool or `squirrel feedback --json` (see Agent feedback), humans via `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
