@@ -2,7 +2,7 @@
 
 Load this when an audit reports a `schema/entity-*` finding, or when a user asks why their structured data is not working despite validating.
 
-Canonical version: https://docs.squirrelscan.com/entity-map/fixing
+Canonical version: https://docs.squirrelscan.com/guides/entity-map/fixing
 
 ## The one idea
 
@@ -160,7 +160,9 @@ Set `site` in `astro.config.mjs` so `Astro.site` is defined. Without it the iden
 
 ### tangly
 
-tangly emits the `@graph` shape from the site config. Set `site.url`, `organization` and `social` and the `WebSite`, `Organization` and per-page nodes are generated with stable identifiers.
+tangly emits the `@graph` shape on every page from `docs.json`. Set `siteUrl`, then `seo.organization` (name, url, logo, `sameAs`) or a root `sameAs` list, and every page's `@graph` carries the same `Organization` and `WebSite` nodes under the same absolute `@id`s, with the per-page nodes referencing them by `@id`.
+
+Without a resolvable site URL tangly emits no JSON-LD at all, which is better than a graph of relative identifiers but leaves the map empty.
 
 ## Checking your work
 
