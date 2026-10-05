@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.7"
+  version: "1.8"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -167,7 +167,7 @@ Two things to check before calling it done:
 
 A missing `gainedId` row is not proof of failure: the match needs the type and name unchanged, so changing the `@id` and the name in one edit shows up as a removal plus an addition instead.
 
-Docs: https://docs.squirrelscan.com/entity-map
+Docs: https://docs.squirrelscan.com/guides/entity-map
 
 ## Cloud features and credits
 
