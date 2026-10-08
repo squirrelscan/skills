@@ -31,6 +31,7 @@ Each plugin bundles both skills and the hosted squirrelscan MCP server:
 | Plugin | Files |
 |--------|-------|
 | Claude Code marketplace + plugin | `.claude-plugin/marketplace.json`, `.claude-plugin/plugin.json`, `.mcp.json` |
+| Claude Code channel plugin (opt in) | `plugins/squirrelscan-channel/` |
 | Cursor plugin | `.cursor-plugin/plugin.json`, `.cursor-plugin/mcp.json` |
 | [Agent Plugins](https://agent-plugins.org) 1.0.0 (open standard, loads in Cursor) | `plugin.json`, `mcp.json` |
 
@@ -83,6 +84,17 @@ npx skills add squirrelscan/skills --skill audit-website
 ```
 
 One step installs both skills and connects the hosted squirrelscan MCP server.
+
+### Claude Code channel (opt in)
+
+A separate plugin, `squirrelscan-channel`, runs `squirrel channel` and pushes cloud audit events into your running session, so your agent can pull the report and fix what it finds. It is not part of the main plugin, so nobody gets a background process they did not ask for.
+
+```
+/plugin install squirrelscan-channel@squirrelscan
+claude --channels plugin:squirrelscan-channel@squirrelscan
+```
+
+It needs a CLI release with the `channel` command, and until squirrelscan is on Anthropic's channel allowlist you need the development flag instead of `--channels`. Details: [plugins/squirrelscan-channel](plugins/squirrelscan-channel/README.md).
 
 ### Cursor
 

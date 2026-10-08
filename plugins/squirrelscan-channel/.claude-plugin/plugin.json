@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "squirrelscan-channel",
+  "displayName": "squirrelscan channel",
+  "description": "Opt-in Claude Code channel: pushes squirrelscan cloud audit events (audit complete, audit failed, issues detected) into your running session so your agent can pull the report and fix what it finds. Needs the squirrel CLI and a squirrelscan login.",
+  "author": {
+    "name": "squirrelscan",
+    "url": "https://squirrelscan.com"
+  },
+  "homepage": "https://squirrelscan.com",
+  "repository": "https://github.com/squirrelscan/skills",
+  "license": "MIT",
+  "keywords": ["audit", "website", "channel", "notifications"],
+  "channels": [
+    {
+      "server": "squirrelscan",
+      "displayName": "squirrelscan"
+    }
+  ]
+}

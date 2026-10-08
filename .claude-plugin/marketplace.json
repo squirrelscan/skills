@@ -12,6 +12,13 @@
       "description": "Website QA tool built for coding agents (Claude Code, Cursor). 260+ rules across SEO, performance, security, accessibility & agent experience: audit from the CLI, fix findings in code, publish reports, and connect over MCP.",
       "category": "productivity",
       "tags": ["seo", "audit", "website", "performance", "security"]
+    },
+    {
+      "name": "squirrelscan-channel",
+      "source": "./plugins/squirrelscan-channel",
+      "description": "Opt-in Claude Code channel: pushes squirrelscan cloud audit events into your running session so your agent can pull the report and fix what it finds. Enable with --channels plugin:squirrelscan-channel@squirrelscan.",
+      "category": "productivity",
+      "tags": ["audit", "website", "channel", "notifications"]
     }
   ]
 }
