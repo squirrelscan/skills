@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "squirrelscan": {
+      "command": "squirrel",
+      "args": ["channel"]
+    }
+  }
+}

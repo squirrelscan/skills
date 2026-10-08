@@ -43,11 +43,12 @@ for (const dir of readdirSync(root)) {
   }
 }
 
+const REPOSITORY = "https://github.com/squirrelscan/skills";
+
 // This repo is the only home of the squirrelscan agent plugins, so a broken
 // manifest here breaks every install of that plugin.
 function checkPlugins(): string[] {
   const MCP_URL = "https://mcp.squirrelscan.com/mcp";
-  const REPOSITORY = "https://github.com/squirrelscan/skills";
   const problems: string[] = [];
   const read = (rel: string): Record<string, any> => {
     try {
@@ -103,6 +104,42 @@ function checkPlugins(): string[] {
   for (const key of ["skills", "mcpServers"]) {
     if (typeof cursor[key] !== "string" || !existsSync(join(repo, cursor[key]))) {
       problems.push(`.cursor-plugin/plugin.json: \`${key}\` must be a path that exists`);
+    }
+  }
+  problems.push(...checkChannelPlugin(read));
+  return problems;
+}
+
+// The channel is a separate, opt-in plugin. It must never leak into the main
+// plugin's MCP configs: every install of that would spawn a polling process,
+// and it breaks on CLI versions that have no `squirrel channel` command.
+function checkChannelPlugin(read: (rel: string) => Record<string, any>): string[] {
+  const problems: string[] = [];
+  const dir = "plugins/squirrelscan-channel";
+  const marketplace = read(".claude-plugin/marketplace.json");
+  const entry = marketplace.plugins?.find((p: { name?: string }) => p.name === "squirrelscan-channel");
+  if (!entry) return [".claude-plugin/marketplace.json: no `squirrelscan-channel` plugin entry"];
+  if (entry.source !== `./${dir}`) problems.push(`.claude-plugin/marketplace.json: squirrelscan-channel source must be "./${dir}"`);
+  if ("version" in entry) problems.push(".claude-plugin/marketplace.json#squirrelscan-channel: drop `version`; the plugin versions by commit");
+
+  const manifest = read(`${dir}/.claude-plugin/plugin.json`);
+  if (manifest.name !== "squirrelscan-channel") problems.push(`${dir}/.claude-plugin/plugin.json: name must be "squirrelscan-channel"`);
+  if ("version" in manifest) problems.push(`${dir}/.claude-plugin/plugin.json: drop \`version\`; the plugin versions by commit`);
+  if (manifest.repository !== REPOSITORY) problems.push(`${dir}/.claude-plugin/plugin.json: repository must be ${REPOSITORY}`);
+  const channel = manifest.channels?.[0];
+  if (manifest.channels?.length !== 1 || channel?.server !== "squirrelscan") {
+    problems.push(`${dir}/.claude-plugin/plugin.json: channels must be one entry bound to the \`squirrelscan\` MCP server`);
+  }
+
+  const server = read(`${dir}/.mcp.json`).mcpServers?.squirrelscan ?? {};
+  if (server.command !== "squirrel" || JSON.stringify(server.args) !== JSON.stringify(["channel"])) {
+    problems.push(`${dir}/.mcp.json: squirrelscan must run \`squirrel channel\``);
+  }
+
+  for (const rel of ["mcp.json", ".mcp.json", ".cursor-plugin/mcp.json"]) {
+    const servers = read(rel).mcpServers ?? {};
+    for (const [name, s] of Object.entries<Record<string, any>>(servers)) {
+      if (s.command === "squirrel" && s.args?.includes("channel")) problems.push(`${rel}: \`${name}\` runs \`squirrel channel\`; keep it in ${dir} only`);
     }
   }
   return problems;
