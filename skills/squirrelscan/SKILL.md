@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.9"
+  version: "1.10"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -83,6 +83,42 @@ squirrel audit https://example.com --format llm
 ```bash
 squirrel audit https://example.com -C full -m 500 --format llm
 ```
+
+### Probing intensity
+
+Probing intensity sets how much an audit may send beyond the pages it crawls. It sits next to coverage (how many pages) and render mode. Needs squirrel 0.0.107 or later; on an older version run `squirrel self update` first.
+
+| Level | What it sends |
+|-------|---------------|
+| `passive` | No request beyond the crawl |
+| `active` | Quiet probes: a handful of requests that look like normal traffic |
+| `aggressive` | Loud probes: many requests and many 404s, including paths `robots.txt` disallows, on purpose. It can trip a WAF |
+
+A signed-in audit defaults to `active`, and a signed-out or `--offline` audit to `passive`. `aggressive` is never a default. The run banner shows the level in force, such as `Probing   active · budget 30s`.
+
+```bash
+squirrel audit https://example.com --passive --format llm     # a site the user does not own
+squirrel audit https://example.com -P active --format llm     # same as --probe active
+squirrel audit https://example.com --aggressive --probe-budget 1m --format llm
+squirrel audit https://example.com --pentest --format llm     # --coverage full --probe aggressive
+```
+
+Pick the level by who owns the site:
+
+- **A site the user does not own** (a competitor, a prospect, any third-party site): pass `--passive`. A signed-in audit defaults to `active`, so say it explicitly.
+- **The user's own site**: the default is fine.
+- **`--aggressive` and `--pentest`** are opt-in, and only for a site the user owns or is authorized to test. Use them only when the user asks for them, and confirm the site is theirs before running one. Never choose them on your own.
+
+Details:
+
+- `-P` is a capital P; lowercase `-p` is `--publish`.
+- `--probe-budget` caps the wall-clock time of all probing together: `30s` for `active` and `2m` for `aggressive` by default, at most `1h`.
+- `[security] probe` and `budget` in `squirrel.toml` set both for a project. A flag on the command line beats them.
+- Contradicting flags are refused, not resolved: `--passive` with `--aggressive`, or `--pentest` with a `--coverage` other than `full`.
+- `--disable-discovery-probes` (or `[crawler] disable_discovery_probes = true`) keeps probing passive.
+- On a passive run the rules that probe (`security/graphql-introspection` and `security/graphql-get-mutations`) are skipped and send nothing, so a passive audit has not checked for those issues.
+
+Docs: https://docs.squirrelscan.com/configuration/security
 
 ## Authentication and accounts
 
@@ -271,7 +307,7 @@ squirrel config path
 squirrel config validate
 ```
 
-Useful sections: `[crawler]` (delays, headers, incremental re-crawl), `[cloud]` (render mode, max credits per audit).
+Useful sections: `[crawler]` (delays, headers, incremental re-crawl), `[cloud]` (render mode, max credits per audit), `[security]` (probing intensity and budget, see Probing intensity).
 
 ### Custom request headers
 
@@ -289,7 +325,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.9: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.10: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published
