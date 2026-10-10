@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.10"
+  version: "1.11"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -68,25 +68,34 @@ squirrel init -n my-project        # optional: project config in cwd
 squirrel audit https://example.com --format llm
 ```
 
-- Local audits are free and run entirely on your machine. No account needed.
+- Signed out, or with `--offline`, an audit runs entirely on your machine, needs no account and costs nothing. Signed in, every audit is billed in credits, at every level (see Cloud features and credits below).
 - Use `--format llm` when an agent is reading the output: it is a compact, token-optimized format built for LLMs.
 - Audits are cached in a local project database; `squirrel report` re-renders without re-crawling.
 
-### Coverage modes
+### Audit levels
 
-| Mode | Default pages | Behavior |
-|------|---------------|----------|
-| `quick` (default) | 25 | Seed + sitemaps only, fast health check |
-| `surface` | 100 | One sample per URL pattern (`/blog/{slug}` crawled once) |
-| `full` | 500 | Crawl everything up to the limit |
+A level is a named set of audit settings: pages, crawl strategy, cloud checks, rendering, external link checks and probing. The CLI, both MCP servers, the API and the dashboard use the same three.
+
+| Level | Pages | Behavior |
+|-------|-------|----------|
+| `quick` | 25 | The URL and its sitemaps, no link following. No cloud checks. The signed-out default |
+| `surface` | 100 | Follows links, one page per URL pattern first (`/blog/{slug}` crawled once). Cloud checks and external link checks. The signed-in default |
+| `full` | 500 | Every page it can reach, up to the page budget, with the cloud checks |
 
 ```bash
-squirrel audit https://example.com -C full -m 500 --format llm
+squirrel audit https://example.com --level quick --format llm
+squirrel audit https://example.com --level full -m 500 --format llm
 ```
+
+- `--level` needs squirrel 0.0.108 or later; on an older version run `squirrel self update` first. `--coverage` / `-C` is the older name and still works (`fast` means quick).
+- Quick skips the cloud checks, but signed in it is still a billed cloud audit like any level: 50 credits plus 2 per audited page, with the pages that need JavaScript rendered in the cloud browser, so up to 100 credits for 25 pages. `--http` skips the browser, not the page charge. Only a signed-out or `--offline` audit is charge-free.
+- In the cloud (dashboard, API, hosted MCP), Full is Pro and Team. A Free organization's `full` request still runs, but samples one page per URL pattern first, the way surface does, up to 500 pages, and the response says so in `level_notice`.
+
+Docs: https://docs.squirrelscan.com/guides/audit-levels
 
 ### Probing intensity
 
-Probing intensity sets how much an audit may send beyond the pages it crawls. It sits next to coverage (how many pages) and render mode. Needs squirrel 0.0.107 or later; on an older version run `squirrel self update` first.
+Probing intensity sets how much an audit may send beyond the pages it crawls. It is one of the settings an audit level fills in, next to pages and render mode. Needs squirrel 0.0.107 or later; on an older version run `squirrel self update` first.
 
 | Level | What it sends |
 |-------|---------------|
@@ -94,18 +103,18 @@ Probing intensity sets how much an audit may send beyond the pages it crawls. It
 | `active` | Quiet probes: a handful of requests that look like normal traffic |
 | `aggressive` | Loud probes: many requests and many 404s, including paths `robots.txt` disallows, on purpose. It can trip a WAF |
 
-A signed-in audit defaults to `active`, and a signed-out or `--offline` audit to `passive`. `aggressive` is never a default. The run banner shows the level in force, such as `Probing   active · budget 30s`.
+The audit level sets the default: `passive` at quick, `active` at surface and full, signed in or not (squirrel 0.0.108 and later; before that, probing followed sign-in). `aggressive` is never a default. The run banner shows the level in force, such as `Probing   active · budget 30s`.
 
 ```bash
 squirrel audit https://example.com --passive --format llm     # a site the user does not own
 squirrel audit https://example.com -P active --format llm     # same as --probe active
 squirrel audit https://example.com --aggressive --probe-budget 1m --format llm
-squirrel audit https://example.com --pentest --format llm     # --coverage full --probe aggressive
+squirrel audit https://example.com --pentest --format llm     # --level full --probe aggressive
 ```
 
 Pick the level by who owns the site:
 
-- **A site the user does not own** (a competitor, a prospect, any third-party site): pass `--passive`. A signed-in audit defaults to `active`, so say it explicitly.
+- **A site the user does not own** (a competitor, a prospect, any third-party site): pass `--passive`. Surface and full default to `active`, so say it explicitly.
 - **The user's own site**: the default is fine.
 - **`--aggressive` and `--pentest`** are opt-in, and only for a site the user owns or is authorized to test. Use them only when the user asks for them, and confirm the site is theirs before running one. Never choose them on your own.
 
@@ -114,7 +123,7 @@ Details:
 - `-P` is a capital P; lowercase `-p` is `--publish`.
 - `--probe-budget` caps the wall-clock time of all probing together: `30s` for `active` and `2m` for `aggressive` by default, at most `1h`.
 - `[security] probe` and `budget` in `squirrel.toml` set both for a project. A flag on the command line beats them.
-- Contradicting flags are refused, not resolved: `--passive` with `--aggressive`, or `--pentest` with a `--coverage` other than `full`.
+- Contradicting flags are refused, not resolved: `--passive` with `--aggressive`, or `--pentest` with a `--level` other than `full`.
 - `--disable-discovery-probes` (or `[crawler] disable_discovery_probes = true`) keeps probing passive.
 - On a passive run the rules that probe (`security/graphql-introspection` and `security/graphql-get-mutations`) are skipped and send nothing, so a passive audit has not checked for those issues.
 
@@ -122,7 +131,7 @@ Docs: https://docs.squirrelscan.com/configuration/security
 
 ## Authentication and accounts
 
-Local audits never require an account. Sign in to unlock cloud features (publishing, browser rendering, scheduled crawls, credits):
+Local audits never require an account. Sign in to unlock cloud features (publishing, browser rendering, the cloud checks, scheduled crawls). Once signed in, every `squirrel audit` is a billed cloud audit; `--offline` runs one locally for free:
 
 ```bash
 squirrel auth login      # browser-based login
@@ -207,11 +216,13 @@ Docs: https://docs.squirrelscan.com/guides/entity-map
 
 ## Cloud features and credits
 
-Cloud features are pay-as-you-go with credits (nothing charged up front). Check balance and pricing:
+Cloud features are pay-as-you-go with credits (nothing charged up front). Every signed-in audit is billed at every level, quick included: 50 credits for the audit plus 2 per audited page, however the page was fetched. A cloud audit (dashboard, API, hosted MCP) also pays 1 credit per distinct external link it checks. Only an audit that runs signed out or with `--offline` costs nothing. Free accounts get 500 credits a month. Check balance and pricing:
 
 ```bash
 squirrel credits
 ```
+
+When the balance, or `[cloud] max_credits_per_audit`, covers fewer pages than the level asks for, the audit runs on the pages it can pay for and says so. Tell the user rather than treating the smaller audit as the whole site. Docs: https://docs.squirrelscan.com/cloud/credits
 
 - `--render` / `--render-mode auto|all|off`: cloud browser rendering for client-rendered pages (uses credits, requires login).
 - `--yes` skips spend confirmations up to the configured per-audit credit cap.
@@ -224,6 +235,11 @@ Two ways to connect agents over MCP:
 
 - **Local (stdio)**: `squirrel mcp` runs against the local CLI. Register it in your agent's MCP config with command `squirrel` and args `["mcp"]`.
 - **Hosted (streamable-http)**: `https://mcp.squirrelscan.com/mcp`. Sign in via OAuth from the MCP client, or send an `Authorization: Bearer sq_...` API key header.
+
+Audit levels over MCP:
+
+- Hosted `run_audit`: pass `level` (`quick`, `surface` or `full`). Without one, the website's own level applies. The older `coverage` argument (`fast`, `surface`, `deep`, `full`) is deprecated: it keeps its old meaning, and passing it together with `level` is an error. Every level is billed, and `run_audit` returns the estimate first: show it to the user before confirming. A Free organization's `full` request comes back with `level_notice`; pass it on.
+- Local `audit_website`: takes `level` too (default `surface`). Signed in, it is billed like `squirrel audit` and asks for confirmation with an estimate first; `offline: true` runs it on the machine with no cloud call and no charge.
 
 ### Entity tools
 
@@ -325,7 +341,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.10: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.11: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published
