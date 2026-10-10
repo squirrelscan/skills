@@ -89,7 +89,7 @@ squirrel audit https://example.com --level full -m 500 --format llm
 
 - `--level` needs squirrel 0.0.108 or later; on an older version run `squirrel self update` first. `--coverage` / `-C` is the older name and still works (`fast` means quick).
 - Quick skips the cloud checks, but signed in it is still a billed cloud audit like any level: 50 credits plus 2 per audited page, with the pages that need JavaScript rendered in the cloud browser, so up to 100 credits for 25 pages. `--http` skips the browser, not the page charge. Only a signed-out or `--offline` audit is charge-free.
-- In the cloud (dashboard, API, hosted MCP), Full is Pro and Team. A Free organization's `full` request still runs, but samples one page per URL pattern first, the way surface does, up to 500 pages, and the response says so in `level_notice`.
+- In the cloud (dashboard, API, hosted MCP), Full is Pro and Team. A Free organization's `full` request still runs, but samples one page per URL pattern first, the way surface does, up to 500 pages, and the response says so (`levelNotice` in the API, `level_notice` from the hosted MCP server).
 
 Docs: https://docs.squirrelscan.com/guides/audit-levels
 
@@ -222,7 +222,7 @@ Cloud features are pay-as-you-go with credits (nothing charged up front). Every 
 squirrel credits
 ```
 
-When the balance, or `[cloud] max_credits_per_audit`, covers fewer pages than the level asks for, the audit runs on the pages it can pay for and says so. Tell the user rather than treating the smaller audit as the whole site. Docs: https://docs.squirrelscan.com/cloud/credits
+When the balance, or `[cloud] max_credits_per_audit`, covers fewer pages than the level asks for, the audit runs on the pages it can pay for and says so. Tell the user rather than treating the smaller audit as the whole site. Below the 52 credits a one-page audit needs, `squirrel audit` runs local-only and says so, and the local MCP `audit_website` stops without registering or charging anything. Docs: https://docs.squirrelscan.com/cloud/credits
 
 - `--render` / `--render-mode auto|all|off`: cloud browser rendering for client-rendered pages (uses credits, requires login).
 - `--yes` skips spend confirmations up to the configured per-audit credit cap.
@@ -238,8 +238,8 @@ Two ways to connect agents over MCP:
 
 Audit levels over MCP:
 
-- Hosted `run_audit`: pass `level` (`quick`, `surface` or `full`). Without one, the website's own level applies. The older `coverage` argument (`fast`, `surface`, `deep`, `full`) is deprecated: it keeps its old meaning, and passing it together with `level` is an error. Every level is billed, and `run_audit` returns the estimate first: show it to the user before confirming. A Free organization's `full` request comes back with `level_notice`; pass it on.
-- Local `audit_website`: takes `level` too (default `surface`). Signed in, it is billed like `squirrel audit` and asks for confirmation with an estimate first; `offline: true` runs it on the machine with no cloud call and no charge.
+- Hosted `run_audit`: pass `level` (`quick`, `surface` or `full`). Without one, the website's own level applies. The older `coverage` argument (`fast`, `surface`, `deep`, `full`) is deprecated: it keeps its old meaning, and passing it together with `level` is an error. Every level is billed. When the estimate is above the auto-run threshold (50 credits by default, so every audit unless it was raised), the first call returns the estimate instead of starting: show it to the user, then call again with `confirm: true`. A Free organization's `full` request comes back with `level_notice`; pass it on.
+- Local `audit_website`: takes `level` too (default `surface`). Signed in, it is billed like `squirrel audit`: an estimate above `[cloud] confirm_threshold` (50 by default) comes back first and needs `confirm: true`. `offline: true` runs it on the machine with no cloud call and no charge.
 
 ### Entity tools
 
