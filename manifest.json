@@ -4,7 +4,7 @@
   "skills": [
     {
       "name": "audit-website",
-      "version": "2.2",
+      "version": "2.3",
       "files": [
         {
           "path": "README.md",
@@ -13,8 +13,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "916769de858acbbb853281b14a1fc62d3b303a0304206d75c156a6ec5b7651b7",
-          "size": 5309
+          "sha256": "4dbc02252519e299f4a54915e735e0fbac079007caffdd7dc982d76e8e2eb19b",
+          "size": 5654
         },
         {
           "path": "agents/openai.yaml",
@@ -40,12 +40,12 @@
     },
     {
       "name": "squirrelscan",
-      "version": "1.10",
+      "version": "1.11",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "20dd6617c57ef22e6399c2c49c09b196365119d3aef064a6894788e0543523e7",
-          "size": 23084
+          "sha256": "8a8f0e1c957edffad58b2e07a477f326e4e17a644b201c35458cfc07625f3fb1",
+          "size": 26410
         },
         {
           "path": "agents/openai.yaml",

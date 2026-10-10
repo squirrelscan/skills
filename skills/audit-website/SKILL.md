@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "2.2"
+  version: "2.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
@@ -34,11 +34,13 @@ squirrel audit https://example.com --format llm
 
 ### Scan progression
 
-1. **First pass, quick coverage** (the default): a fast, shallow scan to learn the site's structure, technology, and biggest problems without impacting the site.
-2. **Second pass, deeper coverage**: `-C surface` (one page per URL pattern) for template-level coverage, or `-C full` for a comprehensive crawl before sign-off.
+1. **First pass, quick**: `--level quick`, a fast, shallow scan to learn the site's structure, technology, and biggest problems without impacting the site. Quick is the default signed out; signed in the default is surface, so pass `--level quick` for a first look.
+2. **Second pass, deeper**: `--level surface` (one page per URL pattern) for template-level coverage, or `--level full` for a comprehensive crawl before sign-off.
 
-| Mode | Default pages | Use |
-|------|---------------|-----|
+`--level` needs squirrel 0.0.108 or later (`-C` is the older name). Signed in, every pass is billed in credits, quick included: 50 plus 2 per audited page. Signed out, or with `--offline`, it costs nothing. See the `squirrelscan` skill for pricing.
+
+| Level | Pages | Use |
+|-------|-------|-----|
 | `quick` | 25 | First look, CI checks |
 | `surface` | 100 | Template-level coverage (one sample per pattern like `/blog/{slug}`) |
 | `full` | 500 | Final verification, deep analysis |
@@ -69,7 +71,7 @@ The loop can start from a squirrelscan channel event (a cloud audit finished or 
 | 70-85 (C) | 90+ (A) | Polish |
 | > 85 (B+) | 95+ | Fine-tuning |
 
-Sign off against a `-C full` crawl, since the quick pass samples only part of the site.
+Sign off against a `--level full` crawl, since the quick pass samples only part of the site.
 
 Rules carry a level (error, warning, notice) and a rank (1-10): fix errors first, then high-rank warnings. Findings that need a content edit count the same as ones that need a code edit. Broken links usually need a human decision (remove, replace, or keep): flag them rather than guessing.
 
