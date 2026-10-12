@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "2.4"
+  version: "2.5"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
@@ -86,7 +86,7 @@ squirrel report --regression-since example.com --format llm
 
 ## Completion
 
-Done means: all errors fixed; warnings fixed or documented as needing human review; a re-audit confirms the improvement; and the user has seen the before/after score comparison plus a summary of every change made. Re-audit regularly to keep the site healthy. If the user wants to share results, offer a published report (see the `squirrelscan` skill).
+Done means: all errors fixed; warnings fixed or documented as needing human review; a re-audit confirms the improvement; and the user has seen the before/after score comparison plus a summary of every change made. Re-audit regularly to keep the site healthy. If the user wants to share results, offer a published report (see the `squirrelscan` skill). A published report is a capped summary that samples affected pages, so fix from the local report, not the published one.
 
 ## Report format
 

@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.12"
+  version: "1.13"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -26,17 +26,27 @@ It ships as a single CLI binary, `squirrel`, for macOS, Windows, and Linux. This
 
 Download and install instructions: [squirrelscan.com/download](https://squirrelscan.com/download)
 
-The binary installs to `~/.local/bin/squirrel`. Verify with:
+```bash
+curl -fsSL https://install.squirrelscan.com | bash                    # macOS / Linux
+iwr -useb https://install.squirrelscan.com/install.ps1 | iex          # Windows (PowerShell)
+brew install --cask squirrelscan/tap/squirrel                         # Homebrew, macOS only
+```
+
+The binary installs to `~/.local/bin/squirrel`. With Homebrew, the cask installs only a small launcher: the first run downloads the CLI with the regular installer. Verify with:
 
 ```bash
 squirrel --version
 ```
 
-Keep it current:
+Keep it current, however it was installed:
 
 ```bash
 squirrel self update
 ```
+
+`brew upgrade` does not update the CLI (Homebrew only owns the launcher), so use `squirrel self update`. To uninstall a Homebrew install: `brew uninstall --cask squirrel` (add `--zap` to remove `~/.squirrel` as well).
+
+To set the CLI up for the user's agent, run `squirrel setup` (optional sign-in, agent skills for Claude Code, Codex, Cursor and more, auto-update). An agent can also fetch and follow https://docs.squirrelscan.com/agent-setup/prompt.md.
 
 If `squirrel` is not found, ensure `~/.local/bin` is in PATH, or reinstall from the download page.
 
@@ -179,6 +189,12 @@ squirrel report --regression-since example.com --format llm
 
 Diff mode supports `console`, `text`, `json`, `llm`, and `markdown`.
 
+### What a published report holds
+
+A published report is a capped summary, at most about 1 MB however many pages were audited. Each issue lists a sample of its affected pages and items with the true counts, and says how many more are not listed. The score still counts every check the audit ran. Don't read a published report's issue list as the complete page list: the full per-page detail stays in the local project, and `squirrel report --format json` exports all of it locally.
+
+A `--format json` export or an already published report can't be republished: `--publish` refuses it. Publish from the audit in its project (`squirrel report <audit-id> --publish`). A report of a host no squirrelscan server can reach (`localhost`, private ranges, `.local`, `.internal`) is never published.
+
 ## Structured data: the entity map
 
 Every audit collapses the site's JSON-LD into one graph of the entities it declares, rather than a list of the blocks it emits. A report's Entities section carries it: an interactive graph in `html`, a table in `markdown` and `text`, the whole document under `entities` in `json`, and an `<entities>` block in `llm` and `xml`.
@@ -235,6 +251,14 @@ Two ways to connect agents over MCP:
 
 - **Local (stdio)**: `squirrel mcp` runs against the local CLI. Register it in your agent's MCP config with command `squirrel` and args `["mcp"]`.
 - **Hosted (streamable-http)**: `https://mcp.squirrelscan.com/mcp`. Sign in via OAuth from the MCP client, or send an `Authorization: Bearer sq_...` API key header.
+
+Both servers serve these skills over MCP (the Skills extension: `skills/list`, `skills/get`, and `resources/read` of `skill://squirrelscan/SKILL.md` and `skill://audit-website/SKILL.md`). On the hosted server the catalog (`initialize`, `tools/list`, `resources/list`, `prompts/list`), the skills and `skill://` reads work without credentials; every tool call needs credentials.
+
+Hosted tool behavior:
+
+- An argument a tool does not accept is dropped, and the successful result lists it in `ignored_args`. Check it to tell a setting that took effect from one that did not.
+- `add_website` takes an optional `scope` (`discover` or `sitemap`) next to `kind`; the result reports both.
+- `list_issues` returns `website_totals` (counts for the whole website) and `total` (the filtered set). `website_totals` replaces `severity_summary` and `status_counts`.
 
 Audit levels over MCP:
 
@@ -341,7 +365,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.12: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.13: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published
@@ -372,5 +396,6 @@ squirrel self disk --prune --keep 3 --project my-project --yes
 - **Session expired / 401**: run `squirrel auth login` again, or check `SQUIRRELSCAN_API_KEY`.
 - **Slow or stuck crawl**: add `--verbose` to see progress; large sites can take minutes.
 - **Audit dies after the first page** (connection refused, a sudden block, or a run of timeouts right after the crawl starts): the site's firewall may be banning the discovery probes, the requests for `llms.txt`, `/.well-known/*` and `/swagger.json` an audit sends before it crawls. A common fail2ban "sensitive files" jail bans an IP for asking for `/swagger.json`. Re-run with `--disable-discovery-probes`, or set `disable_discovery_probes = true` under `[crawler]` in `squirrel.toml` for that site. The agent experience checks that read the probes then say "not checked". An existing ban may last a while, so wait it out or ask the site owner to lift it. Needs squirrel 0.0.99 or later; on an older version run `squirrel self update` first. To keep those checks instead, let the audit through the firewall: https://docs.squirrelscan.com/cloud/firewall (for a CLI audit, allow your own IP or send a secret header with `-H`: https://docs.squirrelscan.com/configuration/crawler#or-let-squirrelscan-through).
+- **Audit fails as a redirect, or is blocked, on a site behind an access gateway** (Cloudflare Access, Vercel deployment protection): the gateway needs a header, such as a Cloudflare Access service token (`CF-Access-Client-Id` and `CF-Access-Client-Secret`) set as custom request headers. Custom headers are not sent on cloud browser renders, so set Rendering to Off for the website, or run the CLI with `--http` when headers come from `-H`. Audit the exact `https://` origin the gateway protects, because a redirect to another origin drops the headers. Gateways with no header route (Okta, Entra ID and similar) need the CLI on a network they admit. Docs: https://docs.squirrelscan.com/guides/failed-audits#access-gateway and https://docs.squirrelscan.com/cloud/firewall
 - **Invalid URL**: include the protocol: `https://example.com`, not `example.com`.
 - **Anything else**: run `squirrel self doctor`, then report it with the `bug_report` category: agents via the `send_feedback` MCP tool or `squirrel feedback --json` (see Agent feedback), humans via `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
