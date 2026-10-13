@@ -10,7 +10,7 @@
 
 **Features:**
 
-- 300+ audit rules across 21 categories
+- 300+ audit rules across 22 categories
 - Leaked secrets detection (96 patterns: OpenAI, Anthropic, AWS, Stripe, and more)
 - Multiple output formats: console, text, json, markdown, llm, html
 - Diff reports for regressions between audits
