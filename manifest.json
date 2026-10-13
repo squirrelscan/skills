@@ -4,7 +4,7 @@
   "skills": [
     {
       "name": "audit-website",
-      "version": "2.5",
+      "version": "2.6",
       "files": [
         {
           "path": "README.md",
@@ -13,7 +13,7 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "644db456f3367d1088f044ff4b3a9d16a5c010287ebf70461c7a383109a82c88",
+          "sha256": "a0e5b82b044495609847f48716142109ecf2dd3886d3322fd8dda45057098de7",
           "size": 5775
         },
         {
@@ -40,11 +40,11 @@
     },
     {
       "name": "squirrelscan",
-      "version": "1.13",
+      "version": "1.14",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "2c6d5ff41b80ecead12b44d4cb04676100f6badd5899e12aa038d3cabc2e3f0a",
+          "sha256": "5401edd6eaae333ff7afa9e8f267811b72ab01db5aa2dc5b017c88f1601e0f0c",
           "size": 29708
         },
         {
