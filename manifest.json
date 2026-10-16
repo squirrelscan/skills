@@ -40,12 +40,12 @@
     },
     {
       "name": "squirrelscan",
-      "version": "1.14",
+      "version": "1.15",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "5401edd6eaae333ff7afa9e8f267811b72ab01db5aa2dc5b017c88f1601e0f0c",
-          "size": 29708
+          "sha256": "52b8a57431effff0e5205fd1c453cd2e28ec217f082894254b3d9d2466d3a6f3",
+          "size": 29936
         },
         {
           "path": "agents/openai.yaml",
