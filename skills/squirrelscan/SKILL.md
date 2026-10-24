@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.14"
+  version: "1.15"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -232,7 +232,7 @@ Docs: https://docs.squirrelscan.com/guides/entity-map
 
 ## Cloud features and credits
 
-Cloud features are pay-as-you-go with credits (nothing charged up front). Every signed-in audit is billed at every level, quick included: 50 credits for the audit plus 2 per audited page, however the page was fetched. A cloud audit (dashboard, API, hosted MCP) also pays 1 credit per distinct external link it checks. Only an audit that runs signed out or with `--offline` costs nothing. Free accounts get 500 credits a month. Check balance and pricing:
+Cloud features are pay-as-you-go with credits (nothing charged up front). Every signed-in audit is billed at every level, quick included: 50 credits for the audit plus 2 per audited page, however the page was fetched. A cloud audit (dashboard, API, hosted MCP) also pays 1 credit per distinct external link it checks. Only an audit that runs signed out or with `--offline` costs nothing. Free accounts get 500 credits a month, one free allowance per email inbox: a newer account on the same inbox (`+tags` on the big webmail providers and Gmail dots fold together) or on a throwaway-inbox domain starts with 0. If a new free account shows 0 credits, that is not a bug: tell the user to sign in with their first account, upgrade, or contact https://squirrelscan.com/support. Check balance and pricing:
 
 ```bash
 squirrel credits
@@ -365,7 +365,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.14: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.15: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published
