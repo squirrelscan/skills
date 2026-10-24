@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.15"
+  version: "1.16"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -26,11 +26,15 @@ It ships as a single CLI binary, `squirrel`, for macOS, Windows, and Linux. This
 
 Download and install instructions: [squirrelscan.com/download](https://squirrelscan.com/download)
 
+Prefer a package manager where one fits:
+
 ```bash
-curl -fsSL https://install.squirrelscan.com | bash                    # macOS / Linux
-iwr -useb https://install.squirrelscan.com/install.ps1 | iex          # Windows (PowerShell)
 brew install --cask squirrelscan/tap/squirrel                         # Homebrew, macOS only
 ```
+
+Otherwise use the installer from the download page above (macOS, Linux, Windows). Do not pipe it into a shell: download the script, read it, then run it. The download page has the current install command, and [docs.squirrelscan.com/quickstart](https://docs.squirrelscan.com/quickstart) covers the same steps.
+
+Verifying: the download page lists a SHA-256 checksum for each release binary, and the installer checks each binary against the checksum in the release manifest before it installs (also when it falls back to the `install.squirrelscan.com` mirror). To check a binary by hand, compare `shasum -a 256 <file>` with the value on the download page. The installer script itself has no separate checksum; inspect it before you run it.
 
 The binary installs to `~/.local/bin/squirrel`. With Homebrew, the cask installs only a small launcher: the first run downloads the CLI with the regular installer. Verify with:
 

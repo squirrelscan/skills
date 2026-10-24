@@ -127,10 +127,10 @@ Then copy or symlink `skills/squirrelscan` and `skills/audit-website` into your 
 ## Updates and versions
 
 - **Skills** carry their own version in `SKILL.md` (`metadata.version`). Bump it with every content change.
-- **Plugins** carry no `version` field, on purpose, and CI rejects one. Claude Code treats a plugin's version string as its update key, so a version nobody remembers to bump freezes every install. Without one it uses the commit, so each push to `main` is an update ([Claude Code docs](https://code.claude.com/docs/en/plugins-reference#version-management)). Third-party marketplaces don't auto-update by default: run `/plugin marketplace update squirrelscan` then `/plugin update squirrelscan@squirrelscan`, or turn on auto-update for the marketplace in `/plugin`.
+- **Plugins** carry a semver `version` (`claude plugin validate --strict` and the OpenAI listing both need one). The `squirrelscan` plugin's version is the squirrelscan skill's `metadata.version` padded to three parts (skill `1.16` is plugin `1.16.0`) in `.claude-plugin/plugin.json`, `.cursor-plugin/plugin.json` and `plugin.json`; marketplace entries carry none. Claude Code treats the version string as the update key, so an install updates only when we bump it: **bump the skill version with every skill content change, and the plugin versions move with it** (CI fails on drift). Changes that touch only plugin files (MCP config, manifests) need a skill version bump too, or installs will not see them. `squirrelscan-channel` has its own semver, bumped when that plugin changes. Third-party marketplaces don't auto-update by default: run `/plugin marketplace update squirrelscan` then `/plugin update squirrelscan@squirrelscan`, or turn on auto-update for the marketplace in `/plugin` ([Claude Code docs](https://code.claude.com/docs/en/plugins-reference#version-management)).
 - **npx installs** update with `npx skills update`, `squirrel skills update`, or the squirrel CLI's auto-update.
 
-`bun run scripts/check-skills.ts` (CI runs it on pull requests and on pushes to `main`) checks that every `SKILL.md` parses the way installers read it, and that the plugin manifests agree: same name, same description, no version, one MCP endpoint.
+`bun run scripts/check-skills.ts` (CI runs it on pull requests and on pushes to `main`) checks that every `SKILL.md` parses the way installers read it, and that the plugin manifests agree: same name, same description, a version that matches the skill, one MCP endpoint, and a complete OpenAI listing block.
 
 ## Moving from squirrelscan/squirrelscan
 
@@ -183,7 +183,7 @@ After changing anything under `skills/`, regenerate the manifest and commit it w
 bun run scripts/manifest.ts
 ```
 
-Bump the skill's `metadata.version` in its `SKILL.md` too, so installs can tell the versions apart.
+Bump the skill's `metadata.version` in its `SKILL.md` too, so installs can tell the versions apart. For `squirrelscan` also set the plugin `version` in the three manifests to the same number plus `.0` (`1.16` becomes `1.16.0`); `check-skills.ts` fails on a mismatch.
 
 All skills follow the [Agent Skills Standard](https://agentskills.io/specification).
 
