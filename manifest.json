@@ -44,8 +44,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "c234c34039488fdf0776a6fac67ccdd5b49c828883574e0fe4fd3b02e26af119",
-          "size": 33480
+          "sha256": "c54e568b6c20cef607ad5303c82767162b48e24d2b1328d57b2b95ad22de6481",
+          "size": 34680
         },
         {
           "path": "agents/openai.yaml",
