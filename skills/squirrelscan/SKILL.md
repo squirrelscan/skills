@@ -162,7 +162,7 @@ squirrel keys create     # requires a login session; prints an sq_... key
 
 Set it as `SQUIRRELSCAN_API_KEY` in the environment. Treat keys as secrets; never commit them.
 
-In an organization, what you can do depends on your role (owner, admin, editor, viewer, billing). Running tracked audits and publishing needs owner, admin or editor; a viewer or billing member's audit still runs locally with complete results, but is not tracked or published, and the CLI says why (`forbidden_role`). Owners and admins invite members from **Settings → Team** in the dashboard: the invite is emailed with a link that works for 7 days, and the invitee accepts by signing in (or signing up) with the exact invited address. When the email could not go out, the Team page offers the link to copy and send. Docs: https://docs.squirrelscan.com/cloud/team
+In an organization, what you can do depends on your role (owner, admin, editor, viewer, billing). Running tracked audits and publishing needs owner, admin or editor; a viewer or billing member's audit still runs locally with complete results, but is not tracked or published, and the CLI says why (`forbidden_role`). Owners and admins invite members from **Settings → Team** in the dashboard: the invite is emailed with a link that works for 7 days, and the invitee accepts by signing in (or signing up) with the invited address: case aside, a `+tag` or Gmail-dot variant does not match. When the email could not go out, the Team page offers the link to copy and send. Docs: https://docs.squirrelscan.com/cloud/team
 
 ## Reports
 
@@ -197,7 +197,7 @@ Diff mode supports `console`, `text`, `json`, `llm`, and `markdown`.
 
 ### Not checked
 
-A `Not checked:` line under the score (`notChecked` in JSON, `<not-checked>` in `llm`) names a rule that did not run for this audit and says what to change, for example external link checks that were off, or a crawl that stopped at its page cap (`links/orphan-pages`, `links/weak-internal-links` and `links/no-contextual-inbound`: raise `--max-pages` or `[crawler] max_pages`, or the page limit in the cloud). Never call those rules clean, and do not treat their missing findings as fixed. Docs: https://docs.squirrelscan.com/configuration/output
+A `Not checked:` line under the score (`notChecked` in JSON, `<not-checked>` in `llm`) names a rule that did not run for this audit and says what to change, for example external link checks that were off, or a crawl that stopped at its page cap (`links/orphan-pages`, `links/weak-internal-links` and `links/no-contextual-inbound`: raise `--max-pages` or `[crawler] max_pages`, or in the cloud the audit level or page limit). Never call those rules clean, and do not treat their missing findings as fixed. Docs: https://docs.squirrelscan.com/configuration/output
 
 ### What a published report holds
 
