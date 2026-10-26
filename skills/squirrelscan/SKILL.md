@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.16"
+  version: "1.17"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -162,6 +162,8 @@ squirrel keys create     # requires a login session; prints an sq_... key
 
 Set it as `SQUIRRELSCAN_API_KEY` in the environment. Treat keys as secrets; never commit them.
 
+In an organization, what you can do depends on your role (owner, admin, editor, viewer, billing). Running tracked audits and publishing needs owner, admin or editor; a viewer or billing member's audit still runs locally with complete results, but is not tracked or published, and the CLI says why (`forbidden_role`). Owners and admins invite members from **Settings → Team** in the dashboard: the invite is emailed with a link that works for 7 days, and the invitee accepts by signing in (or signing up) with the invited address: case aside, a `+tag` or Gmail-dot variant does not match. When the email could not go out, the Team page offers the link to copy and send. Docs: https://docs.squirrelscan.com/cloud/team
+
 ## Reports
 
 Render the latest (or a specific) stored audit:
@@ -192,6 +194,10 @@ squirrel report --regression-since example.com --format llm
 ```
 
 Diff mode supports `console`, `text`, `json`, `llm`, and `markdown`.
+
+### Not checked
+
+A `Not checked:` line under the score (`notChecked` in JSON, `<not-checked>` in `llm`) names a rule that did not run for this audit and says what to change, for example external link checks that were off, or a crawl that stopped at its page cap (`links/orphan-pages`, `links/weak-internal-links` and `links/no-contextual-inbound`: raise `--max-pages` or `[crawler] max_pages`, or in the cloud the audit level or page limit). Never call those rules clean, and do not treat their missing findings as fixed. Docs: https://docs.squirrelscan.com/configuration/output
 
 ### What a published report holds
 
@@ -353,6 +359,8 @@ squirrel config validate
 
 Useful sections: `[crawler]` (delays, headers, incremental re-crawl), `[cloud]` (render mode, max credits per audit), `[security]` (probing intensity and budget, see Probing intensity).
 
+With `respect_robots = true` under `[crawler]`, the crawl follows the site's `User-agent: SquirrelScan` robots.txt group, or its `*` group when there is none. `robots_user_agent` (default `SquirrelScan`) is the token matched; a custom `user_agent` does not change it. To have robots.txt read as your own bot, set `robots_user_agent` to its token, or to `""` to match on `user_agent`. Docs: https://docs.squirrelscan.com/configuration/crawler#robots_user_agent
+
 ### Custom request headers
 
 Attach headers to every crawl request with the repeatable `-H "Name: Value"` flag or a `headers` map under `[crawler]`. The main use case is Web Bot Auth (Shopify / Cloudflare), so platforms that block unknown crawlers can authorize squirrelscan. Header values are secrets: squirrelscan redacts them in output, and you should source them from a secret store rather than committing them. Full recipe: https://docs.squirrelscan.com/guides/web-bot-auth
@@ -369,7 +377,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.15: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.17: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published
@@ -398,8 +406,9 @@ squirrel self disk --prune --keep 3 --project my-project --yes
 
 - **`squirrel: command not found`**: install from [squirrelscan.com/download](https://squirrelscan.com/download) and ensure `~/.local/bin` is in PATH.
 - **Session expired / 401**: run `squirrel auth login` again, or check `SQUIRRELSCAN_API_KEY`.
+- **`403` with `forbidden_role`** (CLI, API or MCP): your role in that organization does not allow the action, such as a viewer running a tracked audit or changing a website. Retrying does not help: ask an owner or admin to change your role, or run the audit with `--no-publish`. Docs: https://docs.squirrelscan.com/cloud/team#roles
 - **Slow or stuck crawl**: add `--verbose` to see progress; large sites can take minutes.
 - **Audit dies after the first page** (connection refused, a sudden block, or a run of timeouts right after the crawl starts): the site's firewall may be banning the discovery probes, the requests for `llms.txt`, `/.well-known/*` and `/swagger.json` an audit sends before it crawls. A common fail2ban "sensitive files" jail bans an IP for asking for `/swagger.json`. Re-run with `--disable-discovery-probes`, or set `disable_discovery_probes = true` under `[crawler]` in `squirrel.toml` for that site. The agent experience checks that read the probes then say "not checked". An existing ban may last a while, so wait it out or ask the site owner to lift it. Needs squirrel 0.0.99 or later; on an older version run `squirrel self update` first. To keep those checks instead, let the audit through the firewall: https://docs.squirrelscan.com/cloud/firewall (for a CLI audit, allow your own IP or send a secret header with `-H`: https://docs.squirrelscan.com/configuration/crawler#or-let-squirrelscan-through).
-- **Audit fails as a redirect, or is blocked, on a site behind an access gateway** (Cloudflare Access, Vercel deployment protection): the gateway needs a header, such as a Cloudflare Access service token (`CF-Access-Client-Id` and `CF-Access-Client-Secret`) set as custom request headers. Custom headers are not sent on cloud browser renders, so set Rendering to Off for the website, or run the CLI with `--http` when headers come from `-H`. Audit the exact `https://` origin the gateway protects, because a redirect to another origin drops the headers. Gateways with no header route (Okta, Entra ID and similar) need the CLI on a network they admit. Docs: https://docs.squirrelscan.com/guides/failed-audits#access-gateway and https://docs.squirrelscan.com/cloud/firewall
+- **Audit fails as a redirect, or is blocked, on a site behind an access gateway** (Cloudflare Access, Vercel deployment protection): the gateway needs a header, such as a Cloudflare Access service token (`CF-Access-Client-Id` and `CF-Access-Client-Secret`) set as custom request headers. Every rendering mode sends the website's custom headers, cloud browser renders included (to the rendered page's own origin only, on the audited host and its `www` twin), so rendering can stay on. A signed-in CLI audit's cloud renders never carry `-H` headers: run it with `--http` when headers come from `-H`. Audit the exact `https://` origin the gateway protects, because a redirect to another origin drops the headers. Gateways with no header route (Okta, Entra ID and similar) need the CLI on a network they admit. Docs: https://docs.squirrelscan.com/guides/failed-audits#access-gateway, https://docs.squirrelscan.com/cloud/firewall and https://docs.squirrelscan.com/cloud/firewall#which-renders-carry-them
 - **Invalid URL**: include the protocol: `https://example.com`, not `example.com`.
 - **Anything else**: run `squirrel self doctor`, then report it with the `bug_report` category: agents via the `send_feedback` MCP tool or `squirrel feedback --json` (see Agent feedback), humans via `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
