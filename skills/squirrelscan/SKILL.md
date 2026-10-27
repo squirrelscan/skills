@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.17"
+  version: "1.18"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -32,7 +32,7 @@ Prefer a package manager where one fits:
 brew install --cask squirrelscan/tap/squirrel                         # Homebrew, macOS only
 ```
 
-Otherwise use the installer from the download page above (macOS, Linux, Windows). Do not pipe it into a shell: download the script, read it, then run it. The download page has the current install command, and [docs.squirrelscan.com/quickstart](https://docs.squirrelscan.com/quickstart) covers the same steps.
+Otherwise use the installer from the download page above (macOS, Linux, Windows). Do not pipe it into a shell: download the script, read it, then run it. When an agent runs the install, fetch it as `https://install.squirrelscan.com/install.sh?source=agent` (`/install.ps1?source=agent` on Windows) so the install is counted as agent-driven; the script is the same either way. The download page has the current install command, and [docs.squirrelscan.com/quickstart](https://docs.squirrelscan.com/quickstart) covers the same steps.
 
 Verifying: the download page lists a SHA-256 checksum for each release binary, and the installer checks each binary against the checksum in the release manifest before it installs (also when it falls back to the `install.squirrelscan.com` mirror). To check a binary by hand, compare `shasum -a 256 <file>` with the value on the download page. The installer script itself has no separate checksum; inspect it before you run it.
 
@@ -53,6 +53,8 @@ squirrel self update
 To set the CLI up for the user's agent, run `squirrel setup` (optional sign-in, agent skills for Claude Code, Codex, Cursor and more, auto-update). An agent can also fetch and follow https://docs.squirrelscan.com/agent-setup/prompt.md.
 
 If `squirrel` is not found, ensure `~/.local/bin` is in PATH, or reinstall from the download page.
+
+An install is not finished until the first audit has run. Right after installing, run `squirrel audit <the user's site> --format llm` (ask for the URL if the project does not make it obvious) and show the user the result: the score and the top issues. Do not stop at "installed".
 
 ## Command overview
 
