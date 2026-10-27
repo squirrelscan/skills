@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.18"
+  version: "1.19"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -390,7 +390,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.18: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.19: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published

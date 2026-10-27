@@ -40,11 +40,11 @@
     },
     {
       "name": "squirrelscan",
-      "version": "1.18",
+      "version": "1.19",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "7635ab781736b8e5742a9e5c37b58c57ab5839251b32a446454cbcc52775d5a1",
+          "sha256": "5ba23e903f24007ae752ddbcda34caa88c8cb1f4bdbb60d224ad852a4332bce7",
           "size": 34741
         },
         {
