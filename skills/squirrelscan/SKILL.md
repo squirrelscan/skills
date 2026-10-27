@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.20"
+  version: "1.21"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -257,6 +257,15 @@ When the balance, or `[cloud] max_credits_per_audit`, covers fewer pages than th
 - `--fail-on "score<90"` (repeatable) makes CI runs exit non-zero when a threshold trips.
 - The dashboard at [app.squirrelscan.com](https://app.squirrelscan.com) shows audit history, issues, and credit usage.
 
+### Paused recurring audits
+
+A recurring-audit schedule pauses itself for one of two reasons. The `schedule` block in hosted MCP results (`get_website_settings`, `update_website_settings`, `run_audit`, and `get_audit_status` on a completed run) then reads `state: "paused"` and carries `paused`: `reason`, `cause`, and `since` (when the schedule last changed, which is its pause unless it was edited since).
+
+- `reason: "consecutive_failures"`: the site's last three audits failed the same permanent way. `cause` says how; tell the user in plain words: `dns_failure` (the domain does not resolve), `tls_failure` (the TLS certificate is not valid), `redirect_refused` (the start URL redirects off the site, or loops) or `bot_block` (bot protection, a firewall or a login wall refused the crawler). A null `cause` means the failures no longer read as one class: read the latest failed audit's `failure_reason_code` instead. Timeouts, server errors, rate limits and failures on squirrelscan's side never pause a schedule.
+- `reason: "insufficient_credits"`: a scheduled run was skipped, uncharged, because the balance was below the audit base. It needs credits first: a top-up or an upgrade.
+
+Help the user fix the cause, or report it if it is on squirrelscan's side, before resuming: a resume without a fix fails the same way, and one more failure of that kind pauses the schedule again at once. Resume with `update_website_settings` and a `schedule` cadence, or from the website's **Settings → Schedule** in the dashboard. Resuming a failure pause runs one audit straight away (unless one is already on its way), so it spends credits: say so. The call returns the estimate first and needs `confirm: true`. A resumed credit pause waits for its next scheduled slot. Docs: https://docs.squirrelscan.com/cloud/scheduled-audits#when-a-schedule-pauses-itself
+
 ## MCP server
 
 Two ways to connect agents over MCP:
@@ -390,7 +399,7 @@ squirrel self disk         # per-project and total ~/.squirrel disk use
 
 ### Keeping these skills current
 
-The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.19: the `metadata.version` at the top of this file.
+The CLI manages these skills (`squirrelscan` and `audit-website`) itself. This skill is version 1.21: the `metadata.version` at the top of this file.
 
 ```bash
 squirrel skills status          # installed version, where, and the latest published
@@ -423,5 +432,6 @@ squirrel self disk --prune --keep 3 --project my-project --yes
 - **Slow or stuck crawl**: add `--verbose` to see progress; large sites can take minutes.
 - **Audit dies after the first page** (connection refused, a sudden block, or a run of timeouts right after the crawl starts): the site's firewall may be banning the discovery probes, the requests for `llms.txt`, `/.well-known/*` and `/swagger.json` an audit sends before it crawls. A common fail2ban "sensitive files" jail bans an IP for asking for `/swagger.json`. Re-run with `--disable-discovery-probes`, or set `disable_discovery_probes = true` under `[crawler]` in `squirrel.toml` for that site. The agent experience checks that read the probes then say "not checked". An existing ban may last a while, so wait it out or ask the site owner to lift it. Needs squirrel 0.0.99 or later; on an older version run `squirrel self update` first. To keep those checks instead, let the audit through the firewall: https://docs.squirrelscan.com/cloud/firewall (for a CLI audit, allow your own IP or send a secret header with `-H`: https://docs.squirrelscan.com/configuration/crawler#or-let-squirrelscan-through).
 - **Audit fails as a redirect, or is blocked, on a site behind an access gateway** (Cloudflare Access, Vercel deployment protection): the gateway needs a header, such as a Cloudflare Access service token (`CF-Access-Client-Id` and `CF-Access-Client-Secret`) set as custom request headers. Every rendering mode sends the website's custom headers, cloud browser renders included (to the rendered page's own origin only, on the audited host and its `www` twin), so rendering can stay on. A signed-in CLI audit's cloud renders never carry `-H` headers: run it with `--http` when headers come from `-H`. Audit the exact `https://` origin the gateway protects, because a redirect to another origin drops the headers. Gateways with no header route (Okta, Entra ID and similar) need the CLI on a network they admit. Docs: https://docs.squirrelscan.com/guides/failed-audits#access-gateway, https://docs.squirrelscan.com/cloud/firewall and https://docs.squirrelscan.com/cloud/firewall#which-renders-carry-them
+- **Audit fails because the start URL redirects to another site**: retrying the same URL fails the same way. A recent CLI prints `Audit the destination instead: squirrel audit <origin>` (the `llm` format offers the same command for the user to confirm; on an older CLI run `squirrel self update`). The destination is the audited site's choice, not the user's, so relay the command and run it only after the user confirms that is the site they meant. When the destination is a sign-in page (Okta, Auth0, Microsoft or Google sign-in, Cloudflare Access, Vercel deployment protection and similar, or a `login.`, `sso.` or `auth.` host), the CLI says the site needs authentication and offers no command: do not audit the sign-in host, and point the user at the access gateway entry above. Docs: https://docs.squirrelscan.com/guides/failed-audits#offsite-redirect and https://docs.squirrelscan.com/guides/failed-audits#access-gateway
 - **Invalid URL**: include the protocol: `https://example.com`, not `example.com`.
 - **Anything else**: run `squirrel self doctor`, then report it with the `bug_report` category: agents via the `send_feedback` MCP tool or `squirrel feedback --json` (see Agent feedback), humans via `squirrel feedback` or the support page at [squirrelscan.com/support](https://squirrelscan.com/support)
