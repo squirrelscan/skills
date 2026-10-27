@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "2.6"
+  version: "2.7"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
@@ -13,7 +13,7 @@ allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 
 Run a squirrelscan audit against a website, read the LLM report, map each issue to the code or content that causes it, fix in batches, and re-audit until the score target is met.
 
-Requires the `squirrel` CLI ([squirrelscan.com/download](https://squirrelscan.com/download); verify with `squirrel --version`). For CLI setup, login, publishing, MCP, and general CLI usage, use the companion `squirrelscan` skill.
+Requires the `squirrel` CLI, installed from [squirrelscan.com/download](https://squirrelscan.com/download) and checked with `squirrel --version`. For CLI setup, login, publishing, MCP, and general CLI usage, use the companion `squirrelscan` skill.
 
 ## Rule docs
 
