@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "1.19"
+  version: "1.20"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -357,7 +357,7 @@ squirrel feedback --category bug_report \
 - It needs a reply address: the saved one, the signed-in account's, or `--email <address>`. `"code":"email_required"` means none is known: ask the user for their email, never make one up.
 - Longer notes can be piped: `cat notes.md | squirrel feedback --category tool_ergonomics --json` (cut at 5,000 characters). Text that starts with `-` needs `--message="..."`.
 
-Humans can run `squirrel feedback` with no text for the guided prompts, or use [squirrelscan.com/support](https://squirrelscan.com/support).
+Humans can run `squirrel feedback` with no text for the guided prompts, or use the support page at [squirrelscan.com/support](https://squirrelscan.com/support)
 
 ## Configuration
 
@@ -424,4 +424,4 @@ squirrel self disk --prune --keep 3 --project my-project --yes
 - **Audit dies after the first page** (connection refused, a sudden block, or a run of timeouts right after the crawl starts): the site's firewall may be banning the discovery probes, the requests for `llms.txt`, `/.well-known/*` and `/swagger.json` an audit sends before it crawls. A common fail2ban "sensitive files" jail bans an IP for asking for `/swagger.json`. Re-run with `--disable-discovery-probes`, or set `disable_discovery_probes = true` under `[crawler]` in `squirrel.toml` for that site. The agent experience checks that read the probes then say "not checked". An existing ban may last a while, so wait it out or ask the site owner to lift it. Needs squirrel 0.0.99 or later; on an older version run `squirrel self update` first. To keep those checks instead, let the audit through the firewall: https://docs.squirrelscan.com/cloud/firewall (for a CLI audit, allow your own IP or send a secret header with `-H`: https://docs.squirrelscan.com/configuration/crawler#or-let-squirrelscan-through).
 - **Audit fails as a redirect, or is blocked, on a site behind an access gateway** (Cloudflare Access, Vercel deployment protection): the gateway needs a header, such as a Cloudflare Access service token (`CF-Access-Client-Id` and `CF-Access-Client-Secret`) set as custom request headers. Every rendering mode sends the website's custom headers, cloud browser renders included (to the rendered page's own origin only, on the audited host and its `www` twin), so rendering can stay on. A signed-in CLI audit's cloud renders never carry `-H` headers: run it with `--http` when headers come from `-H`. Audit the exact `https://` origin the gateway protects, because a redirect to another origin drops the headers. Gateways with no header route (Okta, Entra ID and similar) need the CLI on a network they admit. Docs: https://docs.squirrelscan.com/guides/failed-audits#access-gateway, https://docs.squirrelscan.com/cloud/firewall and https://docs.squirrelscan.com/cloud/firewall#which-renders-carry-them
 - **Invalid URL**: include the protocol: `https://example.com`, not `example.com`.
-- **Anything else**: run `squirrel self doctor`, then report it with the `bug_report` category: agents via the `send_feedback` MCP tool or `squirrel feedback --json` (see Agent feedback), humans via `squirrel feedback` or [squirrelscan.com/support](https://squirrelscan.com/support).
+- **Anything else**: run `squirrel self doctor`, then report it with the `bug_report` category: agents via the `send_feedback` MCP tool or `squirrel feedback --json` (see Agent feedback), humans via `squirrel feedback` or the support page at [squirrelscan.com/support](https://squirrelscan.com/support)
