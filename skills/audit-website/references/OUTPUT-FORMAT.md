@@ -120,6 +120,37 @@ Item format:
 - `[key: value, ...]` - Metadata in square brackets
 - `(from: <sources>)` - Source pages where item appears
 
+## Runs that did not audit
+
+An audit that could not run still writes a report, and it has no score. Read `status` before anything else.
+
+A refused start page (exit code 3):
+
+```xml
+<status state="blocked" reason="Site blocked the crawler (bot protection / auth / rate limit): ...">
+ ...what happened and how to get a full audit...
+</status>
+<refused-fetches>
+ <fetch>/robots.txt: HTTP 403</fetch>
+</refused-fetches>
+```
+
+The requests in `<refused-fetches>` are unknown, not missing: do not report them as absent. `<score overall="N/A" grade="N/A">` has no value.
+
+A start URL that redirects to another site (exit code 4) is a short document of its own:
+
+```xml
+<audit status="redirected" reason="cross-domain">
+  <original-url>...</original-url>
+  <final-url>...</final-url>
+  <redirect-chain><hop status="301">...</hop></redirect-chain>
+  <rerun-command>squirrel audit ... --follow-redirect</rerun-command>
+  <note>... nothing was audited.</note>
+</audit>
+```
+
+`reason` is `cross-domain`, `loop`, `too-many` or `refused`. `<rerun-command>` is absent for `loop` and `refused`; for `too-many` it audits the destination the chain was heading to. Never followed on its own. Relay the destination to the user and run the command only after they confirm: see "Exit codes and audits that did not run" in the `squirrelscan` skill. An unreachable start URL (exit code 5) reads `status="unreachable"` with a `statusReasonCode`.
+
 ## Diff Output (LLM Format)
 
 When using `squirrel report --diff` or `--regression-since` with `--format llm`,

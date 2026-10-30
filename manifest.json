@@ -4,7 +4,7 @@
   "skills": [
     {
       "name": "audit-website",
-      "version": "2.7",
+      "version": "2.8",
       "files": [
         {
           "path": "README.md",
@@ -13,8 +13,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "4a52b3c40361380bcb3600abfa46c0659f8c5be25ccefcc52f2dfc19396b4611",
-          "size": 5793
+          "sha256": "488319359e01d0d65345fe0f1bfd71bba917e67aaaeabc3bc2303eafe10a967b",
+          "size": 6440
         },
         {
           "path": "agents/openai.yaml",
@@ -33,19 +33,19 @@
         },
         {
           "path": "references/OUTPUT-FORMAT.md",
-          "sha256": "4e508b7a055d04ab588207eb9c69567f88a5002f3e402a2e08c3c19b41a2dc5a",
-          "size": 7706
+          "sha256": "a59e875cc5450a2f66d980c10b24ffd9be30020197e15c54b06aa155b1be8f5f",
+          "size": 9126
         }
       ]
     },
     {
       "name": "squirrelscan",
-      "version": "1.21",
+      "version": "1.22",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "31e53ef3a05376029324187c011975bbc4a8832dfd806eaf2f454a6cdadfd925",
-          "size": 37562
+          "sha256": "a775ebb1e567d3db1e0eb226f2b55271eccdd8fce29eb377420621fca117d0ad",
+          "size": 44560
         },
         {
           "path": "agents/openai.yaml",
