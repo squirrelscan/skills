@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH
 metadata:
   author: squirrelscan
-  version: "2.7"
+  version: "2.8"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
@@ -30,6 +30,9 @@ squirrel audit https://example.com --format llm
 - Use `--format llm`: it is compact, exhaustive, and made for agents.
 - If the user doesn't provide a URL, ask which site to audit.
 - Prefer auditing the live site: only there do you see true rendering, performance, and redirect behavior. If both a local dev server and a live site exist, suggest the live one; apply the fixes to the local code either way.
+- Read `skippedChecks` and `summary.skipped` in a JSON report: a skipped check is not clean, so do not report it as fixed.
+- Check the exit code. `3` (blocked), `4` (the start URL redirected to another site) and `5` (unreachable) mean nothing was audited and there is no score: do not start a fix loop. Relay a redirect's destination and re-run with `--follow-redirect` only after the user confirms the site. Details in the `squirrelscan` skill, "Exit codes and audits that did not run".
+- For a site the user does not own or manage, add `--ephemeral` when signed in, so the audit does not add it to their dashboard or schedule it (same credits).
 - Audits are cached locally. Re-render later without recrawling: `squirrel report <audit-id> --format llm`.
 
 ### Scan progression
