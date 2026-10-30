@@ -135,7 +135,7 @@ A refused start page (exit code 3):
 </refused-fetches>
 ```
 
-The requests in `<refused-fetches>` are unknown, not missing: do not report them as absent. `<score>` is `N/A`.
+The requests in `<refused-fetches>` are unknown, not missing: do not report them as absent. `<score overall="N/A" grade="N/A">` has no value.
 
 A start URL that redirects to another site (exit code 4) is a short document of its own:
 
@@ -149,7 +149,7 @@ A start URL that redirects to another site (exit code 4) is a short document of 
 </audit>
 ```
 
-`reason` is `cross-domain`, `loop`, `too-many` or `refused`; `<rerun-command>` is absent when there is nothing to run again. Relay the destination to the user and run the command only after they confirm: see "Exit codes and audits that did not run" in the `squirrelscan` skill. An unreachable start URL (exit code 5) reads `status="unreachable"` with a `statusReasonCode`.
+`reason` is `cross-domain`, `loop`, `too-many` or `refused`. `<rerun-command>` is absent for `loop` and `refused`; for `too-many` it audits the destination the chain was heading to. Never followed on its own. Relay the destination to the user and run the command only after they confirm: see "Exit codes and audits that did not run" in the `squirrelscan` skill. An unreachable start URL (exit code 5) reads `status="unreachable"` with a `statusReasonCode`.
 
 ## Diff Output (LLM Format)
 

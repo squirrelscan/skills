@@ -33,8 +33,8 @@
         },
         {
           "path": "references/OUTPUT-FORMAT.md",
-          "sha256": "f2a9784e74592fd4a05bf170e060d213b9b1519bbafb092e73f5edd8bb0d7558",
-          "size": 9012
+          "sha256": "a59e875cc5450a2f66d980c10b24ffd9be30020197e15c54b06aa155b1be8f5f",
+          "size": 9126
         }
       ]
     },
@@ -44,8 +44,8 @@
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "f269e8b03e62302efb7e53a9ffa1d7fd2e99bac4a98155849e75f53748c2f5cc",
-          "size": 44040
+          "sha256": "3484724cd1f0b8214c16153e6e34e959df415665220fef18cf3edcafde490bb6",
+          "size": 44294
         },
         {
           "path": "agents/openai.yaml",
