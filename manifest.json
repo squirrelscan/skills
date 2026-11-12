@@ -4,7 +4,7 @@
   "skills": [
     {
       "name": "audit-website",
-      "version": "2.9",
+      "version": "3.0",
       "files": [
         {
           "path": "README.md",
@@ -13,8 +13,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "b5e1b50fc0ceb6de4d1bc7774810bfd75d97230743209d47d5818831cf49edae",
-          "size": 6829
+          "sha256": "074015b89cd4a16354eb21b3c7f86e9a87b977905cdfa1822b355bfd130d18c3",
+          "size": 10821
         },
         {
           "path": "agents/openai.yaml",
@@ -40,12 +40,12 @@
     },
     {
       "name": "squirrelscan",
-      "version": "1.23",
+      "version": "2.0",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "c06b52202b720d7094b574159c01ec8d1bb070278482285f6181d20ddabf86e3",
-          "size": 49825
+          "sha256": "eb8b0d670f3ce75b6cb4c2f6853d4d1130571b0a5d51b2db3df2f2aa0c17ca1f",
+          "size": 17725
         },
         {
           "path": "agents/openai.yaml",
@@ -63,9 +63,44 @@
           "size": 1721
         },
         {
+          "path": "references/account-and-cloud.md",
+          "sha256": "31e16f1c5ebb76c9398053736aba24e77441f05de1527a84079c947425690881",
+          "size": 6118
+        },
+        {
+          "path": "references/configuration.md",
+          "sha256": "5f61712319990a14bd89231e70ac0081ba0655ba80e4572eabee034661ef39d3",
+          "size": 7574
+        },
+        {
           "path": "references/entity-map-fixes.md",
           "sha256": "6081d206b927996294b93bd827135bcc41e98f831791811b5788806f9b01e47b",
           "size": 9062
+        },
+        {
+          "path": "references/entity-map.md",
+          "sha256": "b82fed6d5196c1df60bab15bb48bfbef512352722c17ce4a041d88ab6fb61d24",
+          "size": 2750
+        },
+        {
+          "path": "references/install.md",
+          "sha256": "89bad5d733c8873f9525cd54ec2e2696590fd78bcc00f9a4b40984dac593988e",
+          "size": 2462
+        },
+        {
+          "path": "references/maintenance.md",
+          "sha256": "306279104813f185270a0899854cfea62d303dda8c4e55d4c099368095bbdda8",
+          "size": 6872
+        },
+        {
+          "path": "references/mcp.md",
+          "sha256": "5b02fd904b0ee7241682e5c2764ad75c1e52231f77067290da02fbc054776f35",
+          "size": 9429
+        },
+        {
+          "path": "references/reports.md",
+          "sha256": "1a47b2775ba059702b536eb2ec976636103cf57ff947155c71f764503ff20d6c",
+          "size": 3548
         }
       ]
     }
