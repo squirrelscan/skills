@@ -4,7 +4,7 @@
   "skills": [
     {
       "name": "audit-website",
-      "version": "3.1",
+      "version": "3.2",
       "files": [
         {
           "path": "README.md",
@@ -13,8 +13,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "da2dfd98ac9f29391bd2d089986a985309a89e90ca475e4b6bd25e9cb24bd400",
-          "size": 10821
+          "sha256": "121907890cea2fa1f7c223dde17180992a6db5daa3b558e3e66fb78292eea69a",
+          "size": 11189
         },
         {
           "path": "agents/openai.yaml",
@@ -40,11 +40,11 @@
     },
     {
       "name": "squirrelscan",
-      "version": "2.1",
+      "version": "2.2",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "8d71f95106e5396436438c6fec3179fc09bdb7b7c6d99a54dc0fe40e131cce27",
+          "sha256": "9d0d2e450e70055ea2a08973972b3313908ad024bf1c15bdb6fbb77c4b2f8eed",
           "size": 17725
         },
         {
@@ -69,8 +69,8 @@
         },
         {
           "path": "references/configuration.md",
-          "sha256": "5f61712319990a14bd89231e70ac0081ba0655ba80e4572eabee034661ef39d3",
-          "size": 7574
+          "sha256": "aed119b46802bf28d8fd44b8028ac37aafe882bf5e6f2e907c382649cb3ec0cf",
+          "size": 7997
         },
         {
           "path": "references/entity-map-fixes.md",
@@ -94,13 +94,13 @@
         },
         {
           "path": "references/mcp.md",
-          "sha256": "5b02fd904b0ee7241682e5c2764ad75c1e52231f77067290da02fbc054776f35",
-          "size": 9429
+          "sha256": "aad0fcd5e04c48916e1b2b2e2505cb854b0cb14ce7f957a2c5fc889411e22781",
+          "size": 10217
         },
         {
           "path": "references/reports.md",
-          "sha256": "1a47b2775ba059702b536eb2ec976636103cf57ff947155c71f764503ff20d6c",
-          "size": 3548
+          "sha256": "c9157ba6e7fc3495410e8a202f08ad6c3f30fc08ceea63f451e758fa5fc67c1a",
+          "size": 4042
         }
       ]
     }

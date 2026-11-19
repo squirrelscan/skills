@@ -47,6 +47,7 @@ reason = "Shopify sets this cookie itself"
 ```
 
 - `[rules] disable` and `enable` take exact ids (`eeat/about-page`) and category globs (`eeat/*`). A `*` works only as the whole pattern or as the whole rule name, so `core/og-*` matches nothing. `disable` wins when a rule matches both. A disabled rule does not run and does not count toward the score.
+- They also take a whole rule group as `group:<id>` (`group:seo`, `group:performance`, `group:security`, `group:ai`), which expands to every category in the group when the config loads: `disable = ["group:performance"]` switches off `perf/*`. `--rule-include` and `--rule-exclude` take `group:<id>` too. An unknown group id is a config error. Needs squirrel 0.0.185 or later. Docs: https://docs.squirrelscan.com/cli/config
 - `[[ignore]]` waives findings of a rule that still runs, for named items, urls or selectors (`rule` plus one of `items`, `urls`, `selectors`, and an optional `reason`). Use `disable` when a whole class is out of scope and `[[ignore]]` when only some findings are not actionable. Waived findings are counted in the report, not hidden. `integrity/*` rules cannot be waived.
 - `squirrel audit <url> --no-ignore` runs without applying the `[[ignore]]` entries, to see what they waive.
 - `squirrel config show`, `set`, `path` and `validate` show, change, locate and check the config. `squirrel config validate` reports `[[ignore]]` entries that name a rule that does not exist.

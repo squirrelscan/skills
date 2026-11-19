@@ -12,7 +12,9 @@ squirrel report <audit-id> --format llm
 squirrel report example.com --format markdown -o report.md
 ```
 
-Formats: `console`, `text`, `json`, `html`, `markdown`, `xml`, `llm`. Filter with `--severity error` or `--category core,links`.
+Formats: `console`, `text`, `json`, `html`, `markdown`, `xml`, `llm`. Filter with `--severity error`, `--category core,links` or `--group security`.
+
+`--group` filters by rule group: `seo`, `performance`, `security`, `ai`. It takes a comma-separated list (`--group security,performance`) and combines with `--category`, so an issue must match both (`--group seo --category a11y`). Accessibility rules are in the `seo` group. An unknown group exits with an error that lists the valid ones. Needs squirrel 0.0.185 or later; on an older version run `squirrel self update` first. Docs: https://docs.squirrelscan.com/cli/report
 
 ### Publishing
 
