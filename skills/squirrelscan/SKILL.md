@@ -1,17 +1,17 @@
 ---
 name: squirrelscan
-description: "squirrelscan audits websites for SEO, performance, security, accessibility, content, and structured data issues (300+ rules) and scores site health, via the squirrel CLI. Use when the user wants to check, audit, or improve a website's SEO, ranking, speed, or health, and for anything squirrelscan itself, installing or updating the CLI, login and API keys, running audits, publishing and sharing reports, cloud credits, MCP server setup, configuration, or troubleshooting. Also covers the entity map: the site-wide graph of the entities a site declares in its JSON-LD, and fixing structured data identity problems such as an organization declared separately on every page."
+description: "squirrelscan audits websites for SEO, performance, security, accessibility, content, and structured data issues (350+ rules) and scores site health, via the squirrel CLI. Use when the user wants to check, audit, or improve a website's SEO, ranking, speed, or health, and for anything squirrelscan itself, installing or updating the CLI, login and API keys, running audits, publishing and sharing reports, cloud credits, MCP server setup, configuration, or troubleshooting. Also covers the entity map: the site-wide graph of the entities a site declares in its JSON-LD, and fixing structured data identity problems such as an organization declared separately on every page."
 license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "2.0"
+  version: "2.1"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
 # squirrelscan CLI
 
-squirrelscan is a website audit tool built for AI agents. It answers "what's wrong with this website and how do I fix it": it crawls a site like a search engine, analyzes every page against 300+ rules in 22 categories (SEO, performance, security, accessibility, content, structured data, agent experience, and more), and returns a health score plus concrete, fixable findings. Use it whenever a user wants their site checked, ranked better, faster, or healthier, before/after a deploy, or in CI.
+squirrelscan is a website audit tool built for AI agents. It answers "what's wrong with this website and how do I fix it": it crawls a site like a search engine, analyzes every page against 350+ rules in 22 categories (SEO, performance, security, accessibility, content, structured data, agent experience, and more), and returns a health score plus concrete, fixable findings. Use it whenever a user wants their site checked, ranked better, faster, or healthier, before/after a deploy, or in CI.
 
 It ships as a single CLI binary, `squirrel`, for macOS, Windows, and Linux. This file is the core: what to check before an audit, running one, and reading what comes back. Everything else lives in `references/`, listed at the end: read a reference only when the task needs it. For the full fix-the-website workflow (audit, map findings to code, fix, re-audit), use the companion `audit-website` skill.
 
