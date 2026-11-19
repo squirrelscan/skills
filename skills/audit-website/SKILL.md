@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "3.1"
+  version: "3.2"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
@@ -60,6 +60,8 @@ squirrel audit https://example.com --format llm
 Surface and full send a few quiet probes from the CLI by default; for a site the user does not own, add `--passive`. Cloud audits (hosted MCP, dashboard) probe passively at every level.
 
 Useful flags: `--refresh` (ignore cache, full re-fetch), `--resume` (continue an interrupted crawl), `-m <n>` (page cap), `--verbose` (progress detail).
+
+A re-audit within 24 hours reads the site's scripts from a local cache instead of fetching them again (squirrel 0.0.185 or later), and pages are re-fetched with conditional GET. After a deploy that changed scripts, re-audit with `--refresh`: it turns the script cache off and fetches everything. `--no-incremental` turns off conditional GET and the script cache too.
 
 If the site blocks unknown crawlers (Shopify / Cloudflare), pass Web Bot Auth headers with repeated `-H "Name: Value"` flags. Header values are secrets and are redacted in output. See https://docs.squirrelscan.com/guides/web-bot-auth
 

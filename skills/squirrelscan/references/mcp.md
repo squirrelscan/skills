@@ -16,6 +16,8 @@ Hosted tool behavior:
 - An argument a tool does not accept is dropped, and the successful result lists it in `ignored_args`. Check it to tell a setting that took effect from one that did not.
 - `add_website` takes an optional `scope` (`discover` or `sitemap`) next to `kind`; the result reports both.
 - `list_issues` returns `website_totals` (counts for the whole website) and `total` (the filtered set). `website_totals` replaces `severity_summary` and `status_counts`.
+- `ISSUE_REPLACED` from `get_issue` or `comment_on_issue`: the issue number is an old one-issue-per-rule issue on a website whose issues are now written by issue triage. The message reads "This issue was replaced: issues are now written by the issue triage, and the old one-issue-per-rule issues were retired. See the website's Issues tab." The number will not come back: do not retry it. Call `list_issues` for the website and work from the current issues, for example when following an old issue link.
+- Triage can close an issue as a duplicate of another. The closed issue carries the label `duplicate`, and its last comment ends "Merged into #N (title) in audit ...". Issue #N took its findings (its comment reads "Merged #M (title) into this issue"). Work on #N, not the closed one.
 
 Audit levels over MCP:
 
