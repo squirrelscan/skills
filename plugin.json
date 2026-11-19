@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "squirrelscan",
-  "version": "2.0.0",
-  "description": "Website QA tool built for coding agents (Claude Code, Cursor). 300+ rules across SEO, performance, security, accessibility & agent experience: audit from the CLI, fix findings in code, publish reports, and connect over MCP.",
+  "version": "2.1.0",
+  "description": "Website QA tool built for coding agents (Claude Code, Cursor). 350+ rules across SEO, performance, security, accessibility & agent experience: audit from the CLI, fix findings in code, publish reports, and connect over MCP.",
   "author": {
     "name": "squirrelscan",
     "url": "https://squirrelscan.com"
@@ -25,7 +25,7 @@
       "interface": {
         "displayName": "squirrelscan",
         "shortDescription": "Website QA for coding agents",
-        "longDescription": "squirrelscan audits your website for SEO, performance, security, accessibility, content and agent experience issues (300+ rules), scores site health, and gives your coding agent exact fixes. Run audits with the squirrel CLI, publish and share reports, and connect over the hosted MCP server.",
+        "longDescription": "squirrelscan audits your website for SEO, performance, security, accessibility, content and agent experience issues (350+ rules), scores site health, and gives your coding agent exact fixes. Run audits with the squirrel CLI, publish and share reports, and connect over the hosted MCP server.",
         "developerName": "squirrelscan",
         "category": "Developer Tools",
         "capabilities": [
