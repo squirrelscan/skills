@@ -40,11 +40,11 @@
     },
     {
       "name": "squirrelscan",
-      "version": "2.2",
+      "version": "2.3",
       "files": [
         {
           "path": "SKILL.md",
-          "sha256": "9d0d2e450e70055ea2a08973972b3313908ad024bf1c15bdb6fbb77c4b2f8eed",
+          "sha256": "cf89834787399edd589bac188f90d02fa5955d98175454e18d073cb53e63a243",
           "size": 17725
         },
         {
@@ -89,8 +89,8 @@
         },
         {
           "path": "references/maintenance.md",
-          "sha256": "306279104813f185270a0899854cfea62d303dda8c4e55d4c099368095bbdda8",
-          "size": 6872
+          "sha256": "b1361599f50e8dfd447568b6b7892f55bb7174a006b7d80e0d3fa89d6e904be8",
+          "size": 7795
         },
         {
           "path": "references/mcp.md",
