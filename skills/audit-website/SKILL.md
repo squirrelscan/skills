@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "3.2"
+  version: "3.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
@@ -72,7 +72,7 @@ With the hosted squirrelscan MCP server connected (`https://mcp.squirrelscan.com
 | Step | Tool |
 |------|------|
 | Who am I acting for, and the balance | `whoami` |
-| Start an audit | `run_audit` (`url`, `level`). Its first answer is usually `confirmation_required` with the estimate: show it to the user, then call again with `confirm: true` |
+| Start an audit | `run_audit` (`url`, `level`). Its first answer is usually `confirmation_required` with the estimate: show it to the user, then call again with `confirm: true`. After deploying a fix, re-audit with `refresh: true` so every page is fetched from the site, not reused from an earlier crawl |
 | Wait for it | `get_audit_status` with the `run_id`, until it is completed |
 | Read it | `get_report` (`format: "summary"` first, then `"llm"` or `"markdown"`). Summary rows sample pages and items; read totals from the counts |
 | The cloud's action plans | `list_issues`, then `get_issue` for one issue's plan (`body_md`), the findings it covers (`covered_findings`, up to 100, with the true total in `covered_finding_count`) and a sample of its occurrences (`occurrence_count` is the true total) |
