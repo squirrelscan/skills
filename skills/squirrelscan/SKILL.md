@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires squirrel CLI installed and accessible in PATH (or guides the user to install it)
 metadata:
   author: squirrelscan
-  version: "2.3"
+  version: "2.4"
 allowed-tools: Bash(squirrel:*) Read
 ---
 
@@ -40,7 +40,7 @@ Before a signed-in audit, tell the user the cost (`squirrel credits` shows the b
 | `--ephemeral` | yes, the same | no | no |
 | `--offline` | no | no | no |
 
-`--ephemeral` (squirrel 0.0.141 or later) is for a site the user does not own or manage, a one-off check or a CI preview URL; it is not free. Over the hosted MCP server, `whoami` shows the organization and balance, and `run_audit` returns its estimate (`confirmation_required`) before it spends: show it to the user and call again with `confirm: true` only once they agree. Credits, roles and API keys: `references/account-and-cloud.md`.
+`--ephemeral` (squirrel 0.0.141 or later) is for a site the user does not own or manage, a one-off check or a CI preview URL; it is not free. Over the hosted MCP server, `whoami` shows the organization and balance, and `run_audit` returns its estimate (`confirmation_required`) before it spends: show it to the user and call again with `confirm: true` only once they agree. For a re-audit right after a deploy, pass `refresh: true` so no stored page is reused. Credits, roles and API keys: `references/account-and-cloud.md`.
 
 ## Command overview
 
