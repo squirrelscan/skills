@@ -1,0 +1,4 @@
+#!/bin/sh
+# Installed by `make hooks`. Fails the commit when a staged change under
+# skills/<name>/ has no version bump for that skill (see scripts/check-versions.ts).
+exec bun scripts/check-versions.ts --staged

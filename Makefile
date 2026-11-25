@@ -3,7 +3,7 @@ AGENTS_SKILLS_DIR := $(HOME)/.agents/skills
 SKILL_DIRS := $(shell find ./skills -maxdepth 2 -name 'SKILL.md' -exec dirname {} \;)
 DIST := dist/clawdhub
 
-.PHONY: link unlink build clean manifest
+.PHONY: link unlink build clean manifest bump hooks
 
 link:
 	@mkdir -p $(CLAUDE_SKILLS_DIR) $(AGENTS_SKILLS_DIR)
@@ -52,3 +52,14 @@ clean:
 # Regenerate manifest.json (skill versions + file hashes) after changing skills/.
 manifest:
 	@bun run scripts/manifest.ts
+
+# Bump a skill's metadata.version (and manifest.json): make bump SKILL=audit-website PART=minor
+bump:
+	@test -n "$(SKILL)" -a -n "$(PART)" || { echo "usage: make bump SKILL=<name> PART=patch|minor|major"; exit 1; }
+	@bun run scripts/bump.ts $(SKILL) $(PART)
+
+# Install the pre-commit hook that checks skill versions on staged changes.
+hooks:
+	@git config core.hooksPath .githooks
+	@chmod +x .githooks/pre-commit
+	@echo "core.hooksPath = .githooks (pre-commit checks skill versions)"
