@@ -2,7 +2,9 @@
 
 # squirrelscan skills and plugins
 
-**Website audits for AI agents: skills, plugins, and MCP in one repo**
+**Website audit skills for Claude Code, Codex, Cursor and other coding agents: skills, plugins, and MCP in one repo**
+
+Setup guides: [squirrelscan for Claude Code](https://squirrelscan.com/for/claude-code) and the [Claude Code docs](https://docs.squirrelscan.com/developers/agents/claude-code).
 
 ## What is squirrelscan?
 
@@ -21,12 +23,25 @@
 
 This repo is the one home of the squirrelscan agent skills and agent plugins. Every install path below reads it; nothing else carries a copy.
 
-| Skill | What it does |
-|-------|--------------|
-| [`squirrelscan`](skills/squirrelscan/SKILL.md) | Operate the CLI: install, login, run audits, publish reports, credits, API keys, the entity map, MCP setup, config, troubleshooting |
-| [`audit-website`](skills/audit-website/SKILL.md) | The fix loop: audit a site, map findings to code, fix in batches, re-audit until it scores well |
+| Skill | What it does | Install |
+|-------|--------------|---------|
+| [`squirrelscan`](skills/squirrelscan/SKILL.md) | Operate the CLI: install, login, run audits, publish reports, credits, API keys, the entity map, MCP setup, config, troubleshooting | `npx skills add squirrelscan/skills --skill squirrelscan` |
+| [`audit-website`](skills/audit-website/SKILL.md) | The fix loop: audit a site, map findings to code, fix in batches, re-audit until it scores well | `npx skills add squirrelscan/skills --skill audit-website` |
+| [`security-audit`](skills/security-audit/SKILL.md) | Leaked secrets, exposed files and endpoints, headers, cookies and signs of compromise; asks about ownership before aggressive probing | `npx skills add squirrelscan/skills --skill security-audit` |
+| [`supabase-security-audit`](skills/supabase-security-audit/SKILL.md) | Whether the public anon key can read tables with Row Level Security off, and secret keys in the browser; RLS fixes | `npx skills add squirrelscan/skills --skill supabase-security-audit` |
+| [`accessibility-audit`](skills/accessibility-audit/SKILL.md) | Accessible names, ARIA, headings, contrast, with a WCAG level filter and checklist; says what needs a person | `npx skills add squirrelscan/skills --skill accessibility-audit` |
+| [`seo-audit`](skills/seo-audit/SKILL.md) | Crawlability, indexing, canonicals, titles, descriptions, duplicates, fixed template-first | `npx skills add squirrelscan/skills --skill seo-audit` |
+| [`broken-link-checker`](skills/broken-link-checker/SKILL.md) | Dead links, anchors, redirect chains, orphan pages, broken images; a decision per finding | `npx skills add squirrelscan/skills --skill broken-link-checker` |
+| [`performance-audit`](skills/performance-audit/SKILL.md) | What slows loading: images, scripts, compression, caching, layout shift | `npx skills add squirrelscan/skills --skill performance-audit` |
+| [`structured-data-audit`](skills/structured-data-audit/SKILL.md) | JSON-LD validity and the site-wide entity map | `npx skills add squirrelscan/skills --skill structured-data-audit` |
+| [`agent-experience-audit`](skills/agent-experience-audit/SKILL.md) | How agents and crawlers read a site: bot access, content without JavaScript, `llms.txt`, `AGENTS.md` | `npx skills add squirrelscan/skills --skill agent-experience-audit` |
+| [`website-ci-gate`](skills/website-ci-gate/SKILL.md) | Fail CI on a score threshold, errors or new findings; GitHub Actions, GitLab, preview deploys | `npx skills add squirrelscan/skills --skill website-ci-gate` |
+| [`security-headers`](skills/security-headers/SKILL.md) | CSP, HSTS and other header config for Cloudflare, Vercel, Netlify, nginx, Next.js; no CLI needed | `npx skills add squirrelscan/skills --skill security-headers` |
+| [`launch-checklist`](skills/launch-checklist/SKILL.md) | A pre-launch pass that runs the others in launch order and ends in a go or no-go list | `npx skills add squirrelscan/skills --skill launch-checklist` |
 
-Each plugin bundles both skills and the hosted squirrelscan MCP server:
+The skills are in [`skills.sh.json`](skills.sh.json) groups: audit and fix, security, quality checks, CI and launch.
+
+Each plugin bundles every skill in `skills/` and the hosted squirrelscan MCP server:
 
 | Plugin | Files |
 |--------|-------|
@@ -37,11 +52,11 @@ Each plugin bundles both skills and the hosted squirrelscan MCP server:
 
 Codex reads each skill's `agents/openai.yaml` for its display metadata.
 
-`manifest.json` lists every skill's version and every file in it with its sha256 and size. The squirrel CLI installs and updates the skills from it: it downloads only the files whose hash changed and verifies each one before writing anything.
+`manifest.json` lists the skills the squirrel CLI installs (`squirrelscan` and `audit-website`, set by `CLI_SKILLS` in `scripts/manifest.ts`), each with its version and every file in it with its sha256 and size. The CLI downloads only the files whose hash changed and verifies each one before writing anything. The task-specific skills are not in it: `squirrel skills install` installs only the two main skills, and the others come from `npx skills add` or the plugins.
 
 ## Prerequisites
 
-All skills drive the **squirrel CLI**, which must be installed and in PATH.
+The audit skills drive the **squirrel CLI**, which must be installed and in PATH (or the hosted MCP server connected). `security-headers` needs neither.
 
 **Install:** [squirrelscan.com/download](https://squirrelscan.com/download)
 
@@ -70,7 +85,7 @@ Pick the path for your tool:
 npx skills add squirrelscan/skills
 ```
 
-Installs both skills (`squirrelscan` and `audit-website`) for whichever agents you select: Claude Code, Codex, Cursor, Gemini CLI, Amp, and more. Skills follow the [Agent Skills](https://agentskills.io) standard, so the same `SKILL.md` works across tools. To install just one skill:
+Installs every skill in the table above for whichever agents you select: Claude Code, Codex, Cursor, Gemini CLI, Amp, and more. Skills follow the [Agent Skills](https://agentskills.io) standard, so the same `SKILL.md` works across tools. To install just one skill:
 
 ```bash
 npx skills add squirrelscan/skills --skill audit-website
@@ -83,7 +98,7 @@ npx skills add squirrelscan/skills --skill audit-website
 /plugin install squirrelscan@squirrelscan
 ```
 
-One step installs both skills and connects the hosted squirrelscan MCP server.
+One step installs all the skills and connects the hosted squirrelscan MCP server.
 
 ### Claude Code channel (opt in)
 
@@ -114,7 +129,7 @@ squirrel skills install
 squirrel skills update
 ```
 
-From v0.0.99 the CLI installs the skills itself, from `manifest.json`, into `~/.claude/skills` and `~/.agents/skills` (or a repo's own with `--project`), takes over installs made with `npx skills`, and keeps them current with its own auto-update. See [docs.squirrelscan.com/cli/skills](https://docs.squirrelscan.com/cli/skills).
+From v0.0.99 the CLI installs the skills itself, from `manifest.json`, into `~/.claude/skills` and `~/.agents/skills` (or a repo's own with `--project`), takes over installs made with `npx skills` of the two skills it manages, and keeps them current with its own auto-update. See [docs.squirrelscan.com/cli/skills](https://docs.squirrelscan.com/cli/skills).
 
 ### Manual
 
@@ -122,7 +137,7 @@ From v0.0.99 the CLI installs the skills itself, from `manifest.json`, into `~/.
 git clone https://github.com/squirrelscan/skills.git
 ```
 
-Then copy or symlink `skills/squirrelscan` and `skills/audit-website` into your agent's skills directory (`make link` does this for Claude Code and `.agents/skills` consumers).
+Then copy or symlink the `skills/*` directories you want into your agent's skills directory (`make link` does this for Claude Code and `.agents/skills` consumers).
 
 ## Updates and versions
 
@@ -183,7 +198,7 @@ After changing anything under `skills/`, regenerate the manifest and commit it w
 bun run scripts/manifest.ts
 ```
 
-Bump the skill's `metadata.version` in its `SKILL.md` too, so installs can tell the versions apart. For `squirrelscan` also set the plugin `version` in the three manifests to the same number plus `.0` (`1.16` becomes `1.16.0`); `check-skills.ts` fails on a mismatch.
+Every skill carries a full semver `metadata.version` (`MAJOR.MINOR.PATCH`): patch for wording and fixes, minor for a new capability or section, major for a breaking change to how the skill is invoked. `make bump SKILL=<name> PART=patch|minor|major` bumps it and regenerates `manifest.json` (for `squirrelscan` it also moves the three plugin manifests). `bun scripts/check-skills.ts` fails when a file under `skills/<name>/` changed against `origin/main` without that skill's version going up, and `make hooks` installs a pre-commit hook (`.githooks/`) that runs the same check on staged changes. A new skill starts at `0.1.0`. Skills older than the rule may still read `major.minor`; the CLI compares versions as dotted numbers, so `3.3` and `3.3.0` are equal.
 
 All skills follow the [Agent Skills Standard](https://agentskills.io/specification).
 

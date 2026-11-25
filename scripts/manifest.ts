@@ -1,7 +1,7 @@
 // Generate manifest.json: every skill under skills/, its version (SKILL.md
 // `metadata.version`) and every file in it with its sha256 and size.
 //
-// The squirrel CLI installs and updates the skills from this manifest. It
+// The squirrel CLI installs and updates the skills it lists (CLI_SKILLS) from this manifest. It
 // downloads only the files whose hash changed and verifies each one before
 // writing, so the manifest must always describe exactly the files in skills/:
 // check-skills.ts fails CI when it doesn't.
@@ -31,6 +31,17 @@ export interface Manifest {
 
 const repo = join(import.meta.dir, "..");
 export const MANIFEST = join(repo, "manifest.json");
+
+/**
+ * The skills the squirrel CLI installs and keeps current. `squirrel skills
+ * install` with no names installs EVERY skill in manifest.json (it takes
+ * `[...manifest.skills.keys()]`, apps/cli/src/self/agent-skills.ts in
+ * squirrelscan/squirrelscan), so a skill added under skills/ would reach every
+ * CLI user the moment this file listed it. The task-specific skills ship through
+ * `npx skills add squirrelscan/skills` and the plugins instead: leave them out
+ * of this list until the CLI should install them.
+ */
+export const CLI_SKILLS = ["audit-website", "squirrelscan"];
 
 function git(args: string[]): string {
   const out = Bun.spawnSync(["git", ...args], { cwd: repo, stdout: "pipe", stderr: "pipe" });
@@ -70,6 +81,7 @@ export async function buildManifest(): Promise<Manifest> {
   for (const name of [...bySkill.keys()].sort(byteOrder)) {
     const paths = bySkill.get(name)!.sort(byteOrder);
     if (!paths.includes("SKILL.md")) continue; // not a skill directory
+    if (!CLI_SKILLS.includes(name)) continue; // not installed by the CLI, see CLI_SKILLS
     const files: ManifestFile[] = [];
     for (const path of paths) {
       const bytes = new Uint8Array(await Bun.file(join(repo, "skills", name, path)).arrayBuffer());

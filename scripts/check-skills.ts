@@ -3,10 +3,12 @@
 // directory) and `description` fields. Then check the agent plugin manifests
 // this repo ships (Claude Code, Cursor, Agent Plugins): see checkPlugins(). Then
 // check manifest.json, which the squirrel CLI installs the skills from, still
-// describes every file in skills/.
+// describes every file in skills/ that the CLI installs. Last, check that a skill
+// whose files changed against origin/main carries a higher version (check-versions.ts).
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 
+import { versionProblems } from "./check-versions";
 import { manifestProblems } from "./manifest";
 
 const repo = join(import.meta.dir, "..");
@@ -204,6 +206,15 @@ if (manifestIssues.length > 0) {
   for (const p of manifestIssues) console.error(p);
 } else {
   console.log("manifest.json: ok");
+}
+
+const versions = await versionProblems();
+if (versions.note) console.log(versions.note);
+if (versions.problems.length > 0) {
+  failed++;
+  for (const p of versions.problems) console.error(p);
+} else if (!versions.note) {
+  console.log("skill versions: ok");
 }
 
 if (failed > 0) process.exit(1);
