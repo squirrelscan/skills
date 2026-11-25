@@ -1,0 +1,73 @@
+---
+name: seo-audit
+description: "Run squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, Codex, Cursor, and other coding agents to check crawlability and indexability (robots.txt, sitemaps, canonicals, noindex), titles, descriptions, headings, duplicate content, URLs, social tags, languages, and image alt text. It fixes template-level issues first for Next.js metadata, WordPress with Yoast, Shopify, and Webflow. Use when asked \"run an SEO audit on my site\", \"why aren't my pages indexed\", or \"check my meta tags and sitemap\"."
+license: See LICENSE file in repository root
+compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
+metadata:
+  author: squirrelscan
+  version: "0.1.0"
+allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
+---
+
+# SEO Audit
+
+Check the technical and on-page basics that decide whether search engines can crawl, index and understand a site: robots and sitemaps, canonicals, titles, descriptions, headings, duplicate content, URLs, social tags, languages and images.
+
+squirrelscan runs deterministic audit rules over a real crawl. It finds technical and on-page problems; it does not know what the user's searchers want or how pages rank. If the user has Search Console data, use it to decide which pages matter most.
+
+## Before the first audit
+
+Run `squirrel --version`. If it fails, install the CLI from [squirrelscan.com/download](https://squirrelscan.com/download) (the `squirrelscan` skill has `references/install.md`). Then run `squirrel auth status`:
+
+- **Signed out, or `--offline`**: the audit runs on this machine, is free, and nothing is published.
+- **Signed in**: the audit is billed in credits (50 plus 2 per audited page, plus 1 per distinct external link the cloud verifies), adds the site to the user's dashboard, can turn on recurring audits and publishes an unlisted report. Tell the user the cost (`squirrel credits`) and get a yes. Offer `--offline` or `--no-publish`. For a site the user does not own, add `--ephemeral`: nothing is added to the dashboard, scheduled or published.
+
+Every flag below is checked against the squirrel CLI docs (https://docs.squirrelscan.com/cli/audit). Rule docs: `https://docs.squirrelscan.com/rules/{category}/{rule_id}`.
+
+## Run it
+
+```bash
+squirrel audit https://example.com --level surface \
+  --rule-include crawl,core,content,url,social,i18n,images --format json -o seo.json
+```
+
+- `surface` samples one page per URL pattern first (`/blog/{slug}` once), which is what you want: SEO problems are mostly template problems.
+- Links have their own skill (`broken-link-checker`), structured data has `structured-data-audit`, speed has `performance-audit`. They are left out here on purpose.
+- Read `squirrel report <audit-id> --category crawl,core --severity error --format llm` first, then widen.
+
+## Reading the findings
+
+- Group by rule, then by template. "Title over 60 characters on 41 pages" is one change to a title template, not 41 edits.
+- Check intent before calling anything broken. A `noindex`, a `robots.txt` block, a canonical to another page or a deliberately thin page can be what the user wants. Ask, and leave it (or waive it) when it is intentional.
+- A staging or preview site is usually `noindex` on purpose. Do not remove it.
+
+## Fix order (indexability first)
+
+1. **Can it be crawled and indexed?** `crawl/robots-txt`, `crawl/home-page-unreachable`, `crawl/server-errors`, `crawl/robots-meta-conflict`, `core/robots-meta`, `core/canonical`, `core/canonical-header`, `crawl/canonical-chain`, `crawl/soft-404`, `crawl/custom-404`.
+2. **Can it be discovered?** `crawl/sitemap-exists`, `crawl/sitemap-valid`, `crawl/sitemap-coverage`, `crawl/sitemap-domain`, `crawl/sitemap-4xx`, `crawl/redirect-chain`.
+3. **What does each page say?** `core/meta-title`, `core/title-unique`, `core/meta-description`, `core/h1`, `content/duplicate-title`, `content/duplicate-description`, `content/heading-hierarchy`, `content/h1-title-alignment`.
+4. **Is the content duplicated or thin?** `content/duplicate-content`, `content/near-duplicate`, `content/word-count`, `content/thin-vs-site-norm`, `content/placeholder-text`.
+5. **URLs, social, language, images:** `url/*`, `social/*` and `core/og-tags`, `core/twitter-cards`, `i18n/*`, `images/alt-text`, `images/broken-images`.
+
+Get the exact fix for each rule from its docs page, not from memory.
+
+## Where the fix usually lives
+
+| Stack | Look here |
+|-------|-----------|
+| Next.js | `metadata` / `generateMetadata` in `layout.tsx` and `page.tsx` (title template, description, `alternates.canonical`, `robots`), `app/sitemap.ts`, `app/robots.ts` |
+| WordPress with Yoast SEO | Yoast's title and meta description templates (Search appearance), per-post SEO fields, Settings, Reading (search engine visibility), the canonical and robots fields on a post; sitemaps are generated by Yoast |
+| Shopify | `theme.liquid` head, per-page and per-product "Search engine listing" fields, `robots.txt.liquid`, sitemap is automatic at `/sitemap.xml` |
+| Webflow | Page settings (SEO title, meta description, Open Graph), Site settings (SEO tab for robots.txt and sitemap, Hosting tab for 301 redirects) |
+| Cloudflare / Vercel / Netlify | redirects and headers (`X-Robots-Tag`), `www` or trailing slash normalization |
+| Static and docs sites | frontmatter fields, the layout template's head |
+
+After a deploy, re-audit with `--refresh`: cached HTML would show the old tags.
+
+## Stop condition
+
+Stop when a `--level full` re-audit has no error-severity findings in `crawl` and `core`, titles and descriptions are unique and in range or waived, and what is left is judgment (thin pages, duplicate intent) listed for the user. Do not promise rankings: say what was fixed and what the tool cannot judge.
+
+## Hand off
+
+Broken links: `broken-link-checker`. Schema: `structured-data-audit`. Speed: `performance-audit`. Everything and the fix loop: `audit-website`. Pre-launch: `launch-checklist`.

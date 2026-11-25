@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "3.3"
+  version: "3.4.0"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
@@ -14,6 +14,8 @@ allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 Run a squirrelscan audit against a website, read the report, map each finding to the code or content that causes it, fix in batches, and re-audit until the score target is met.
 
 This skill is the whole loop: you should not need anything else to run it. Over the CLI it needs `squirrel` (from [squirrelscan.com/download](https://squirrelscan.com/download), checked with `squirrel --version`). Over MCP it needs the hosted server; see "Over MCP" below. For install, accounts, MCP setup, configuration and troubleshooting, the companion `squirrelscan` skill has a reference file for each: load only the one you need.
+
+Narrower jobs have their own skills in the same repo (`security-audit`, `supabase-security-audit`, `accessibility-audit`, `seo-audit`, `broken-link-checker`, `performance-audit`, `structured-data-audit`, `agent-experience-audit`, `website-ci-gate`, `security-headers`, `launch-checklist`). Install one with `npx skills add squirrelscan/skills --skill <name>`; they hand back to this skill for the general fix loop.
 
 ## Rule docs
 

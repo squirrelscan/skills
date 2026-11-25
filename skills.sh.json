@@ -1,0 +1,33 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Audit and fix",
+      "description": "Run squirrelscan and fix what it finds.",
+      "skills": ["audit-website", "squirrelscan"]
+    },
+    {
+      "title": "Security",
+      "description": "Leaks, exposed data, headers and signs of compromise.",
+      "skills": ["security-audit", "supabase-security-audit", "security-headers"]
+    },
+    {
+      "title": "Quality checks",
+      "description": "One topic at a time: accessibility, SEO, links, speed, structured data, agent experience.",
+      "skills": [
+        "accessibility-audit",
+        "seo-audit",
+        "broken-link-checker",
+        "performance-audit",
+        "structured-data-audit",
+        "agent-experience-audit"
+      ]
+    },
+    {
+      "title": "CI and launch",
+      "description": "Gate builds and check a site before it goes live.",
+      "skills": ["website-ci-gate", "launch-checklist"]
+    }
+  ]
+}
