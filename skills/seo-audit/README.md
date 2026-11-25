@@ -36,6 +36,9 @@ npx skills add squirrelscan/skills --skill seo-audit
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -53,9 +56,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Run an SEO audit on https://example.com
+```
+
+```text
 Why aren't my pages indexed? Check robots, canonicals and the sitemap
+```
+
+```text
 Check my meta tags and sitemap and fix the title template
 ```
 

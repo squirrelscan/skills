@@ -36,6 +36,9 @@ npx skills add squirrelscan/skills --skill security-audit
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -53,9 +56,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Check my site's security: https://example.com
+```
+
+```text
 Find leaked secrets in what my site ships to the browser
+```
+
+```text
 Run a passive security audit on a competitor's site, ephemeral
 ```
 

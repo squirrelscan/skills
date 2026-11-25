@@ -36,6 +36,9 @@ npx skills add squirrelscan/skills --skill structured-data-audit
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -53,9 +56,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Check my JSON-LD on https://example.com
+```
+
+```text
 Audit my schema markup and show me the entity problems
+```
+
+```text
 Fix duplicate Organization entities and give each one a stable @id
 ```
 

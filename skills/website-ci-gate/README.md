@@ -36,6 +36,9 @@ npx skills add squirrelscan/skills --skill website-ci-gate
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -53,9 +56,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Add squirrelscan to GitHub Actions for https://staging.example.com
+```
+
+```text
 Fail CI on website audit errors and score drops below 85
+```
+
+```text
 Gate preview deploys on audit scores
 ```
 

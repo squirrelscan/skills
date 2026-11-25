@@ -36,6 +36,9 @@ npx skills add squirrelscan/skills --skill broken-link-checker
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -53,9 +56,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Find broken links on https://example.com and tell me what to do with each one
+```
+
+```text
 Check for 404s and redirect chains, internal links only
+```
+
+```text
 Clean up dead sitemap URLs in this repo
 ```
 

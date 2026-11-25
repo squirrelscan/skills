@@ -36,6 +36,9 @@ npx skills add squirrelscan/skills --skill supabase-security-audit
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -53,9 +56,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Is my Supabase app leaking data? Audit https://app.example.com
+```
+
+```text
 Audit my Supabase RLS and write the migration to fix it
+```
+
+```text
 Check if my service role key is exposed in the frontend code
 ```
 

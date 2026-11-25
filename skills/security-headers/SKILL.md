@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Works without the squirrel CLI; curl is enough. The squirrel CLI is optional, for verification
 metadata:
   author: squirrelscan
-  version: "0.1.1"
+  version: "0.1.2"
 allowed-tools: Bash(curl:*) Bash(squirrel:*) Read Edit Grep Glob
 ---
 

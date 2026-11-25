@@ -36,6 +36,9 @@ npx skills add squirrelscan/skills --skill security-headers
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -47,9 +50,15 @@ npx skills add squirrelscan/skills --skill security-headers
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Add security headers to my Next.js app
+```
+
+```text
 Set up a CSP for https://example.com, report-only first
+```
+
+```text
 Fix missing HSTS and Referrer-Policy headers on our nginx config
 ```
 

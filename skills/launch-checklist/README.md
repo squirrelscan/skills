@@ -35,6 +35,9 @@ npx skills add squirrelscan/skills --skill launch-checklist
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -52,9 +55,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Is my site ready to launch? Check https://staging.example.com
+```
+
+```text
 Run a pre-launch website check and give me a go or no-go list
+```
+
+```text
 Audit my migration before cutover and compare the live site with the baseline
 ```
 

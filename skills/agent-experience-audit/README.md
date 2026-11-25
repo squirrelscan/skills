@@ -35,6 +35,9 @@ npx skills add squirrelscan/skills --skill agent-experience-audit
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -52,9 +55,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 How well does my site work for AI agents? Audit https://example.com
+```
+
+```text
 Audit my llms.txt and tell me what is wrong with it
+```
+
+```text
 Which AI bots can reach my site, and which ones does my CDN block?
 ```
 

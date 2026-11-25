@@ -37,6 +37,9 @@ npx skills add squirrelscan/skills --skill accessibility-audit
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -54,9 +57,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Run a WCAG AA audit on https://example.com and fix the issues in this repo
+```
+
+```text
 Check my site's accessibility and group the findings by component
+```
+
+```text
 Print the WCAG checklist for the last audit
 ```
 

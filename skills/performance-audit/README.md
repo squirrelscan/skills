@@ -36,6 +36,9 @@ npx skills add squirrelscan/skills --skill performance-audit
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -53,9 +56,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Why is my site slow? Audit https://example.com and fix what you can in this repo
+```
+
+```text
 Fix layout shift on my product pages
+```
+
+```text
 Re-audit after the deploy and show the before and after performance score
 ```
 

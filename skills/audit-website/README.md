@@ -37,6 +37,9 @@ npx skills add squirrelscan/skills --skill audit-website
 
   ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 
@@ -54,9 +57,15 @@ curl -fsSL https://install.squirrelscan.com | bash
 
 ## Use it in Claude Code, Codex or Cursor
 
-```
+```text
 Audit this website and fix all errors and warnings
+```
+
+```text
 Run an audit on example.com and show me the top 5 critical issues
+```
+
+```text
 Re-audit after the deploy and diff against the last report
 ```
 

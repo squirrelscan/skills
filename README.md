@@ -95,6 +95,9 @@ npx skills add squirrelscan/skills --skill audit-website
 
 ```
 /plugin marketplace add squirrelscan/skills
+```
+
+```
 /plugin install squirrelscan@squirrelscan
 ```
 
@@ -155,7 +158,13 @@ The skills and plugins used to ship from the [squirrelscan/squirrelscan](https:/
 
   ```
   /plugin marketplace remove squirrelscan
+  ```
+
+  ```
   /plugin marketplace add squirrelscan/skills
+  ```
+
+  ```
   /plugin install squirrelscan@squirrelscan
   ```
 - **npx skills**: from squirrel v0.0.99, `squirrel skills install` (or `squirrel skills update`) takes over installs made with `npx skills`, whichever repo they came from, and removes them from its lock file. Without the CLI: `npx skills add squirrelscan/skills -g`.
