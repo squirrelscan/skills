@@ -5,7 +5,7 @@ license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.0"
+  version: "0.1.1"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
