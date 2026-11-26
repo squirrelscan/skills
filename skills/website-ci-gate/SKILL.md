@@ -1,11 +1,11 @@
 ---
 name: website-ci-gate
-description: "Add a squirrelscan CI check using the squirrel CLI in Claude Code, Codex, Cursor, and other coding agents for GitHub Actions, GitLab, and preview deploys. It picks thresholds from a baseline run of squirrelscan audit rules, fails builds on a score threshold, error findings, or new findings, and handles the exit codes correctly. Use when asked \"add squirrelscan to GitHub Actions\", \"fail CI on website audit errors\", or \"gate preview deploys on audit scores\"."
+description: "Add a squirrelscan CI check using the squirrel CLI in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents for GitHub Actions, GitLab, and preview deploys. It picks thresholds from a baseline run of squirrelscan audit rules, fails builds on a score threshold, error findings, or new findings, and handles the exit codes correctly. Use when asked \"add squirrelscan to GitHub Actions\", \"fail CI on website audit errors\", or \"gate preview deploys on audit scores\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

@@ -1,11 +1,11 @@
 ---
 name: security-audit
-description: "Run squirrelscan's security and integrity audit rules (squirrel CLI or hosted squirrelscan MCP server) in Claude Code, Codex, Cursor and other coding agents to find leaked secrets, exposed files and endpoints, weak headers and cookies, mixed content and signs of compromise. It asks whether you own or may test the site before any aggressive probing, defaults to passive and ephemeral runs otherwise, and orders fixes to limit damage. Not a penetration test. Use when asked \"check my site's security\" or \"find leaked secrets\"."
+description: "Run squirrelscan's security and integrity audit rules (squirrel CLI or hosted squirrelscan MCP server) in Claude Code, GitHub Copilot, Codex, Cursor and other coding agents to find leaked secrets, exposed files and endpoints, weak headers and cookies, mixed content and signs of compromise. It asks whether you own or may test the site before any aggressive probing, defaults to passive and ephemeral runs otherwise, and orders fixes to limit damage. Not a penetration test. Use when asked \"check my site's security\" or \"find leaked secrets\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

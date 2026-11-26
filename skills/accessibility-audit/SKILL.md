@@ -1,11 +1,11 @@
 ---
 name: accessibility-audit
-description: "Audit a site with squirrelscan's accessibility audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, Codex, Cursor, and other coding agents, checking accessible names, labels, ARIA, headings, landmarks, contrast, language, zoom, and target sizes. It supports an optional WCAG level filter and checklist, fixes issues by component and template, and says plainly that automated checks cover only part of WCAG and what a person must still check. Use when asked \"check my site's accessibility\" or \"run a WCAG audit\"."
+description: "Audit a site with squirrelscan's accessibility audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents, checking accessible names, labels, ARIA, headings, landmarks, contrast, language, zoom, and target sizes. It supports an optional WCAG level filter and checklist, fixes issues by component and template, and says plainly that automated checks cover only part of WCAG and what a person must still check. Use when asked \"check my site's accessibility\" or \"run a WCAG audit\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

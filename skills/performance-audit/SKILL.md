@@ -1,11 +1,11 @@
 ---
 name: performance-audit
-description: "Diagnose slow page loads with squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, Codex, Cursor, and other coding agents, checking the largest image, render-blocking resources, script and image weight, compression, caching, server response, fonts, and layout shift. It applies stack-specific fixes and compares before and after results, noting that markup and header checks do not replace real-user field data. Use when asked \"why is my site slow\", \"audit page performance\", or \"fix layout shift\"."
+description: "Diagnose slow page loads with squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents, checking the largest image, render-blocking resources, script and image weight, compression, caching, server response, fonts, and layout shift. It applies stack-specific fixes and compares before and after results, noting that markup and header checks do not replace real-user field data. Use when asked \"why is my site slow\", \"audit page performance\", or \"fix layout shift\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

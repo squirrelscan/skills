@@ -1,11 +1,11 @@
 ---
 name: supabase-security-audit
-description: "Audit a Supabase app with squirrelscan (the squirrel CLI or hosted squirrelscan MCP server) in Claude Code, Codex, Cursor, and other coding agents to see if the public anon key can read tables with Row Level Security off or if a secret key shipped to the browser. After reading the repo and confirming project ownership, it runs audit rules that count rows with HEAD requests without reading data, then writes RLS SQL fixes. Use when asked \"is my Supabase app leaking data\", \"audit my Supabase RLS\", or \"check if my secret key is exposed\"."
+description: "Audit a Supabase app with squirrelscan (the squirrel CLI or hosted squirrelscan MCP server) in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents to see if the public anon key can read tables with Row Level Security off or if a secret key shipped to the browser. After reading the repo and confirming project ownership, it runs audit rules that count rows with HEAD requests without reading data, then writes RLS SQL fixes. Use when asked \"is my Supabase app leaking data\", \"audit my Supabase RLS\", or \"check if my secret key is exposed\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

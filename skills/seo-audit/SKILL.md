@@ -1,11 +1,11 @@
 ---
 name: seo-audit
-description: "Run squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, Codex, Cursor, and other coding agents to check crawlability and indexability (robots.txt, sitemaps, canonicals, noindex), titles, descriptions, headings, duplicate content, URLs, social tags, languages, and image alt text. It fixes template-level issues first for Next.js metadata, WordPress with Yoast, Shopify, and Webflow. Use when asked \"run an SEO audit on my site\", \"why aren't my pages indexed\", or \"check my meta tags and sitemap\"."
+description: "Run squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents to check crawlability and indexability (robots.txt, sitemaps, canonicals, noindex), titles, descriptions, headings, duplicate content, URLs, social tags, languages, and image alt text. It fixes template-level issues first for Next.js metadata, WordPress with Yoast, Shopify, and Webflow. Use when asked \"run an SEO audit on my site\", \"why aren't my pages indexed\", or \"check my meta tags and sitemap\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

@@ -1,11 +1,11 @@
 ---
 name: security-headers
-description: "Write HTTP security header configs for Cloudflare, Vercel, Netlify, nginx, and Next.js in Claude Code, Codex, Cursor, and other coding agents, covering HSTS, report-only CSP first, frame-ancestors, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy. This standalone squirrelscan skill needs no squirrel CLI or hosted squirrelscan MCP server and verifies live headers with curl. Use when asked \"add security headers to Next.js\", \"set up a CSP\", or \"fix missing HSTS and Referrer-Policy headers\"."
+description: "Write HTTP security header configs for Cloudflare, Vercel, Netlify, nginx, and Next.js in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents, covering HSTS, report-only CSP first, frame-ancestors, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, and Permissions-Policy. This standalone squirrelscan skill needs no squirrel CLI or hosted squirrelscan MCP server and verifies live headers with curl. Use when asked \"add security headers to Next.js\", \"set up a CSP\", or \"fix missing HSTS and Referrer-Policy headers\"."
 license: See LICENSE file in repository root
 compatibility: Works without the squirrel CLI; curl is enough. The squirrel CLI is optional, for verification
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(curl:*) Bash(squirrel:*) Read Edit Grep Glob
 ---
 

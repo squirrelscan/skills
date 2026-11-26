@@ -2,7 +2,7 @@
 
 # squirrelscan skills and plugins
 
-**Website audit skills for Claude Code, Codex, Cursor and other coding agents: skills, plugins, and MCP in one repo**
+**Website audit skills for Claude Code, GitHub Copilot, Codex, Cursor and other coding agents: skills, plugins, and MCP in one repo**
 
 Setup guides: [squirrelscan for Claude Code](https://squirrelscan.com/for/claude-code) and the [Claude Code docs](https://docs.squirrelscan.com/developers/agents/claude-code).
 
@@ -85,7 +85,7 @@ Pick the path for your tool:
 npx skills add squirrelscan/skills
 ```
 
-Installs every skill in the table above for whichever agents you select: Claude Code, Codex, Cursor, Gemini CLI, Amp, and more. Skills follow the [Agent Skills](https://agentskills.io) standard, so the same `SKILL.md` works across tools. To install just one skill:
+Installs every skill in the table above for whichever agents you select: Claude Code, GitHub Copilot, Codex, Cursor, Gemini CLI, Amp, and more. Skills follow the [Agent Skills](https://agentskills.io) standard, so the same `SKILL.md` works across tools. To install just one skill:
 
 ```bash
 npx skills add squirrelscan/skills --skill audit-website

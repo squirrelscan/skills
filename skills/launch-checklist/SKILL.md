@@ -1,11 +1,11 @@
 ---
 name: launch-checklist
-description: "Run a pre-launch pass for a new site, redesign, or migration using squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, Codex, Cursor, and other coding agents. It runs one full baseline audit, then works through security, indexing, link, accessibility, performance, and header checks in launch order, ending with a go or no-go list. Use when asked \"is my site ready to launch\", \"run a pre-launch website check\", or \"audit my migration before cutover\"."
+description: "Run a pre-launch pass for a new site, redesign, or migration using squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents. It runs one full baseline audit, then works through security, indexing, link, accessibility, performance, and header checks in launch order, ending with a go or no-go list. Use when asked \"is my site ready to launch\", \"run a pre-launch website check\", or \"audit my migration before cutover\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

@@ -1,11 +1,11 @@
 ---
 name: structured-data-audit
-description: "Validate structured data with squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, Codex, Cursor, and other coding agents, checking JSON-LD validity, type fit, and the site-wide entity map so pages reuse one organization with a stable @id instead of creating a new one per page. It applies fixes for Yoast, Next.js, Shopify, and Webflow. Use when asked \"check my JSON-LD\", \"audit my schema markup\", or \"fix duplicate Organization entities\"."
+description: "Validate structured data with squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents, checking JSON-LD validity, type fit, and the site-wide entity map so pages reuse one organization with a stable @id instead of creating a new one per page. It applies fixes for Yoast, Next.js, Shopify, and Webflow. Use when asked \"check my JSON-LD\", \"audit my schema markup\", or \"fix duplicate Organization entities\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 

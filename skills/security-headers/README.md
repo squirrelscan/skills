@@ -1,6 +1,6 @@
-# Security headers skill for Claude Code, Codex and Cursor
+# Security headers skill for Claude Code, GitHub Copilot, Codex and Cursor
 
-`security-headers` is an Agent Skills `SKILL.md` from squirrelscan that writes HTTP security header configs: a CSP, HSTS and security headers generator for coding agents. It covers Cloudflare, Vercel, Netlify, nginx and Next.js in Claude Code, Codex, Cursor and other agents. It is standalone: it needs neither the squirrel CLI nor the hosted squirrelscan MCP server, and verifies live headers with `curl`.
+`security-headers` is an Agent Skills `SKILL.md` from squirrelscan that writes HTTP security header configs: a CSP, HSTS and security headers generator for coding agents. It covers Cloudflare, Vercel, Netlify, nginx and Next.js in Claude Code, GitHub Copilot, Codex, Cursor and other agents. It is standalone: it needs neither the squirrel CLI nor the hosted squirrelscan MCP server, and verifies live headers with `curl`.
 
 ## What it does
 
@@ -26,7 +26,7 @@
 
 ## Install
 
-With any Agent Skills tool (Claude Code, Codex, Cursor, Gemini CLI, Amp and others):
+With any Agent Skills tool (Claude Code, GitHub Copilot, Codex, Cursor, Gemini CLI, Amp and others):
 
 ```bash
 npx skills add squirrelscan/skills --skill security-headers
@@ -43,12 +43,13 @@ npx skills add squirrelscan/skills --skill security-headers
   ```
 
 - **Codex**: `npx skills add` lands the skill in `.agents/skills/`. To add the MCP server too, configure it in `~/.codex/config.toml` ([Codex docs](https://docs.squirrelscan.com/developers/agents/codex)).
+- **GitHub Copilot**: `npx skills add squirrelscan/skills --skill security-headers -a github-copilot` (project `.agents/skills/`, or `~/.copilot/skills/` with `-g`). Add the hosted MCP server too, see the [GitHub Copilot docs](https://docs.squirrelscan.com/developers/agents/copilot).
 - **Cursor**: use the Cursor plugin in this repo, or the [one-click MCP link](cursor://anysphere.cursor-deeplink/mcp/install?name=squirrelscan&config=eyJ1cmwiOiJodHRwczovL21jcC5zcXVpcnJlbHNjYW4uY29tL21jcCJ9) plus the skill.
-- **Gemini CLI, GitHub Copilot, Amp and other Agent Skills tools**: `npx skills add` plus the MCP server ([docs](https://docs.squirrelscan.com/developers/agents)).
+- **Gemini CLI, Amp and other Agent Skills tools**: `npx skills add` plus the MCP server ([docs](https://docs.squirrelscan.com/developers/agents)).
 
 **Requirements:** none. This skill needs neither the squirrel CLI nor the hosted squirrelscan MCP server; `curl` is enough. The CLI is optional, for verification.
 
-## Use it in Claude Code, Codex or Cursor
+## Use it in Claude Code, GitHub Copilot, Codex or Cursor
 
 ```text
 Add security headers to my Next.js app

@@ -1,6 +1,6 @@
-# Structured data audit skill for Claude Code, Codex and Cursor
+# Structured data audit skill for Claude Code, GitHub Copilot, Codex and Cursor
 
-`structured-data-audit` is an Agent Skills `SKILL.md` from squirrelscan: a JSON-LD validator and schema markup audit for coding agents. It runs squirrelscan's structured data rules and its site-wide entity map through the squirrel CLI or the hosted squirrelscan MCP server in Claude Code, Codex, Cursor and other agents. Valid markup does not guarantee rich results, and this skill does not claim eligibility.
+`structured-data-audit` is an Agent Skills `SKILL.md` from squirrelscan: a JSON-LD validator and schema markup audit for coding agents. It runs squirrelscan's structured data rules and its site-wide entity map through the squirrel CLI or the hosted squirrelscan MCP server in Claude Code, GitHub Copilot, Codex, Cursor and other agents. Valid markup does not guarantee rich results, and this skill does not claim eligibility.
 
 ## What it does
 
@@ -26,7 +26,7 @@
 
 ## Install
 
-With any Agent Skills tool (Claude Code, Codex, Cursor, Gemini CLI, Amp and others):
+With any Agent Skills tool (Claude Code, GitHub Copilot, Codex, Cursor, Gemini CLI, Amp and others):
 
 ```bash
 npx skills add squirrelscan/skills --skill structured-data-audit
@@ -43,8 +43,9 @@ npx skills add squirrelscan/skills --skill structured-data-audit
   ```
 
 - **Codex**: `npx skills add` lands the skill in `.agents/skills/`. To add the MCP server too, configure it in `~/.codex/config.toml` ([Codex docs](https://docs.squirrelscan.com/developers/agents/codex)).
+- **GitHub Copilot**: `npx skills add squirrelscan/skills --skill structured-data-audit -a github-copilot` (project `.agents/skills/`, or `~/.copilot/skills/` with `-g`). Add the hosted MCP server too, see the [GitHub Copilot docs](https://docs.squirrelscan.com/developers/agents/copilot).
 - **Cursor**: use the Cursor plugin in this repo, or the [one-click MCP link](cursor://anysphere.cursor-deeplink/mcp/install?name=squirrelscan&config=eyJ1cmwiOiJodHRwczovL21jcC5zcXVpcnJlbHNjYW4uY29tL21jcCJ9) plus the skill.
-- **Gemini CLI, GitHub Copilot, Amp and other Agent Skills tools**: `npx skills add` plus the MCP server ([docs](https://docs.squirrelscan.com/developers/agents)).
+- **Gemini CLI, Amp and other Agent Skills tools**: `npx skills add` plus the MCP server ([docs](https://docs.squirrelscan.com/developers/agents)).
 
 **Requirements:** the squirrel CLI installed and in PATH ([squirrelscan.com/download](https://squirrelscan.com/download), check with `squirrel --version`), or the hosted squirrelscan MCP server connected (`https://mcp.squirrelscan.com/mcp`).
 
@@ -54,7 +55,7 @@ Install the CLI on macOS or Linux:
 curl -fsSL https://install.squirrelscan.com | bash
 ```
 
-## Use it in Claude Code, Codex or Cursor
+## Use it in Claude Code, GitHub Copilot, Codex or Cursor
 
 ```text
 Check my JSON-LD on https://example.com

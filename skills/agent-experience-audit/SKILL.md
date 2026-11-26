@@ -1,11 +1,11 @@
 ---
 name: agent-experience-audit
-description: "Evaluate your site's agent experience with squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, Codex, Cursor, and other coding agents, checking robots.txt bot access, content present without JavaScript, llms.txt, AGENTS.md, markdown responses, API discovery, and machine-readable policies. It leaves allow or block bot decisions to the site owner and focuses on how AI agents and crawlers read the site rather than visibility in AI answers. Use when asked \"how well does my site work for AI agents\" or \"audit my llms.txt\"."
+description: "Evaluate your site's agent experience with squirrelscan audit rules via the squirrel CLI or hosted squirrelscan MCP server in Claude Code, GitHub Copilot, Codex, Cursor, and other coding agents, checking robots.txt bot access, content present without JavaScript, llms.txt, AGENTS.md, markdown responses, API discovery, and machine-readable policies. It leaves allow or block bot decisions to the site owner and focuses on how AI agents and crawlers read the site rather than visibility in AI answers. Use when asked \"how well does my site work for AI agents\" or \"audit my llms.txt\"."
 license: See LICENSE file in repository root
 compatibility: Requires the squirrel CLI installed and accessible in PATH, or the hosted squirrelscan MCP server connected
 metadata:
   author: squirrelscan
-  version: "0.1.2"
+  version: "0.1.3"
 allowed-tools: Bash(squirrel:*) Read Edit Grep Glob
 ---
 
